@@ -29,8 +29,14 @@ html, body{
     font-size: 16px;
     font-weight: bold;
     border: none;
-    padding: 9px 30px;
+    padding: 7px 30px;
     border-radius: 15px;
+    transition: 0.2s ease-in;
+}
+
+.blue_button:hover{
+    background-color: #4294FF;
+    color: white;
 }
 
 .gray_button{
@@ -39,8 +45,14 @@ html, body{
     font-size: 16px;
     font-weight: bold;
     border: none;
-    padding: 9px 30px;
+    padding: 7px 30px;
     border-radius: 15px;
+    transition: 0.2s ease-in;
+}
+
+.gray_button:hover{
+    background-color: #4294FF;
+    color: white;
 }
 
 /* -------------------------------------------- FOR PUBLIC HEADER --------------------------------------------*/
@@ -79,6 +91,19 @@ html, body{
 
 .navigator_admin{
     margin-left: auto;
+    margin-right: 10px;
+    display: flex;
+    gap: 25px;
+}
+
+.navigator_admin a{
+    color:#376CFB;
+    text-decoration: none;
+    transition: 0.1s ease-in;
+}
+
+.navigator_admin a:hover{
+    color:#4294FF;
 }
 
 .admin_profile_header{
@@ -88,24 +113,3 @@ html, body{
 .admin_username_header{
     margin-right: 25px;
 } 
-
-/* ul {
-	list-style:none;
-    float: right;
-}
-
-li {
-	display:inline-block;
-} */
-
-/* .admin_log_out{
-    margin-left: auto;
-}
-
-.admin_profile_header{
-    margin-left: 10px;
-}
-
-.admin_username_header{
-    margin-right: 25px;
-} */
