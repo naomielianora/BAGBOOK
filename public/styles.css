@@ -21,6 +21,7 @@ html, body{
     height: 100%;
     margin:0;
 	padding:0;
+    font-family: Regular;
 }
 
 .blue_button{
@@ -113,3 +114,16 @@ html, body{
 .admin_username_header{
     margin-right: 25px;
 } 
+
+/* -------------------------------------------- FOR ADMIN DASHBOARD --------------------------------------------*/
+.dashboard_admin_content{
+    font-size: 35px;
+    color:#737373;
+    font-family: Light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height:70%;
+    width: 100%;
+}
