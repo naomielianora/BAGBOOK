@@ -77,6 +77,18 @@ html, body{
     gap: 10px;
 }
 
+.navigator_admin{
+    margin-left: auto;
+}
+
+.admin_profile_header{
+    margin-left: 10px;
+}
+
+.admin_username_header{
+    margin-right: 25px;
+} 
+
 /* ul {
 	list-style:none;
     float: right;
