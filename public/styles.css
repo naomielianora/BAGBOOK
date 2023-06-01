@@ -1,0 +1,99 @@
+/* ----------------------------------------------- <TITLE> -----------------------------------------------*/
+
+
+/* ----------------------------------------------- FONT ------------------------------------------------------*/
+@font-face { font-family: Black; src: url("font/Inter-Black.ttf"); } 
+@font-face { font-family: Bold; src: url("font/Inter-Bold.ttf"); } 
+@font-face { font-family: ExtraBold; src: url("font/Inter-ExtraBold.ttf"); } 
+@font-face { font-family: ExtraLight; src: url("font/Inter-ExtraLight.ttf"); } 
+@font-face { font-family: Light; src: url("font/Inter-Light.ttf"); } 
+@font-face { font-family: Medium; src: url("font/Inter-Medium.ttf"); } 
+@font-face { font-family: Regular; src: url("font/Inter-Regular.ttf"); } 
+@font-face { font-family: SemiBold; src: url("font/Inter-SemiBold.ttf"); } 
+@font-face { font-family: Thin; src: url("font/Inter-Thin.ttf"); } 
+
+
+
+/* ----------------------------------------------- FOR ALL PAGE -----------------------------------------------*/
+html, body{
+    background-color: #d4e9f8;
+    width: 100%;
+    height: 100%;
+    margin:0;
+	padding:0;
+}
+
+.blue_button{
+    background-color: #376CFB;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    padding: 9px 30px;
+    border-radius: 15px;
+}
+
+.gray_button{
+    background-color: #737373;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    padding: 9px 30px;
+    border-radius: 15px;
+}
+
+/* -------------------------------------------- FOR PUBLIC HEADER --------------------------------------------*/
+.public_header{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    font-family: Bold;
+    color: #737373;
+    gap: 10px;
+
+}
+
+.log_out{
+    margin-left: auto;
+}
+
+.profile_header{
+    margin-left: 10px;
+}
+
+.username_header{
+    margin-right: 25px;
+} 
+
+
+/* -------------------------------------------- FOR ADMIN HEADER --------------------------------------------*/
+.admin_header{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    font-family: Bold;
+    color: #737373;
+    gap: 10px;
+}
+
+/* ul {
+	list-style:none;
+    float: right;
+}
+
+li {
+	display:inline-block;
+} */
+
+/* .admin_log_out{
+    margin-left: auto;
+}
+
+.admin_profile_header{
+    margin-left: 10px;
+}
+
+.admin_username_header{
+    margin-right: 25px;
+} */
