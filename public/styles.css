@@ -14,7 +14,7 @@
 
 
 
-/* ----------------------------------------------- FOR ALL PAGE -----------------------------------------------*/
+/* ----------------------------------------------- ALL PAGE -----------------------------------------------*/
 html, body{
     background-color: #d4e9f8;
     width: 100%;
@@ -36,7 +36,7 @@ html, body{
 }
 
 .blue_button:hover{
-    background-color: #4294FF;
+    background-color: #737373;
     color: white;
 }
 
@@ -56,7 +56,12 @@ html, body{
     color: white;
 }
 
-/* -------------------------------------------- FOR PUBLIC HEADER --------------------------------------------*/
+::placeholder{
+    opacity:0.5;
+    color: #FFFFFF;
+}
+
+/* -------------------------------------------- PUBLIC HEADER --------------------------------------------*/
 .public_header{
     height: 100px;
     display: flex;
@@ -80,7 +85,7 @@ html, body{
 } 
 
 
-/* -------------------------------------------- FOR ADMIN HEADER --------------------------------------------*/
+/* -------------------------------------------- ADMIN HEADER --------------------------------------------*/
 .admin_header{
     height: 100px;
     display: flex;
@@ -115,7 +120,7 @@ html, body{
     margin-right: 25px;
 } 
 
-/* -------------------------------------------- FOR ADMIN DASHBOARD --------------------------------------------*/
+/* -------------------------------------------- ADMIN DASHBOARD --------------------------------------------*/
 .dashboard_admin_content{
     font-size: 35px;
     color:#737373;
@@ -126,4 +131,199 @@ html, body{
     flex-direction: column;
     height:70%;
     width: 100%;
+}
+
+/* -------------------------------------------- PUBLIC VERIFY EMAIL --------------------------------------------*/
+
+.navigator_email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.judul {
+    font-weight: bold;
+    font-size: 20px;
+    color:#737373;
+}
+
+.minta_code{
+    color:#737373;
+}
+
+.email {
+    color: blue;
+}
+
+.resend{
+    margin-top:15px;
+}
+
+.resend_code{
+    color: #737373;
+}
+
+.tombol_digit {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+}
+
+.tombol_digit button {
+    width: 35px;
+    height: 50px;
+    background-color: #B9C8EA;
+    border: none;
+    border-radius: 10px;
+}
+
+/* -------------------------------------------- PUBLIC VERIFY CONF --------------------------------------------*/
+
+.navigator_confirmation {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+}
+
+.logo_verify{
+    margin-bottom: 20px;
+}
+
+div.email{
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.success{
+    color: #737373;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+/* -------------------------------------------- PUBLIC LOG IN --------------------------------------------*/
+
+.navigator_log_in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+}
+
+
+.pembungkus_log_in{
+    background-color: #4294FF;
+    display: grid;
+    gap:10px;
+    padding:15px;
+    border-radius: 15px;
+}
+
+.input_username_public{
+    background-color: #376CFB;
+    grid-row: 1;
+    color: #FFFFFF;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    width: 320px;
+    height: 25px;
+    padding:8px;
+    border-radius: 15px;
+}
+
+.input_pass_public{
+    background-color: #376CFB;
+    grid-row: 2;
+    color: #FFFFFF;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    width: 320px;
+    height: 25px;
+    padding:8px;
+    border-radius: 15px;
+}
+
+.user::placeholder, .pw::placeholder {
+    font-family: Semibold;
+}
+
+.pembungkus_log_in .blue_button{
+    grid-row: 3;
+    justify-self: center;
+}
+
+.create_account {
+    color: #737373;
+    font-family: SemiBold;
+
+}
+
+/* -------------------------------------------- PUBLIC SIGN UP --------------------------------------------*/
+
+.sign_up_public{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.5fr auto;
+}
+
+.logo_header_sign_up{
+    grid-column: 1;
+    grid-row: 1;
+    padding-top:20px;
+}
+
+.judul_create{
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 50px;
+    font-weight: bold;
+    color: #737373;
+    padding-top:40px;
+}
+
+.navigator_kedua{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.navigator_satu{
+    grid-column: 1;
+    grid-row: 2;
+    display:grid;
+}
+
+.navigator_satu {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    padding:40px;
+}
+
+.personal {
+    grid-row: 1;
+    font-size: 30px;
+    font-weight: bold;
+    color: #737373;
+}
+
+.full {
+    grid-row: 2;
+}
+
+.mail {
+    grid-row: 3;
 }
