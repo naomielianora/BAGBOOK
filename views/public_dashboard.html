@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Top 10 Bags</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="grid-container">
+    <div class="search-bar">
+      <input type="text" placeholder="Search..." id="search-input">
+      <button type="button" id="search-button">Search</button>
+    </div>
+    
+    <h2 style="color: #376CFB; font-size:40px;">THIS IS OUR TOP 10 BAGS</h2>
+    
+    <div class="filter-sort">
+      <span style="color: #4294FF;">Filter by: </span>
+      <div class="custom-dropdown">
+        <div class="dropdown-label" id="dropdown-label">All</div>
+        <ul class="dropdown-options" id="dropdown-options">
+          <li data-value="">All</li>
+          <li data-value="Handbag">Handbag</li>
+          <li data-value="Tote">Tote</li>
+          <li data-value="Satchel">Satchel</li>
+          <li data-value="Clutch">Clutch</li>
+          <li data-value="Backpack">Backpack</li>
+        </ul>
+      </div>
+      
+      <span style="color: white;">Sub-Category</span>
+          
+      <span style="color: #4294FF;">Sort by: </span>
+
+      <button type="button" id="review-nilai" class="sort-button selected" value="review-nilai" style="background-color: #4294FF; color: white;" onclick="toggleSortButton(this)">Nilai Review</button>
+      <button type="button" id="review-banyak" class="sort-button" value="review-banyak" style="background-color: #737373; color: white;" onclick="toggleSortButton(this)">Banyak Review</button>
+      
+      <button type="submit" value="Submit" id="submit-button">Submit</button>
+    </div>
+
+    <div class="blue-box">
+      <div class="container">
+        <div class="item-container">
+          <div class="item">
+            <p>Item 1</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 2</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 3</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 4</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 5</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 6</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 7</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 8</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 9</p>
+          </div>
+          
+          <div class="item">
+            <p>Item 10</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // MALES BUAT FILE JS BARU
+  // KODE JS UNTUK BARIS SEARCH BAR
+    //KODE UNTUK SEARCH BAR?
+    const searchButton = document.getElementById('search-button');
+    const searchInput = document.getElementById('search-input');
+    
+    let isInputFocused = false;
+
+    searchInput.addEventListener('mouseover', () => {
+      if (!isInputFocused && searchInput.value.trim() === '') {
+        searchInput.style.backgroundColor = '#D0DBF7';
+      }
+    });
+
+    searchInput.addEventListener('mouseout', () => {
+      if (!isInputFocused && searchInput.value.trim() === '') {
+        searchInput.style.backgroundColor = 'white';
+      }
+    });
+
+    searchInput.addEventListener('focus', () => {
+      isInputFocused = true;
+    });
+
+    searchInput.addEventListener('blur', () => {
+      isInputFocused = false;
+      if (searchInput.value.trim() === '') {
+        searchInput.style.backgroundColor = 'white';
+      }
+    });
+
+    searchButton.addEventListener('click', () => {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      // BELOM TAU MAU DIISI APA
+      console.log('Search term:', searchTerm);
+    });
+
+    //KODE UNTUK SEARCH BUTTON
+    let searchButtonClicked = false;
+    let searchButtonTimeout;
+
+    searchButton.addEventListener('mouseover', () => {
+      if (!searchButtonClicked) {
+        searchButton.style.backgroundColor = '#2969C7';
+      }
+    });
+
+    searchButton.addEventListener('mouseout', () => {
+      if (!searchButtonClicked) {
+        searchButton.style.backgroundColor = '#376CFB';
+      }
+    });
+
+    searchButton.addEventListener('click', () => {
+      searchButton.style.backgroundColor = '#1F3D7A';
+      searchButtonClicked = true;
+      clearTimeout(searchButtonTimeout);
+      searchButtonTimeout = setTimeout(() => {
+        searchButton.style.backgroundColor = '#376CFB';
+        searchButtonClicked = false;
+      }, 2000);
+    });
+
+  //KODE JS UNTUK BARIS FILTER
+    //KODE UNTUK SORTBY
+    const sortButtons = document.querySelectorAll('.sort-button');
+
+    sortButtons.forEach(button => {
+      button.addEventListener('mouseover', () => {
+        if (!button.classList.contains('selected')) {
+          button.style.backgroundColor = '#E0E0E0';
+        }
+      });
+
+      button.addEventListener('mouseout', () => {
+        if (!button.classList.contains('selected')) {
+          button.style.backgroundColor = '#737373';
+        }
+      });
+    });
+
+    function toggleSortButton(button) {
+      const buttons = document.getElementsByClassName('sort-button');
+      for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i] === button) {
+          buttons[i].classList.add('selected');
+          buttons[i].style.backgroundColor = '#4294FF';
+        } else {
+          buttons[i].classList.remove('selected');
+          buttons[i].style.backgroundColor = '#737373';
+        }
+      }
+    }
+
+    //KODE UNTUK CUSTOMIZE DROP DOWN
+    const dropdownLabel = document.getElementById('dropdown-label');
+    const dropdownOptions = document.getElementById('dropdown-options');
+    const dropdownItems = dropdownOptions.getElementsByTagName('li');
+    let previousSelectedValue = '';
+
+    dropdownLabel.addEventListener('click', () => {
+      dropdownOptions.classList.toggle('show-dropdown-options');
+    });
+
+    dropdownLabel.addEventListener('mouseover', () => {
+      dropdownLabel.style.backgroundColor = '#C3DCF2';
+    });
+
+    dropdownLabel.addEventListener('mouseout', () => {
+      dropdownLabel.style.backgroundColor = '#4294FF';
+    });
+
+    document.addEventListener('click', (event) => {
+      const isClickedInsideDropdown = dropdownLabel.contains(event.target) || dropdownOptions.contains(event.target);
+      if (!isClickedInsideDropdown) {
+        dropdownOptions.classList.remove('show-dropdown-options');
+        dropdownLabel.textContent = previousSelectedValue ? previousSelectedValue : 'All';
+      }
+    });
+
+    for (let i = 0; i < dropdownItems.length; i++) {
+      dropdownItems[i].addEventListener('click', () => {
+        const selectedValue = dropdownItems[i].dataset.value;
+        dropdownLabel.textContent = dropdownItems[i].textContent;
+        dropdownOptions.classList.remove('show-dropdown-options');
+        previousSelectedValue = selectedValue;
+        console.log('Selected value:', selectedValue);
+      });
+
+      dropdownItems[i].addEventListener('mouseover', () => {
+        dropdownItems[i].style.backgroundColor = '#C3DCF2';
+      });
+
+      dropdownItems[i].addEventListener('mouseout', () => {
+        dropdownItems[i].style.backgroundColor = '#FFF';
+      });
+    }
+
+    //KODE UNTUK SUBMIT
+    const submitButton = document.getElementById('submit-button');
+
+    submitButton.addEventListener('click', () => {
+      submitButton.style.backgroundColor = '#E0E0E0';
+      submitButton.style.color = '#737373';
+      isClicked = true;
+      setTimeout(() => {
+        submitButton.style.backgroundColor = '#FFF';
+        submitButton.style.color = '#737373';
+        isClicked = false;
+      }, 2000);
+    });
+
+    submitButton.addEventListener('mouseover', () => {
+      if (!isClicked) {
+        submitButton.style.backgroundColor = '#F5F5F5';
+        submitButton.style.color = '#737373';
+      }
+    });
+
+    submitButton.addEventListener('mouseout', () => {
+      if (!isClicked) {
+        submitButton.style.backgroundColor = '#FFF';
+        submitButton.style.color = '#737373';
+      }
+    });
+
+  </script>
+</body>
+</html>
