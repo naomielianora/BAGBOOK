@@ -36,7 +36,7 @@ html, body{
 }
 
 .blue_button:hover{
-    background-color: #737373;
+    background-color: #225EFF;
     color: white;
 }
 
@@ -143,69 +143,79 @@ html, body{
     gap: 10px;
 }
 
-.judul {
-    font-weight: bold;
+.judul_verify_email {
+    font-family: Bold;
     font-size: 20px;
     color:#737373;
 }
 
-.minta_code{
+.verify_email_desc{
     color:#737373;
+    font-family: SemiBold;
+    padding-bottom: 10px;
 }
 
 .email {
-    color: blue;
+    color: #376CFB;
 }
 
 .resend{
-    margin-top:15px;
+    padding-top:15px;
 }
 
 .resend_code{
     color: #737373;
+    font-family: SemiBold;
 }
 
-.tombol_digit {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    justify-items: center;
-    align-items: center;
+.change_email{
+    color: #376CFB;
+    font-family: SemiBold;
 }
 
-.tombol_digit button {
-    width: 35px;
-    height: 50px;
+.confirm_button{
+    padding-top: 20px;
+}
+
+.input_code{
     background-color: #B9C8EA;
+    color: #737373;
     border: none;
-    border-radius: 10px;
+    font-size: 25px;
+    font-family: Bold;
+    width: 200px;
+    height: 30px;
+    padding:8px;
+    border-radius: 15px;
+    text-align:center;
 }
 
 /* -------------------------------------------- PUBLIC VERIFY CONF --------------------------------------------*/
 
 .navigator_confirmation {
-    margin-top: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 5px;
+    width: 100%;
+    height: 70%;
+    justify-content: center;
 }
 
 .logo_verify{
     margin-bottom: 20px;
 }
 
-div.email{
-    font-weight: bold;
+.navigator_confirmation .email{
+    font-family: SemiBold;
     font-size: 24px;
 }
 
-.success{
+.navigator_confirmation .success{
     color: #737373;
-    font-weight: bold;
     font-size: 24px;
     margin-bottom: 25px;
+    font-family: SemiBold;
 }
 
 /* -------------------------------------------- PUBLIC LOG IN --------------------------------------------*/
@@ -235,7 +245,6 @@ div.email{
     color: #FFFFFF;
     border: none;
     font-size: 16px;
-
     width: 320px;
     height: 25px;
     padding:8px;
@@ -258,7 +267,7 @@ div.email{
     font-family: Semibold;
 }
 
-.pembungkus_log_in a{
+.pembungkus_log_in .blue_button{
     grid-row: 3;
     justify-self: center;
 }
@@ -332,7 +341,6 @@ div.email{
     color: #FFFFFF;
     border: none;
     font-size: 16px;
-    font-weight: bold;
     width: 320px;
     height: 25px;
     padding:8px;
@@ -409,6 +417,7 @@ div.email{
 }
 
 .sign_up_button{
+    padding-top: 10px;
     justify-self: center;
 }
 
@@ -419,52 +428,3 @@ div.email{
     color:#737373   
 }
 
-/* .logo_header_sign_up{
-    grid-column: 1;
-    grid-row: 1;
-    padding-top:20px;
-}
-
-.judul_create{
-    grid-column: 2;
-    grid-row: 1;
-    font-size: 50px;
-    font-weight: bold;
-    color: #737373;
-    padding-top:40px;
-}
-
-.navigator_kedua{
-    grid-column: 2;
-    grid-row: 2;
-}
-
-.navigator_satu{
-    grid-column: 1;
-    grid-row: 2;
-    display:grid;
-}
-
-.navigator_satu {
-    grid-column: 1;
-    grid-row: 2;
-    display: grid;
-    grid-template-rows: auto auto auto;
-    gap: 10px;
-    padding:40px;
-}
-
-.personal {
-    grid-row: 1;
-    font-size: 30px;
-    font-weight: bold;
-    color: #737373;
-}
-
-.full {
-    grid-row: 2;
-}
-
-.mail {
-    grid-row: 3;
-} */

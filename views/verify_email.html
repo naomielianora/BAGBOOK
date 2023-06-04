@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+</head>
+
+<body>
+    <div class = "verify_email">
+
+        <div class = "logo_header">
+            <img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px>
+        </div>
+
+        <div class = "navigator_email">
+
+            <div class = "logo_email">
+                <a href = "verify_email.html"><img src = "../images/email.png" alt = "email_logo" height=120px></a>
+            </div>
+
+            <div class="judul_verify_email">VERIFY YOUR EMAIL ADDRESS</div>
+
+            <div class="verify_email_desc">Please enter the 6 digit code sent to 
+                <span class="email">naomielianora@gmail.com</span>
+            </div>
+
+            <form action = "verify_conf.html">
+                <input type="text" name="code_verification" id="code_verification" class = "input_code" required>
+
+                <div class = "confirm_button"> 
+                    <button class = "blue_button">Confirm</button>
+                </div>
+
+            </form>
+            
+            <div class="resend">
+                <a href="verify_email.html" class="resend_code">Resend Code</a>
+            </div>
+
+            <a href="sign_up_public.html" class ="change_email">Change Email Address</a>
+            
+        </div>
+
+    </div>
+</body>
+</html>

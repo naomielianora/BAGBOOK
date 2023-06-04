@@ -9,14 +9,16 @@
 <body>
     <div class = "navigator_log_in">
 
-        <a href = "log_in_public.html"><img src = "../images/logo_slogan.png" alt = "slogan_logo"></a>
+        <img src = "../images/logo_slogan.png" alt = "slogan_logo">
 
-        <div class = "pembungkus_log_in">
-            <input type="text" class = "input_username_public" name = "username_public" placeholder="Username or email">
-            <input type="password" class = "input_pass_public" name = "pass_public" placeholder="Password">
-            <a href = "dashboard_public.html"><button class = "blue_button">Log in</button></a>
-        </div>
-
+        <form action = "dashboard_public.html">
+            <div class = "pembungkus_log_in">
+                <input type="text" class = "input_username_public" name = "username_public" placeholder="Username or email" required>
+                <input type="password" class = "input_pass_public" name = "pass_public" placeholder="Password" required>
+                <button class = "blue_button">Log in</button>
+            </div>    
+        </form>
+        
         <div class = "create_account">
             Create an account? <a href="sign_up_public.html" class = "sign_up">Sign up</a>
         </div>
