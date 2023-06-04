@@ -235,7 +235,7 @@ div.email{
     color: #FFFFFF;
     border: none;
     font-size: 16px;
-    font-weight: bold;
+
     width: 320px;
     height: 25px;
     padding:8px;
@@ -248,7 +248,6 @@ div.email{
     color: #FFFFFF;
     border: none;
     font-size: 16px;
-    font-weight: bold;
     width: 320px;
     height: 25px;
     padding:8px;
@@ -259,7 +258,7 @@ div.email{
     font-family: Semibold;
 }
 
-.pembungkus_log_in .blue_button{
+.pembungkus_log_in a{
     grid-row: 3;
     justify-self: center;
 }
@@ -275,10 +274,152 @@ div.email{
 .sign_up_public{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.5fr auto;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
-.logo_header_sign_up{
+.grid_kiri{
+    display: grid;
+    align-self: start;
+}
+
+.grid_kiri .logo{
+    padding-bottom: 50px;
+    padding-top: 40px;
+    grid-row: 1;
+}
+
+.personal_data{
+    grid-row: 2;
+    font-family: Bold;
+    font-size: 25px;
+    color:#737373;
+    padding-bottom: 25px;
+}
+
+.full_name_label{
+    grid-row: 3;
+    font-family: Regular;
+    color:#737373;
+    padding-bottom: 10px;
+}
+
+.input_full_name{
+    background-color: #4294FF;
+    grid-row: 4;
+    color: #FFFFFF;
+    border: none;
+    font-size: 16px;
+    width: 320px;
+    height: 20px;
+    padding:10px;
+    border-radius: 15px;
+}
+
+.email_label{
+    grid-row: 5;
+    font-family: Regular;
+    color:#737373;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.input_email{
+    background-color: #4294FF;
+    grid-row: 6;
+    color: #FFFFFF;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    width: 320px;
+    height: 25px;
+    padding:8px;
+    border-radius: 15px;
+}
+
+.grid_kanan{
+    display: grid;
+    align-self: start;
+}
+
+.judul_create{
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 70px;
+    grid-row: 1;
+    font-family: Bold;
+    font-size: 45px;
+    color:#737373;
+}
+
+.sign_up_box{
+    display: grid;
+    background-color: #B9C8EA;
+    border-radius: 15px;
+    padding:20px;
+    width: 300px;
+    justify-self: center;
+    gap: 10px;
+}
+
+.username_label, .pass_label, .confirm_pass_label{
+    color: #376CFB;
+    font-family: SemiBold;
+}
+
+.input_username_signup, .input_pass_signup, .input_confirm_pass{
+    background-color: #D0DBF4;
+    color: #4294FF;
+    border: none;
+    font-size: 16px;
+    width: 285px;
+    height: 20px;
+    padding:8px;
+    border-radius: 15px;
+}
+
+.username_label{
+    grid-row: 1;
+}
+
+.input_username_signup{
+    grid-row: 2;
+}
+
+.pass_label{
+    grid-row: 3;
+}
+
+.input_pass_signup{
+    grid-row:4;
+}
+
+.confirm_pass_label{
+    grid-row: 5;
+}
+
+.input_confirm_pass{
+    grid-row: 6;
+}
+
+.input_username_signup::placeholder, .input_pass_signup::placeholder, .input_confirm_pass::placeholder{
+    color:#4294FF;
+}
+
+.sign_up_button{
+    justify-self: center;
+}
+
+.login_link{
+    justify-self: center;
+    font-family: SemiBold;
+    font-size: 15px;
+    color:#737373   
+}
+
+/* .logo_header_sign_up{
     grid-column: 1;
     grid-row: 1;
     padding-top:20px;
@@ -326,4 +467,4 @@ div.email{
 
 .mail {
     grid-row: 3;
-}
+} */
