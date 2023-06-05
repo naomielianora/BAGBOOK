@@ -2,15 +2,36 @@
 <html>
 <head>
   <title>Top 10 Bags</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
 </head>
+<header>
+  <div class = "public_header">
+    <div class = "logo_header">
+        <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
+    </div>
+    
+    <div class = "log_out"> 
+        <button class = "blue_button">Log out</button>
+    </div>
+    
+    <div class = "profile_header">
+        <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
+    </div>
+
+    <div class = "username_header">
+        <a href = "profile_public.html">username</a>
+    </div>
+</div>
+</header>
 <body>
   <div class="grid-container">
     <div class="search-bar">
-      <input type="text" placeholder="Search..." id="search-input">
-      <button type="button" id="search-button">Search</button>
-    </div>
-    
+      <input type="text" id="search-input" placeholder="Enter your search term">
+      <button id="search-button">Search</button>
+    </div>   
+
+    <div id="search-results"></div>        
+
     <h2 style="color: #376CFB; font-size:40px;">THIS IS OUR TOP 10 BAGS</h2>
     
     <div class="filter-sort">
@@ -41,43 +62,163 @@
       <div class="container">
         <div class="item-container">
           <div class="item">
-            <p>Item 1</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>1</h1>
+              </div>
+              <div class="item-image" id="top10img1">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
+          </div>          
+          
+          <div class="item">
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>2</h1>
+              </div>
+              <div class="item-image" id="top10img2">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>3</h1>
+              </div>
+              <div class="item-image" id="top10img3">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 2</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>4</h1>
+              </div>
+              <div class="item-image" id="top10img4">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 3</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>5</h1>
+              </div>
+              <div class="item-image" id="top10img5">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 4</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>6</h1>
+              </div>
+              <div class="item-image" id="top10img6">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 5</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>7</h1>
+              </div>
+              <div class="item-image" id="top10img7">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 6</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>8</h1>
+              </div>
+              <div class="item-image" id="top10img8">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 7</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1>9</h1>
+              </div>
+              <div class="item-image" id="top10img9">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
           
           <div class="item">
-            <p>Item 8</p>
-          </div>
-          
-          <div class="item">
-            <p>Item 9</p>
-          </div>
-          
-          <div class="item">
-            <p>Item 10</p>
+            <div class="item-content">
+              <div class="item-ranking">
+                <h1 style="font-size: 16px;">10</h1>
+              </div>
+              <div class="item-image" id="top10img10">
+                <img src="path_to_image.jpg" alt="Bag Image">
+              </div>
+              <div class="item-details">
+                <h3>Name of the Bag</h3>
+                <p>(Number of reviews)</p>
+                <p>(Review Score)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -90,7 +231,35 @@
     //KODE UNTUK SEARCH BAR?
     const searchButton = document.getElementById('search-button');
     const searchInput = document.getElementById('search-input');
-    
+    const searchResultsDiv = document.getElementById("search-results");
+
+    searchButton.addEventListener("click", function() {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm !== "") {
+        // Clear previous search results
+        searchResultsDiv.innerHTML = "";
+
+        // Create heading element
+        const heading = document.createElement("h2");
+        heading.textContent = "Search Results";
+        searchResultsDiv.appendChild(heading);+
+
+        // Create blue box element
+        const blueBox = document.createElement("div");
+        blueBox.classList.add("container");
+        blueBox.textContent = "No content found.";
+        searchResultsDiv.appendChild(blueBox);
+      }
+    });
+
+    searchInput.addEventListener("input", function() {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm === "") {
+        // Clear search results
+        searchResultsDiv.innerHTML = "";
+      }
+    });
+
     let isInputFocused = false;
 
     searchInput.addEventListener('mouseover', () => {
@@ -114,12 +283,6 @@
       if (searchInput.value.trim() === '') {
         searchInput.style.backgroundColor = 'white';
       }
-    });
-
-    searchButton.addEventListener('click', () => {
-      const searchTerm = searchInput.value.trim().toLowerCase();
-      // BELOM TAU MAU DIISI APA
-      console.log('Search term:', searchTerm);
     });
 
     //KODE UNTUK SEARCH BUTTON
