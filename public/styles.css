@@ -1,6 +1,3 @@
-/* ----------------------------------------------- <TITLE> -----------------------------------------------*/
-
-
 /* ----------------------------------------------- FONT ------------------------------------------------------*/
 @font-face { font-family: Black; src: url("font/Inter-Black.ttf"); } 
 @font-face { font-family: Bold; src: url("font/Inter-Bold.ttf"); } 
@@ -508,4 +505,55 @@ html, body{
     padding: 7px 25px;
     border-radius: 15px;
     width: 110px;
+}
+
+/* -------------------------------------------- ADD ITEM_ADMIN --------------------------------------------*/
+.pick_add_page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    height: 80%;
+    width: 100%;
+}
+
+.judul_add{
+    font-family: Bold;
+    color: #737373;
+    font-size: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.pick_menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pick_menu_row1{
+    display: grid;
+    grid-template-columns: 125px 125px 125px;
+    gap: 70px;
+}
+
+.pick_menu_row2{
+    display: grid;
+    grid-template-columns: 125px 125px;
+    gap: 70px;
+}
+
+.pick_option{
+    display: grid;
+    justify-content: center;
+    width: 150px;
+}
+
+.pick_name{
+    font-family: Bold;
+    color: #4294FF;
+    font-size: 20px;
 }
