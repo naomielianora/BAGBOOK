@@ -4,6 +4,7 @@
 <head>
 	<title>BAGBOOK_PUBLIC</title>
 	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+    <script type="text/javascript" src="../dashboard.js" defer></script>
 </head>
 
 <body>
@@ -24,6 +25,243 @@
             <a href = "profile_public.html">username</a>
         </div>
     </div>
+
+    <div class="grid-container">
+
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search bag's name/category/sub-category or by username">
+          <button id="search-button">Search</button>
+        </div>   
+    
+        <div id="search-results"></div>        
+        
+        <div class = "judul_top_ten">OUR TOP 10 BAGS</div>
+        
+        <div class="filter-sort">
+            
+            <span class = "filter_text">Filter by: </span>
+
+            <span style="color: #737373;">Category</span>
+            
+            <div class="custom-dropdown">
+                <div class="dropdown-label" id="category_dropdown-label">All</div>
+                <ul class="dropdown-options" id="category_dropdown-options">
+                <li class = "category-value" data-value="">All</li>
+                <li class = "category-value" data-value="Handbag">Handbag</li>
+                <li class = "category-value" data-value="Suitcase">Suitcase</li>
+                <li class = "category-value" data-value="Backpack">Backpack</li>
+                </ul>
+            </div>
+            
+            <span style="color: #737373;">Sub-category</span>
+
+            <div class="custom-dropdown">
+                <div class="dropdown-label" id="sub_category_dropdown-label">All</div>
+                <ul class="dropdown-options" id="sub_category_dropdown-options">
+                <li class = "sub-category-value" data-value="">All</li>
+                <li class = "sub-category-value" data-value="Clutch">Clutch</li>
+                <li class = "sub-category-value" data-value="Bowling">Bowling</li>
+                <li class = "sub-category-value" data-value="Bucket">Bucket</li>
+                </ul>
+            </div>
+
+            <span class = "filter_text">Sort by: </span> 
+        
+            <button type="button" id="review-nilai" class="sort-button selected" value="review-nilai" style="background-color: #4294FF; color: white;" onclick="toggleSortButton(this)">Nilai Review</button>
+            <button type="button" id="review-banyak" class="sort-button" value="review-banyak" style="background-color: #737373; color: white;" onclick="toggleSortButton(this)">Banyak Review</button>
+            
+            <button type="submit" value="Submit" id="submit-button">Submit</button>
+        </div>
+    
+        <div class="blue-box">
+          <div class="container">
+            <div class="item-container">
+
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        1
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Dakota.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">DAKOTA</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            123 Review<br>Nilai: 3,6
+                        </div>
+                    </div>
+                    </div>
+                </div>         
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        2
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Tabby.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">TABBY</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            120 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+    
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        3
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Sammy.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">SAMMY</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            118 Review<br>Nilai: 3,5
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        4
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Rogue.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">ROGUE</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            114 Review<br>Nilai: 2,9
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        5
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Manhattan.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">MANHATTAN</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            100 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        6
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Swinger.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">SWINGER</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            90 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        7
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Sam.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">SAM</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            85 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        8
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Milee.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">MILEE</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            81 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking">
+                        9
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Revel.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">REVEL</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            76 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+              
+                <div class="item">
+                    <div class="item-content">
+                    <div class="item-ranking-10" >
+                        10
+                    </div>
+                    <div class="item-image" id="top10img1">
+                        <img src="../images/bags/Emsio.png" alt="Bag Image">
+                    </div>
+                    <div class="item-details">
+                        <div class = "bag_name">EMSIO</div>
+                        <br>
+                        <div class = "bag_review_desc">
+                            60 Review<br>Nilai: 4,0
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+
+
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>
 
