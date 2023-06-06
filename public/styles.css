@@ -559,23 +559,6 @@ html, body{
 }
 
 /* -------------------------------------------- PUBLIC_DASHBOARD --------------------------------------------*/
-
-/* * {
-font-weight: bold;
-}
-
-
-body {
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-background-color: #D4E9F8;
-} */
-
 .grid-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -836,3 +819,96 @@ margin: 0;
     font-family: Bold;
     font-size: 20px;    
 }
+
+/* -------------------------------------------- LOG_OUT --------------------------------------------*/
+.navigator_log_out {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+    width: 100%;
+}
+
+.pembungkus_log_out{
+    background-color: white;
+    width:380px;
+    padding:15px 10px 5px 10px;
+    border-radius:20px;
+    height:250px;
+    display:grid;
+}
+
+.tanya_log_out{
+    font-size: 28px;
+    color:#737373;
+    font-family: Bold;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    height: 45px;
+  }
+
+.button_dua{
+    grid-row: 2;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center; 
+    align-items: center;
+}
+
+.cancel_button{
+    grid-column:1;
+}
+
+.log_out_button{
+    grid-column:2;
+}
+
+/* -------------------------------------------- LOG_OUT_CONF --------------------------------------------*/
+
+.navigator_log_out_confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height:85%;
+    width: 100%;
+  }
+
+  .see_you{
+    font-family: Medium;
+    color: #737373;
+    font-size:25px;
+  }
+
+  .user_log_out{
+    font-family: Bold;
+    color: #737373;
+  }
+
+/* -------------------------------------------- CHANGED_CONF --------------------------------------------*/
+
+  .navigator_success_confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height:70%;
+    width: 100%;
+  }
+
+  .changed_success{
+    font-size: 25px;
+    font-family: Bold;
+    color: #737373;
+  }
+
+/* -------------------------------------------- ITEM_ADDED_CONF --------------------------------------------*/
+
+  .item_success{
+    font-size: 25px;
+    font-family: Bold;
+    color: #737373;
+  }
