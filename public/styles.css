@@ -979,7 +979,7 @@ margin: 0;
 
 .length_label, .width_label, .height_label{
     display: grid;
-    grid-template-columns: 1fr 0.5fr 0.5fr;
+    grid-template-columns: 1fr 0.7fr 0.3fr;
     align-items: center;
     justify-content: center;
 }
@@ -1016,8 +1016,6 @@ margin: 0;
     grid-area: height_label;
 }
 
-
-
 .label_title{
     background-color: #4294FF;
     color: white;
@@ -1049,3 +1047,17 @@ margin: 0;
     padding: 7px 13px 7px 7px;
     text-align: right;
 }
+
+.bag_review_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.single_review{
+    display: grid;
+    grid-template-areas:
+    "user nilai"
+    "review review"
+}
+
