@@ -454,7 +454,7 @@ html, body{
     background-color: #D0DBF7;
     padding: 10px;
     width: 450px; 
-    border-radius: 10px;
+    border-radius: 15px;
     gap:10px;
     overflow: auto;
     height:410px;
@@ -927,25 +927,26 @@ margin: 0;
 .bag_detail_container{
     background-color: #D0DBF7;
     border-radius: 15px;
-    width: 1000px;
+    width: 1050px;
     padding: 15px;
     display: grid;
     gap: 10px;
     align-content: center;
     justify-content: center;
-    grid-template-columns: 225px 370px 370px;
+    grid-template-columns: 0.4fr 1fr 1fr;
     grid-template-rows: 40px 25px;
     grid-template-areas:
     "photo bag_review_name add_review_button"
     "photo bag_status bag_status"
-    "photo label_container label_container"
-    "photo label_container label_container"
-    "photo label_container label_container"
-    "photo label_container label_container"
+    "photo category_label color_label"
+    "photo sub_category_label length_label"
+    "photo brand_label width_label"
+    "photo designer_label height_label"
 }
 
 .bag_review_photo{
-    width: 200px;
+    width: 251px;
+    height: 230px;
     grid-area : photo;
     justify-self: center;
     padding-right: 15px;
@@ -969,19 +970,82 @@ margin: 0;
     grid-area : bag_status;
 }
 
-.label_container{
-    grid-area : label_container;
+.category_label, .color_label, .sub_category_label, .brand_label, .designer_label{
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
 }
 
-.each_label{
-    grid-template-columns: 100px 100px;
-
+.length_label, .width_label, .height_label{
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 0.5fr;
+    align-items: center;
+    justify-content: center;
 }
+
+.category_label{
+    grid-area: category_label;
+}
+
+.color_label{
+    grid-area: color_label;
+}
+
+.sub_category_label{
+    grid-area: sub_category_label;
+}
+
+.brand_label{
+    grid-area: brand_label;
+}
+
+.designer_label{
+    grid-area: designer_label;
+}
+
+.length_label{
+    grid-area: length_label;
+}
+
+.width_label{
+    grid-area: width_label;
+}
+
+.height_label{
+    grid-area: height_label;
+}
+
+
 
 .label_title{
     background-color: #4294FF;
     color: white;
     font-family: Bold;
+    border-radius: 20px 0px 0px 20px;
+    padding: 7px 7px 7px 13px;
+}
+
+.label_content{
+    background-color: white;
+    color: #737373;
+    font-family: Bold;
+    border-radius: 0px 20px 20px 0px;
+    padding: 7px 13px 7px 7px;
+}
+
+.label_content_cm{
+    background-color: white;
+    color: #737373;
+    font-family: Bold;
+    padding: 7px 13px 7px 7px;
+}
+
+.label_cm{
+    background-color: white;
+    color: #737373;
+    font-family: Bold;
+    border-radius: 0px 20px 20px 0px;
+    padding: 7px 13px 7px 7px;
+    text-align: right;
 }
