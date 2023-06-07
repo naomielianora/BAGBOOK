@@ -607,9 +607,16 @@ html, body{
     font-size: 15px;
 }
 
-.judul_top_ten{
+.judul_top10{
     padding-top: 10px;
     padding-bottom: 20px;
+    font-family: Bold;
+    font-size: 40px;
+    color:#376CFB;
+}
+
+.judul_search{
+    padding-top: 25px;
     font-family: Bold;
     font-size: 40px;
     color:#376CFB;
@@ -621,7 +628,7 @@ html, body{
 }
 
 .sort-button.selected {
-background-color: #376CFB;
+    background-color: #376CFB;
 }
 
 #search-results {
@@ -631,8 +638,7 @@ background-color: #376CFB;
 
 .filter-label,
 .sort-label {
-color: #4294FF;
-font-weight: bold;
+    color: #4294FF;
 }
 
 .custom-dropdown {
@@ -700,10 +706,9 @@ background-color: #4294FF;
 }
 
 .sort-button {
-padding: 10px 20px;
-border-radius: 20px;
-border: none;
-font-family: Bold;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
 }
 
 #submit-button {

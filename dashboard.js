@@ -9,7 +9,8 @@ searchButton.addEventListener("click", function() {
     searchResultsDiv.innerHTML = "";
 
     // Create heading element
-    const heading = document.createElement("h2");
+    const heading = document.createElement("div");
+    heading.setAttribute("class", "judul_search")
     heading.textContent = "Search Results";
     searchResultsDiv.appendChild(heading);
 
@@ -19,6 +20,8 @@ searchButton.addEventListener("click", function() {
     blueBox.textContent = "No content found.";
     searchResultsDiv.appendChild(blueBox);
     }
+
+
 });
 
 searchInput.addEventListener("input", function() {
