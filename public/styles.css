@@ -917,3 +917,71 @@ margin: 0;
     font-family: Bold;
     color: #737373;
   }
+
+/* -------------------------------------------- BAG_REVIEW --------------------------------------------*/
+.bag_review_page{
+    display: flex;
+    justify-content: center;
+}
+
+.bag_detail_container{
+    background-color: #D0DBF7;
+    border-radius: 15px;
+    width: 1000px;
+    padding: 15px;
+    display: grid;
+    gap: 10px;
+    align-content: center;
+    justify-content: center;
+    grid-template-columns: 225px 370px 370px;
+    grid-template-rows: 40px 25px;
+    grid-template-areas:
+    "photo bag_review_name add_review_button"
+    "photo bag_status bag_status"
+    "photo label_container label_container"
+    "photo label_container label_container"
+    "photo label_container label_container"
+    "photo label_container label_container"
+}
+
+.bag_review_photo{
+    width: 200px;
+    grid-area : photo;
+    justify-self: center;
+    padding-right: 15px;
+}
+
+.bag_review_name{
+    color:#737373;
+    font-family: Bold;
+    font-size: 40px;
+    grid-area : bag_review_name;
+}
+
+.add_review_button{
+    justify-self: end;
+    grid-area : add_review_button;
+}
+
+.bag_status{
+    color: #376CFB;
+    font-family: Bold;
+    grid-area : bag_status;
+}
+
+.label_container{
+    grid-area : label_container;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.each_label{
+    grid-template-columns: 100px 100px;
+
+}
+
+.label_title{
+    background-color: #4294FF;
+    color: white;
+    font-family: Bold;
+}
