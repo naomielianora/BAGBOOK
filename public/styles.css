@@ -922,6 +922,8 @@ margin: 0;
 .bag_review_page{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .bag_detail_container{
@@ -1051,13 +1053,212 @@ margin: 0;
 .bag_review_container{
     display: grid;
     grid-template-columns: 1fr 1fr;
-
+    width: 1050px;
+    height: 245px;
+    background-color: #D0DBF7;
+    padding: 15px;
+    gap: 10px;
+    border-radius: 15px;
+    margin-top: 10px;
+    overflow-y: scroll;
+    margin-bottom: 25px;
 }
 
 .single_review{
     display: grid;
     grid-template-areas:
     "user nilai"
-    "review review"
+    "review review";
+    background-color: #B9C8EA;
+    border-radius: 15px;
+    height: 100px;
+    padding: 10px;
+    grid-template-rows: 30px auto;
+    gap: 10px;
+    justify-content: center;
+
 }
 
+.review_user_profile{
+    grid-area: user;
+    font-family: Bold;
+    color: #737373;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+
+}
+
+.review_user_nilai{
+    grid-area: nilai;
+    height: 30px;
+    grid-template-columns: 0.15fr 0.15fr;
+    color:white;
+    background-color: #4294FF;
+    width:50px;
+    padding:3px 5px 3px 5px;
+    border-radius: 15px;
+    display: grid;
+    height: 15px;   
+    align-items: center;
+    justify-self: end;
+    margin-top: 5px;
+}
+
+.review_user_nilai_label{
+    font-size:12px;
+}
+
+.review_user_nilai_angka{
+    padding-left: 15px;
+    font-size: 12px;
+    font-family: Bold;
+}
+
+.review_user_teks{
+    grid-area: review;
+    color:#737373;
+    font-size: 10px;
+    justify-self: start;
+}
+
+/* -------------------------------------------- PROFILE_PUBLIC --------------------------------------------*/
+
+.navigator_profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+}
+
+.pembungkus_deskripsi_profile{
+    display: grid;
+    grid-template-columns: 0.3fr 1fr 0.5fr 0.5fr;
+    gap:5px;
+    margin-bottom: 20px;
+}
+
+.my_profile{
+    font-family: Bold;
+    color: #737373;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.username_my_profile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: Bold;
+    color: #376CFB;
+    font-size:30px;
+    
+}
+
+
+.pembungkus_followers{
+    grid-template-rows: 0.8fr 0.4fr;
+    background-color: #D0DBF7;
+    border-radius: 15px;
+}
+
+.pembungkus_following{
+    grid-template-rows: 0.8fr 0.4fr;
+    background-color: #D0DBF7;
+    border-radius: 15px;
+}
+
+.jumlah_followers, .jumlah_following{
+    font-family: Bold;
+    color: #376CFB;
+    font-size:35px;
+}
+
+.followers_nama, .following_nama{
+    font-family: Black;
+    color: #4294FF;
+    font-size:18px;
+}
+
+.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.jumlah_reviews_user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Bold;
+    color: #4294FF;
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.pembungkus_pertama_myprofile{
+    background-color: #D0DBF7;
+    width:800px;
+    height: 440px;
+    padding:20px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 20px;
+    gap:10px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+}
+
+
+.pembungkus_kedua_myprofile{
+    display:grid;
+    background-color: #B9C8EA;
+    grid-template-columns: 0.4fr 0.8fr;
+    padding:10px;
+    border-radius: 20px;
+}
+
+.nilai_review{
+    display: grid;
+    grid-template-columns: 0.15fr 0.15fr;
+    color:white;
+    background-color: #4294FF;
+    width:50px;
+    padding:3px 5px 3px 5px;
+    border-radius: 10px;
+    
+}
+
+.rincian_item{
+    display: grid;
+    grid-template-rows: 0.2fr 0.2fr auto;
+    padding:8px;
+    gap:5px;
+}
+
+.judul_nilai{
+    font-size:12px;
+}
+
+.nilai_dari_review{
+    padding-left: 15px;
+    font-size: 12px;
+    font-family: Bold;
+}
+
+.nama_tas{
+    color: #737373;
+    font-family: Bold;
+}
+
+.deskripsi_review{
+    font-family: Medium;
+    color: #737373;
+    font-size: 12px;
+}
