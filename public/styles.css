@@ -762,60 +762,40 @@ margin-top: 20px;
 margin-bottom: 20px;
 }
 
-.item {
-padding: 20px;
-height: 170px;
-width: 440px;
-background-color: #B9C8EA;
-border-radius: 35px;
-display: flex;
-align-items: center;
+.item{
+    display: grid;
+    grid-template-columns: 50px 150px auto;
+    background-color: #B9C8EA;
+    border-radius: 20px;
+    width: 450px;
+    height: 150px;
+    padding: 15px;
+    gap: 10px;
 }
 
-.item p {
-margin: 0;
-}
-
-.item {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    justify-content: center;
-}
-
-.item-content {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    width : 100%;
-    gap: 15px;
-}
-
-.item-image img {
+.item-image img{
     width: 150px;
     height: 150px;
-    object-fit: contain;
-    border-radius: 20px;
 }
-
 
 .item-ranking{
-    font-family: Bold;
-    font-size: 70px;
+    font-family: Black;
+    font-size: 50px;
     color:#737373;
+    justify-self: center;
+    align-self: center;
 }
 
-.item-ranking-10{
-    font-family: Bold;
-    font-size: 40px;
-    color:#737373;
+.item-details{
+    display: grid;
+    grid-template-rows: 80px auto;
+    padding: 5px;
 }
 
 .bag_name{
     font-family: Bold;
-    font-size: 30px;
+    align-self: center;
+    font-size: 35px;
     color: #737373;
 }
 

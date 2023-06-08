@@ -1,3 +1,4 @@
+//KODE UNTUK SAAT SEARCH BUTTON DI CLICK 
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const searchResultsDiv = document.getElementById("search-results");
@@ -90,7 +91,7 @@ const sortButtons = document.querySelectorAll('.sort-button');
 sortButtons.forEach(button => {
     button.addEventListener('mouseover', () => {
     if (!button.classList.contains('selected')) {
-        button.style.backgroundColor = '#E0E0E0';
+        button.style.backgroundColor = '#376CFB';
     }
     });
 
@@ -125,7 +126,7 @@ category_dropdownLabel.addEventListener('click', () => {
 });
 
 category_dropdownLabel.addEventListener('mouseover', () => {
-    category_dropdownLabel.style.backgroundColor = '#C3DCF2';
+    category_dropdownLabel.style.backgroundColor = '#376CFB';
 });
 
 category_dropdownLabel.addEventListener('mouseout', () => {
@@ -169,7 +170,7 @@ sub_category_dropdownLabel.addEventListener('click', () => {
 });
 
 sub_category_dropdownLabel.addEventListener('mouseover', () => {
-    sub_category_dropdownLabel.style.backgroundColor = '#C3DCF2';
+    sub_category_dropdownLabel.style.backgroundColor = '#376CFB';
 });
 
 sub_category_dropdownLabel.addEventListener('mouseout', () => {
