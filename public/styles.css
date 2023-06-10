@@ -58,6 +58,10 @@ html, body{
     color: #FFFFFF;
 }
 
+a{
+    text-decoration: none;
+}
+
 /* -------------------------------------------- PUBLIC HEADER --------------------------------------------*/
 .public_header{
     height: 100px;
@@ -898,7 +902,7 @@ margin-bottom: 20px;
     color: #737373;
   }
 
-/* -------------------------------------------- BAG_REVIEW --------------------------------------------*/
+/* -------------------------------------------- BAG_REVIEW & ADD_REVIEW --------------------------------------------*/
 .bag_review_page{
     display: flex;
     justify-content: center;
@@ -1104,6 +1108,75 @@ margin-bottom: 20px;
     justify-self: start;
 }
 
+.add_review_container{
+    display: grid;
+    grid-template-rows: 50px auto;
+    grid-template-areas: 
+    "rev_profile nilai_rev"
+    "teks_rev teks_rev"
+    "review_button review_button";
+    background-color: #D0DBF7;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    width: 1040px;
+    /* height: 245px; */
+    gap: 15px;
+    padding: 20px;
+}
+
+.reviewer_profile{
+    grid-area: rev_profile;
+    color: #737373;
+    font-family: Bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nilai_review_input{
+    grid-area: nilai_rev;
+    justify-self: right;
+    color: #737373;
+    font-size: 17px;
+    align-self: center;
+    font-family: Bold;
+    display: flex;
+    gap: 10px;
+}
+
+.teks_review_input{
+    grid-area: teks_rev;
+    justify-self: center;
+}
+
+.teks_review_input textarea{
+    border-radius: 20px;
+    width: 1010px;
+    height: 150px;
+    border-style: none;
+    padding: 15px;
+    text-align: start;
+    resize:none;
+    font-size: 20px;
+    font-family: Regular;
+}
+
+.teks_review_input textarea::placeholder{
+    color:#737373;
+    font-family: Bold;
+}
+
+.submit_review_button{
+    grid-area: review_button;
+    justify-self:center;
+}
+
+.submit_review_button .gray_button{
+    margin-right: 10px;
+}
+
 /* -------------------------------------------- PROFILE_PUBLIC --------------------------------------------*/
 
 .navigator_profile {
@@ -1242,3 +1315,21 @@ margin-bottom: 20px;
     color: #737373;
     font-size: 12px;
 }
+
+
+/* -------------------------------------------- REVIEW_ADDED_CONF --------------------------------------------*/
+.review_added_conf_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height:70%;
+    width: 100%;
+  }
+
+  .review_success{
+    font-size: 30px;
+    font-family: Bold;
+    color: #737373;
+  }
