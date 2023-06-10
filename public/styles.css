@@ -125,6 +125,10 @@ a{
     margin-right: 25px;
 } 
 
+.admin_log_out{
+    padding-right: 15px;
+}
+
 /* -------------------------------------------- ADMIN DASHBOARD --------------------------------------------*/
 .dashboard_admin_content{
     font-size: 35px;
