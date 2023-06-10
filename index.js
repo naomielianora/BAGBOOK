@@ -95,7 +95,6 @@ app.post('/log_in_public', (req, res)=>{
     }
 })
 
-
 app.get('/dashboard_public',auth, (req, res)=>{
     res.render('dashboard_public',{
         username: session.username
