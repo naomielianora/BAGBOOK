@@ -128,17 +128,28 @@ app.get('/sign_up_public', (req, res)=>{
 
 app.get('/check_username', (req, res) => {
     const inputed_username = req.query.inputed_username;
-    let isTaken = true;
+    let usernameTaken = true;
     usernameChecker(inputed_username).then((data) => {
-        isTaken = (JSON.parse(JSON.stringify(data))[0]) !==undefined;
+        usernameTaken = (JSON.parse(JSON.stringify(data))[0]) !==undefined;
         const response = {
-            taken: isTaken
+            taken: usernameTaken
           };
           
           res.json(response);
     });
+})
 
-    
+app.get('/check_email', (req, res) => {
+    const inputed_email = req.query.inputed_email
+    let emailTaken = true;
+    emailChecker(inputed_email).then((data) => {
+        emailTaken = (JSON.parse(JSON.stringify(data))[0]) !==undefined;
+        const response = {
+            taken: emailTaken
+          };
+          
+          res.json(response);
+    });
 })
 
 app.get('/log_out',auth, (req, res)=>{
@@ -193,6 +204,20 @@ const userLogin = (username, pass) => {
 const usernameChecker = (username_sign_up) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT idU FROM user WHERE username = ?', [username_sign_up], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const emailChecker = (email_sign_up) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT idU FROM user WHERE email = ?', [email_sign_up], (err, result) => {
             if(err){
                 reject (err);
             }
