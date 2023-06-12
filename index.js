@@ -24,9 +24,6 @@ app.use(sessions({
     cookie: { secure: true }
   }))
 
-
-
-
 let session;
 let username;
 let password;
@@ -47,6 +44,7 @@ app.get('/', (req, res)=>{
         showAlert
     }) 
 })
+
 
 app.post('/log_in_public', (req, res)=>{
     //mengambil username dan password yg diinput user
@@ -96,6 +94,19 @@ app.post('/log_in_public', (req, res)=>{
     }
 })
 
+let full_name;
+let email;
+let username_sign_up;
+let password_sign_up;
+
+app.post('/verify_email', (req, res)=>{
+    //mengambil full_name, email, username, dan password yg diregister oleh user
+    full_name = req.body.full_name;
+    email = req.body.email_address;
+    username_sign_up = req.body.username_sign_up;
+    password_sign_up = req.body.password_sign_up;
+    
+})
 
 app.get('/dashboard_public',auth, (req, res)=>{
     const base64Image = Buffer.from(session.photo).toString('base64');
@@ -111,12 +122,34 @@ app.get('/dashboard_admin',auth, (req, res)=>{
     }) 
 })
 
-app.get('/sign_up_public',auth, (req, res)=>{
-    res.render('dashboard_admin',{
+app.get('/sign_up_public', (req, res)=>{
+    res.render('sign_up_public')
+})
+
+app.get('/check_username', (req, res) => {
+    const inputed_username = req.query.inputed_username;
+    let isTaken = true;
+    usernameChecker(inputed_username).then((data) => {
+        isTaken = (JSON.parse(JSON.stringify(data))[0]) !==undefined;
+        const response = {
+            taken: isTaken
+          };
+          
+          res.json(response);
+    });
+
+    
+})
+
+app.get('/log_out',auth, (req, res)=>{
+    res.render('log_out') 
+})
+
+app.get('/log_out_conf',auth, (req, res)=>{
+    res.render('log_out_conf',{
         username: session.username
     }) 
 })
-
 
 //DATABASE CONNECTION
 import mysql from 'mysql'
@@ -144,6 +177,34 @@ const dbConnect = () => {
 };
 
 const userLogin = (username, pass) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, pass], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const usernameChecker = (username_sign_up) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT idU FROM user WHERE username = ?', [username_sign_up], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const userRegister = (full_name, email, username_sign_up, password_sign_up) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, pass], (err, result) => {
             if(err){

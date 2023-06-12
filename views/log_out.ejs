@@ -3,12 +3,12 @@
 
 <head>
 	<title>BAGBOOK</title>
-	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 
 <body>
     <div class = "logo_header">
-        <img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px>
+        <img src = "/logo_header.png" alt = "bagbook_logo" height=100px>
    </div>
    
    <div class = "navigator_log_out">
@@ -19,10 +19,16 @@
            <div class = "button_dua">
                <div class = "cancel_button">
                     <!-- kembali ke dashboard public/admin sesuai login -->
+                    <a href = "/dashboard_public">
                         <button class = "gray_button">Cancel</button>
+                    </a>
+                    
                </div>
                <div class = "log_out_button">
-                   <button class = "blue_button">Log out</button>
+                    <a href = "/log_out_conf">
+                        <button class = "blue_button">Log out</button>
+                    </a>
+                   
                </div>
            </div>
        </div>

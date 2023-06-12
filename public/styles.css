@@ -58,8 +58,8 @@ html, body{
     color: #FFFFFF;
 }
 
-a{
-    text-decoration: none;
+.hidden{
+	display: none;
 }
 
 /* -------------------------------------------- PUBLIC HEADER --------------------------------------------*/
@@ -436,6 +436,22 @@ a{
     font-size: 15px;
     color:#737373   
 }
+
+.invalid {
+    background-color: red;
+  }
+  
+  .valid {
+    background-color: green;
+  }
+
+  .taken {
+    background-color: red;
+  }
+  
+  .available {
+    background-color: green;
+  }
 
 /* -------------------------------------------- PUBLIC FOLLOWERS & FOLLOWING --------------------------------------------*/
 
