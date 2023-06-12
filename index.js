@@ -26,10 +26,10 @@ app.use(sessions({
 
 
 
-let username = '';
-let password = '';
-let logged_name = '';
+
 let session;
+let username;
+let password;
 
 //FOR AUTHENTICATION
 const auth = (req, res, next) => {    
@@ -71,6 +71,7 @@ app.post('/log_in_public', (req, res)=>{
                 session.email = res_data.email;
                 //status = 1 (publik), 0(admin)
                 session.status = res_data.status;
+                console.log(session.username);
                 //jika yg log in adalah user publik
                 if(session.status === 1){
                     //halaman berpindah ke halaman utama(users)
@@ -95,9 +96,12 @@ app.post('/log_in_public', (req, res)=>{
     }
 })
 
+
 app.get('/dashboard_public',auth, (req, res)=>{
+    const base64Image = Buffer.from(session.photo).toString('base64');
     res.render('dashboard_public',{
-        username: session.username
+        username: session.username,
+        photo: base64Image
     }) 
 })
 
