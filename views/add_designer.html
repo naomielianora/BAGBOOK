@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+</head>
+
+<body>
+    <div class = "admin_header">
+        <div class = "logo_header">
+            <a href = "dashboard_admin.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
+        </div>
+
+        <div class = "navigator_admin">
+            <a href="set_review.html">Set Review</a>
+            <a href="import_data.html">Import Data</a>
+            <a href="see_report.html">See Report</a>
+            <a href="pick_add.html">Add Item</a>
+            <a href="dashboard_public.html">Main Website</a>
+        </div>
+
+        <div class = "admin_log_out"> 
+            <button class = "gray_button">Log out</button>
+        </div>
+        
+        <div class = "admin_profile_header">
+            <img src = "../images/profile.png" height = 40px width=40px> 
+        </div>
+
+        <div class = "admin_username_header">
+            admin
+        </div>
+        
+    </div>
+
+    <div class = "navigator_add_designer">
+        <div class = "judul_add_designer">
+            ADD DESIGNER
+        </div>
+        <div class = "img_add_category">
+            <img src = "../images/add_des.png" height = 120px width=120px> 
+        </div>
+        <form>
+            <div class = "grid_designer">
+                <label for="designer" id="label_designer">Designer</label>
+                <input type="text" id="input_designer" name="designer">
+            </div>
+            <div class = "button_add_designer">
+                <div class = "cancel_button_designer">
+                     <a href = "pick_add.html">
+                         <button class = "gray_button">Cancel</button>
+                     </a>    
+                </div>
+                <div class = "add_button_designer">
+                 <a href = "add_designer.html">
+                     <button class = "blue_button">Add</button>
+                 </a>    
+            </div>
+        </form>
+    </div>
+</body>
+</html>

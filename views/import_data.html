@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+</head>
+
+<body>
+    <div class = "admin_header">
+        <div class = "logo_header">
+            <a href = "dashboard_admin.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
+        </div>
+
+        <div class = "navigator_admin">
+            <a href="set_review.html">Set Review</a>
+            <a href="import_data.html">Import Data</a>
+            <a href="see_report.html">See Report</a>
+            <a href="pick_add.html">Add Item</a>
+            <a href="dashboard_public.html">Main Website</a>
+        </div>
+
+        <div class = "admin_log_out"> 
+            <button class = "gray_button">Log out</button>
+        </div>
+        
+        <div class = "admin_profile_header">
+            <img src = "../images/profile.png" height = 40px width=40px> 
+        </div>
+
+        <div class = "admin_username_header">
+            admin
+        </div>
+        
+    </div>
+
+    <div class = "navigator_import_data">
+        <div class = "pembungkus_import_data">
+            <div class = "img_import_data">
+                <img src = "../images/upload_file.png" height = 150px width=150px> 
+            </div>
+            <label for="file_upload" class="custom-file-upload">
+                <span>Upload file</span>
+                <input type="file" id="file_upload" name="file_upload">
+              </label>
+        </div>
+        <div class = "import_button_data">
+            <a href = "import_data.html">
+                <button class = "blue_button">Import</button>
+            </a>   
+        </div>
+    </div>
+</body>
+</html>

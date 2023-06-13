@@ -1392,3 +1392,280 @@ a{
     font-family: Bold;
     color: #737373;
 }
+
+/* -------------------------------------------- IMPORT_DATA --------------------------------------------*/
+
+.navigator_import_data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 80%;
+    justify-content: center;
+}
+
+.pembungkus_import_data{
+    background-color: #D0DBF7;
+    width: 440px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    gap: 15px;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+  }
+  
+.custom-file-upload span {
+    display: inline-block;
+    background-color: #4294FF;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: SemiBold;
+    font-size: 16px;
+    border: none;
+    padding: 7px 30px;
+    border-radius: 15px;
+    transition: 0.2s ease-in;
+}
+  
+  .custom-file-upload span:hover {
+    background-color: #A9C0F5;
+  }
+
+.import_button_data{
+    padding-top: 30px;
+}
+
+/* -------------------------------------------- ADD_BRAND --------------------------------------------*/
+
+.navigator_add_brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 70%;
+    justify-content: center;
+}
+
+.judul_add_brand{
+    color: #737373;
+    font-family: Bold;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.grid_brand{
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr;
+    height: 30px;
+    width: 500px;
+    color: #737373;
+    font-family: Bold;
+    padding:20px 10px 70px 10px ;
+}
+
+#label_brand{
+    grid-column: 1;
+    background-color: #D0DBF7;
+    padding:10px 10px 10px 15px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    font-size: 20px;
+}
+
+#input_brand{
+    grid-column: 2;
+    padding:10px 10px 10px 15px;
+    border: none;
+    color: #737373;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    font-family: SemiBold;
+    font-size: 16px;
+}
+
+
+.button_add_brand{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: center;
+}
+
+/* -------------------------------------------- ADD_CATEGORY --------------------------------------------*/
+
+.navigator_add_category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 70%;
+    justify-content: center;
+}
+
+.judul_add_category{
+    color: #737373;
+    font-family: Bold;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.grid_category{
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr;
+    height: 30px;
+    width: 500px;
+    color: #737373;
+    font-family: Bold;
+    padding:20px 10px 70px 10px ;
+}
+
+#label_category{
+    grid-column: 1;
+    background-color: #D0DBF7;
+    padding:10px 10px 10px 15px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    font-size: 20px;
+}
+
+#input_category{
+    grid-column: 2;
+    padding:10px 10px 10px 15px;
+    border: none;
+    color: #737373;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    font-family: SemiBold;
+    font-size: 16px;
+}
+
+
+.button_add_category{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: center;
+}
+
+/* -------------------------------------------- ADD_DESIGNER --------------------------------------------*/
+
+.navigator_add_designer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 70%;
+    justify-content: center;
+}
+
+.judul_add_designer{
+    color: #737373;
+    font-family: Bold;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.grid_designer{
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr;
+    height: 30px;
+    width: 500px;
+    color: #737373;
+    font-family: Bold;
+    padding:20px 10px 70px 10px ;
+}
+
+#label_designer{
+    grid-column: 1;
+    background-color: #D0DBF7;
+    padding:10px 10px 10px 15px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    font-size: 20px;
+}
+
+#input_designer{
+    grid-column: 2;
+    padding:10px 10px 10px 15px;
+    border: none;
+    color: #737373;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    font-family: SemiBold;
+    font-size: 16px;
+}
+
+
+.button_add_designer{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: center;
+}
+
+/* -------------------------------------------- ADD_SUB_CATEGORY --------------------------------------------*/
+
+.navigator_add_sub_category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 70%;
+    justify-content: center;
+}
+
+.judul_add_sub_category{
+    color: #737373;
+    font-family: Bold;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.grid_sub_category{
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr;
+    height: 30px;
+    width: 500px;
+    color: #737373;
+    font-family: Bold;
+    padding:20px 10px 100px 10px ;
+    row-gap: 15px;
+}
+
+#label_sub_category, #label_category_sub{
+    grid-column: 1;
+    background-color: #D0DBF7;
+    padding:10px 15px 10px 15px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    font-size: 20px;
+}
+
+#input_sub_category, #input_category_sub{
+    grid-column: 2;
+    padding:10px 10px 10px 15px;
+    border: none;
+    color: #737373;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    font-family: SemiBold;
+    font-size: 16px;
+}
+
+.button_add_sub_category{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    justify-content: center;
+}
