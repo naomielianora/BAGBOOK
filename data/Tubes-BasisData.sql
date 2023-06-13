@@ -8,8 +8,8 @@ CREATE TABLE `User` (
   `idU` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `nama_lengkap` varchar(35) NOT NULL,
-  `email` varchar(35) NOT NULL,
+  `nama_lengkap` varchar(35),
+  `email` varchar(35),
   `fotoU` blob,
   `status` int(1) NOT NULL DEFAULT 1,
   CONSTRAINT `UK_user` UNIQUE (`username`, `email`, `idU`)
