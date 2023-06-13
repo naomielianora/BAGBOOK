@@ -1,99 +1,104 @@
 import express from 'express';
-import bodyParser from 'body-parser'
-import sessions from 'express-session'
-import crypto from 'crypto'
+import bodyParser from 'body-parser';
+import session from 'express-session';
+import crypto from 'crypto';
+import memorystore from 'memorystore';
 
 const PORT = 8080;
 const app = express();
 
 app.listen(PORT, () => {
-    console.log(`Server is ready, listening on port ${PORT}`);
+  console.log(`Server is ready, listening on port ${PORT}`);
 });
 
-
 app.set('view engine', 'ejs');
-app.use(express.static('public'))
-app.use(express.static('images'))     
+app.use(express.static('public'));
+app.use(express.static('images'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const MemoryStore = memorystore(session);
 
-app.use(sessions({
-    secret: 'keyboard cat',
+app.set('trust proxy', 1);
+app.use(
+  session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-  }))
+    saveUninitialized: false,
+    secret: 'keyboard cat',
+  })
+);
 
-let session;
 let username;
 let password;
 
 //FOR AUTHENTICATION
-const auth = (req, res, next) => {    
-    if (session.username) {
-        next();
-    } else {
-        res.redirect('/');
-    }
-}
+const auth = (req, res, next) => {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+};
 
-let showAlert = false;
+
+
 //PAGE PERTAMA YANG MUNCUL
-app.get('/', (req, res)=>{
-    res.render('log_in_public',{
-        showAlert
-    }) 
-    showAlert = false;
-})
+let showAlert = false;
+app.get('/', (req, res) => {
+  res.render('log_in_public', {
+    showAlert,
+  });
+  showAlert = false;
+});
+
+app.post('/log_in_public', (req, res) => {
+  //mengambil username dan password yg diinput user
+  username = req.body.username;
+  password = crypto.createHash('sha256').update(req.body.password).digest('base64');
+  //cek apakah username dan password tidak kosong
+  if (username && password) {
+    userLogin(username, password).then((data) => {
+      //cek apakah username&pass benar
+      let res_data = JSON.parse(JSON.stringify(data))[0];
+      //jika username&pass benar
+      if (res_data !== undefined) {
+        showAlert = false;
+        //tambahkan session
+        const session = req.session;
+        //tambahkan data user ke session
+        session.username = res_data.username;
+        //mengubah pass yg dikirimkan menjadi hash dengan algo sha256
+        session.password = res_data.password;
+        session.photo = res_data.fotoU;
+        session.name = res_data.nama_lengkap;
+        session.email = res_data.email;
+        session.idU = res_data.idU;
+        //status = 1 (publik), 0(admin)
+        session.status = res_data.status;
+        console.log(session);
+        //jika yang login adalah user publik
+        if (session.status === 1) {
+          //halaman berpindah ke halaman utama (users)
+          res.redirect('/dashboard_public');
+        } else {
+          //halaman berpindah ke dashboard admin
+          res.redirect('/dashboard_admin');
+        }
+      }
+      //jika data yang didapatkan kosong = username dan/atau password salah
+      else {
+        showAlert = true;
+        res.redirect('/');
+      }
+    });
+  }
+});
 
 
-app.post('/log_in_public', (req, res)=>{
-    //mengambil username dan password yg diinput user
-    username = req.body.username;
-    password = req.body.password;
-    //cek apakah username dan password tidak kosong
-    if(username && password){
-        userLogin(username, password).then((data) => {
-            //cek apakah username&pass benar
-            let res_data = (JSON.parse(JSON.stringify(data))[0]);
-            //jika username&pass benar
-            if(res_data !== undefined){
-                showAlert = false
-                //tambahkan session
-                session = req.session;
-                //tambahkan data" user ke session
-                session.username=res_data.username;
-                //mengubah pass yg dikirimkan menjadi hash dengan algo sha256
-                session.password = crypto.createHash('sha256').update(res_data.password).digest('base64');
-                session.photo = res_data.fotoU;
-                session.name = res_data.nama_lengkap;
-                session.email = res_data.email;
-                session.idU = res_data.idU;
-                //status = 1 (publik), 0(admin)
-                session.status = res_data.status;
-                //jika yg log in adalah user publik
-                if(session.status === 1){
-                    //halaman berpindah ke halaman utama(users)
-                    res.redirect('/dashboard_public');
-                }
-                else{
-                    //halaman berpindah ke dashboard admin
-                    res.redirect('/dashboard_admin');
-                }
-                
-            }
-            //jika data yg didapatkan kosong = username dan/atau password salah
-            else{
-                showAlert = true;
-                res.redirect('/');
-                }
-            }
-        )
-    }
-    else{
-        showAlert = false
-    }
-})
+
 
 let full_name;
 let email;
@@ -105,7 +110,7 @@ app.post('/submit_user', (req, res)=>{
     full_name = req.body.full_name;
     email = req.body.email_address;
     username_sign_up = req.body.username_sign_up;
-    password_sign_up = req.body.password_sign_up;
+    password_sign_up = crypto.createHash('sha256').update(req.body.password_sign_up).digest('base64');
     addUser(full_name, email, username_sign_up, password_sign_up).then(() => 
         res.redirect('/verify_email')
     )
@@ -125,16 +130,16 @@ app.get('/verify_conf', (req, res)=>{
 
 let base64Image;
 app.get('/dashboard_public',auth, (req, res)=>{
-    base64Image = Buffer.from(session.photo).toString('base64');
+    base64Image = Buffer.from(req.session.photo).toString('base64');
     res.render('dashboard_public',{
-        username: session.username,
+        username: req.session.username,
         photo: base64Image
     }) 
 })
 
 app.get('/dashboard_admin',auth, (req, res)=>{
     res.render('dashboard_admin',{
-        username: session.username
+        username: req.session.username
     }) 
 })
 
@@ -168,23 +173,36 @@ app.get('/check_email', (req, res) => {
     });
 })
 
-app.get('/profile_public', (req, res)=>{
-    followingCount(session.idU).then((followingCount) => 
-        followersCount(session.idU).then((followersCount) => 
-
-        res.render('profile_public',{
-            username: session.username,
-            photo: base64Image,
-            followers:(JSON.parse(JSON.stringify(followersCount))[0]).followers,
-            following: (JSON.parse(JSON.stringify(followingCount))[0]).following
-
-        })
+app.get('/profile_public', auth, (req, res)=>{
+    followingCount(req.session.idU).then((followingCount) => 
+        followersCount(req.session.idU).then((followersCount) => 
+            reviewUserCount(req.session.idU).then((userReviewCount) => 
+                res.render('profile_public',{
+                    username: req.session.username,
+                    photo: base64Image,
+                    followers:(JSON.parse(JSON.stringify(followersCount))[0]).followers,
+                    following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
+                    user_review: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review
+                })
+            )
 
         )
     )
-    
-
 })
+
+app.get('/followers_public',auth, (req, res)=>{
+    res.render('followers_public',{
+        username: req.session.username,
+        photo: base64Image
+    }) 
+})
+
+app.get('/following_public',auth, (req, res)=>{
+    res.render('following_public',{
+        username: req.session.username
+    }) 
+})
+
 
 app.get('/log_out', auth, (req, res) => {
     res.render('log_out')
@@ -302,6 +320,20 @@ const followersCount = (id) => {
 const followingCount = (id) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT COUNT(idU2) AS "following" FROM follow WHERE idU1 = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const reviewUserCount = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT COUNT(idU) AS "jumlah_user_review" FROM review WHERE idU = ?', [id], (err, result) => {
             if(err){
                 reject (err);
             }

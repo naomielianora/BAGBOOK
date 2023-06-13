@@ -7,7 +7,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `User` (
   `idU` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(20) NOT NULL,
-  `password` varchar(35) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `nama_lengkap` varchar(35) NOT NULL,
   `email` varchar(35) NOT NULL,
   `fotoU` blob,
@@ -75,12 +75,12 @@ CREATE TABLE `Designer` (
   CONSTRAINT `UK_des` UNIQUE (`idDes`, `namaDes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `User` (`username`, `password`, `nama_lengkap`, `email`) VALUES
-('naomi_elianora', 'naomi123', 'Naomi Elianora', 'naomielianora@gmail.com'),
-('ghabrielg', 'ghabs123', 'Ghabriel Galyndeo', 'ghabrielg@gmail.com');
+-- INSERT INTO `User` (`username`, `password`, `nama_lengkap`, `email`) VALUES
+-- ('naomi_elianora', 'naomi123', 'Naomi Elianora', 'naomielianora@gmail.com'),
+-- ('ghabrielg', 'ghabs123', 'Ghabriel Galyndeo', 'ghabrielg@gmail.com');
 
-INSERT INTO `Follow` (`idU1`, `idU2`) VALUES
-('1','2');
+-- INSERT INTO `Follow` (`idU1`, `idU2`) VALUES
+-- ('1','2');
 
 INSERT INTO `Nilai_Review` (`nilai_review`, `arti_nilai`) VALUES
 ('1', 'sangat jelek'),
@@ -102,9 +102,9 @@ INSERT INTO `Merk` (`namaM`) VALUES
 INSERT INTO `Tas` (`namaT`, `panjang`, `lebar`, `tinggi`, `warna`, `idSubK`, `idM`) VALUES
 ('DAKOTA', '34.5', '15', '29','Brown', '1', '1');
 
-INSERT INTO `Review` (`teks`, `nilai`, `idU`, `idT`) VALUES
-('bagus banget!', '4', '1', '1'),
-('lumayanlah', '3', '2', '1');
+-- INSERT INTO `Review` (`teks`, `nilai`, `idU`, `idT`) VALUES
+-- ('bagus banget!', '4', '1', '1'),
+-- ('lumayanlah', '3', '2', '1');
 
 
 

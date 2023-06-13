@@ -28,7 +28,11 @@
                         <%= followers %>
                     </div>
                     <div class="followers_nama">
-                        Followers
+                        <% if(followers >1){%>
+                            Followers
+                        <% } else{ %>
+                            Follower
+                        <% } %>
                     </div>
                 </a>
 
@@ -45,7 +49,12 @@
             </div>
 
             <div class = "jumlah_reviews_user">
-                65 Reviews
+                <%= user_review %> 
+                <% if(user_review >1){%>
+                    Reviews
+                <% } else{ %>
+                    Review
+                <% } %>
             </div>
 
             <div class = "pembungkus_pertama_myprofile">
