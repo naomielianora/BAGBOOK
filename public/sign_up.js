@@ -107,8 +107,8 @@ function checkEmailAvailability(inputed_email) {
 
 function validateEmail(email) {
   // Use regex to check if the email matches the pattern for a Gmail address
-  let gmailPattern = new RegExp(/^[a-zA-Z0-9_.+-]+@gmail\.com$/);
-  return gmailPattern.test(email);
+  let emailPattern = /^[a-zA-Z0-9_.+-]+@(gmail|yahoo|.+\.ac)\.(com|id)$/;
+  return emailPattern.test(email);
 }
 
 function updateEmailInput(emailAvailable, isValidEmail) {

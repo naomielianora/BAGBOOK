@@ -21,11 +21,16 @@
         </div>
 
         <div class = "profile_header">
-            <img src="data:image/png;base64,<%= photo %>" height="40px" width="40px">
+            <a href = "/profile_public">
+                <img src="data:image/png;base64,<%= photo %>" height="40px" width="40px">
+            </a>
+            
         </div>
 
         <div class = "username_header">
-            <%= username %>
+            <a href = "/profile_public">
+                <%= username %>
+            </a>  
         </div>
     </div>
 </body>

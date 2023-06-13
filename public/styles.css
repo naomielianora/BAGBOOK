@@ -98,6 +98,10 @@ body {
     display: none;
 }
 
+a{
+    text-decoration: none;
+}
+
 
 /* -------------------------------------------- PUBLIC HEADER --------------------------------------------*/
 .public_header {
@@ -1261,6 +1265,7 @@ body {
     font-family: Bold;
     color: #376CFB;
     font-size: 30px;
+    gap: 5px;
 
 }
 
