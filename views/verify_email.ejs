@@ -4,6 +4,7 @@
 <head>
 	<title>BAGBOOK</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="verify_email.js" defer></script>
 </head>
 
 <body>
@@ -22,15 +23,19 @@
             <div class="judul_verify_email">VERIFY YOUR EMAIL ADDRESS</div>
 
             <div class="verify_email_desc">Please enter the 6 digit code sent to 
-                <span class="email">naomielianora@gmail.com</span>
+                <span class="email"><%= email %></span>
             </div>
 
             <form action = "/verify_conf">
-                <input type="text" name="code_verification" id="code_verification" class = "input_code" required>
+                <input type="text" name="code_verification" id="code_verification" class = "input_code" maxlength="6" required>
 
 
                 <div class = "confirm_button"> 
                     <button class = "blue_button">Confirm</button>
+                </div>
+
+                <div class = "sign_up_warning hidden" id = "wrong_code_warning">
+                    *Wrong code, please try again or resend code
                 </div>
 
             </form>

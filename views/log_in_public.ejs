@@ -19,16 +19,20 @@
                 <button class = "blue_button">Log in</button>
             </div>    
         </form>
+
+        <% if (showAlert) { %>
+            <div class = "sign_up_warning">
+                *Wrong username and/or password, please try again
+            </div>
+        <% }%>
+
+          
         
         <div class = "create_account">
             Create an account? <a href="/sign_up_public" class = "sign_up">Sign up</a>
         </div>
 
-        <% if (showAlert) { %>
-            <script>
-              alert("Wrong username and/or password. Please try again");
-            </script>
-          <% } %>
+        
 
         
     </div>

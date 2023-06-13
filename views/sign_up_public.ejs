@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action = "/verify_email">
+    <form action = "/submit_user" method = "POST">
         <div class = "sign_up_public">
 
             <div class = "grid_kiri">
@@ -18,7 +18,7 @@
                     PERSONAL DATA
                 </div>
                 <label for="full_name" class = "full_name_label">Full Name</label>
-                <input type="text" name="full_name" id="full_name" class = "input_full_name" placeholder="Enter your full name" minlength="8" maxlength="35" required>
+                <input type="text" name="full_name" id="full_name" class = "input_full_name" placeholder="Enter your full name" minlength="4" maxlength="35" required>
     
                 <label for="email_address" class= "email_label">Email Address</label>
                 <input type="email" name="email_address" id="email_address" class = "input_email" placeholder="Enter your email address" maxlength="35" required>
@@ -52,7 +52,11 @@
                     </div>
     
                     <div class = "sign_up_button">
-                        <button class = "blue_button">Sign up</button>
+                        <button class = "blue_button" id = "submit_button">Sign up</button>
+                    </div>
+
+                    <div class = "sign_up_warning hidden" id = "submit_warning">
+                        *please make sure all input is valid
                     </div>
     
                     <div class="login_link">

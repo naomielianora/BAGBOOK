@@ -474,6 +474,10 @@ body {
     background-color: green;
 }
 
+#submit_warning{
+    justify-self:center;
+}
+
 
 /* -------------------------------------------- PUBLIC FOLLOWERS & FOLLOWING --------------------------------------------*/
 

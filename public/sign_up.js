@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (password !== confirmPassword) {
       passwordWarning.classList.remove("hidden");
-      confirmPasswordInput.classList.remove('invalid');
-      confirmPasswordInput.classList.add('valid');
-    } else {
-      passwordWarning.classList.add("hidden");
       confirmPasswordInput.classList.remove('valid');
       confirmPasswordInput.classList.add('invalid');
+    } else {
+      passwordWarning.classList.add("hidden");
+      confirmPasswordInput.classList.remove('invalid');
+      confirmPasswordInput.classList.add('valid');
     }
 
   });
@@ -126,3 +126,33 @@ function updateEmailInput(emailAvailable, isValidEmail) {
   }
 
 }
+
+//to check if all the input is valid
+function checkAllFieldsValid() {
+  let allValid = true;
+  const inputFields = document.querySelectorAll('input');
+  //mengecek semua text input
+  for (let i = 0; i < inputFields.length; i++) {
+    const computedStyle = getComputedStyle(inputFields[i]);
+    const backgroundColor = computedStyle.backgroundColor;
+    if (backgroundColor != "rgb(0, 128, 0)") {
+      allValid = false;
+    }
+  }
+  return allValid;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  let submitButton = document.getElementById('submit_button');
+
+  submitButton.addEventListener('click', function (event) {
+    //jika ada input yg tidak valid
+    if (!checkAllFieldsValid()) {
+      event.preventDefault(); // Prevent form submission
+      //tampilkan error message
+      let submit_warning = document.getElementById('submit_warning');
+      submit_warning.classList.remove('hidden');
+      console.log("invalid submission");
+    }
+  });
+});
