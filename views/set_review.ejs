@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+
+<body>
+    <%- include('./layout/header_admin.ejs') %>
+
+    <div class = "navigator_set_review">
+       <div class="grid_set_review_1">
+            <label for="nama">Masukan jumlah minimal review untuk diolah:</label>
+            <input type="text" id="jumlah_minimal" name="nama">   
+            <div class = "rentang_nilai_review">Masukan rentang nilai review:</div>
+            <div class = "rentang_nilai">
+                <input type="radio" id="nilai_1_5" name="nilai_review" value="1-5">
+                <label for="1-5" id = "label_1-5">1-5</label>
+                <input type="radio" id="nilai_1_10" name="nilai_review" value="1-10">
+                <label for="1-10">1-10</label>
+            </div>
+            <div class = "arti_nilai">
+                Masukan arti dari tiap nilai review:
+            </div>
+       </div>
+       <div class = "grid_set_review_2">
+            <div class = "grid_set_review_2_1">
+                <label for="nilai">1:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai">  
+                <label for="nilai">2:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai">  
+                <label for="nilai">3:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">4:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">5:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+            </div>
+            <div class = "grid_set_review_2_2">
+                <label for="nilai">6:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">7:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">8:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">9:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+                <label for="nilai">10:</label>
+                <input type="text" id="arti_setiap_nilai" name="nilai"> 
+            </div>
+       </div>
+        <div class = "set_button_review">
+            <a href = "">
+                <button class = "blue_button">Save</button>
+            </a>  
+        </div>
+    </div>
+</body>
+</html>

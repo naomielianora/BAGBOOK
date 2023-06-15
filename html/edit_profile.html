@@ -1,20 +1,36 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>html Editor</title>
     <link rel="stylesheet" type="text/css" href="../public/styles.css">
     <script src="script.js"></script>
 </head>
 <body>
-    <div class = "header_edit_profile">
-        <div class = "logo_header_profile">
-            <img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px>
+    <div class = "public_header">
+        <div class = "logo_header">
+            <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
         </div>
-        <h2 class="page_title_profile">EDIT PROFILE</h2>
+        
+        <div class = "log_out"> 
+            <button class = "blue_button">Log out</button>
+        </div>
+        
+        <div class = "profile_header">
+            <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
+        </div>
+
+        <div class = "username_header">
+            <a href = "profile_public.html">username</a>
+        </div>
     </div>
+
+    
+
+
     <div class = "navigator_edit_profile">
+        <div class = "follow_page_title">
+            EDIT YOUR PROFILE   
+        </div>
         <div class = "navigator_edit_profile_2">
             <div class="photo_container_profile">
                 <div class= "photo_container_edit">
@@ -29,15 +45,15 @@
             <div class="form_content_edit">
                 <div class="form_row_edit">
                     <label for="name">Full Name</label> <br>
-                    <input type="text" id="name_profile" name="name" />
+                    <input type="text" id="name_profile" name="name" placeholder = "Naomi Elianora" disabled>
                 </div>
                 <div class="form_row_edit">
                     <label for="email">Email</label><br>
-                    <input type="text" id="email_profile" name="email" />
+                    <input type="text" id="email_profile" name="email" placeholder = "naomielianora@gmail.com" disabled>
                 </div>
                 <div class="form_row_edit">
                     <label for="username">Username</label><br>
-                    <input type="text" id="username_profile" name="username" />
+                    <input type="text" id="username_profile" name="username" placeholder = "naomi_elianora" disabled>
                 </div>
             </div>
         </div>

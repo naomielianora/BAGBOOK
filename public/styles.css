@@ -2095,6 +2095,7 @@ option {
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding-top: 15px;
 }
 
 .form_row_edit{
@@ -2110,6 +2111,15 @@ option {
     height: 35px;
     border-radius: 40px;
     background-color: #D0DBF7;
+    padding: 0px 10px;
+    
+}
+
+#name_profile::placeholder, #username_profile::placeholder, #email_profile::placeholder{
+    font-family: Bold;
+    font-size: 15px;
+    color: #376CFB;
+    opacity: 0.8;
 }
 
 .form_content_edit{
