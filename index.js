@@ -3,9 +3,12 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import crypto from 'crypto';
 import memorystore from 'memorystore';
+import multer from 'multer';
+import fs from 'fs';
 
 const PORT = 8080;
 const app = express();
+const upload = multer({ dest: 'uploads/' }); // Set the destination folder for uploaded files
 
 app.listen(PORT, () => {
   console.log(`Server is ready, listening on port ${PORT}`);
@@ -94,12 +97,13 @@ app.post('/log_in_public', (req, res) => {
       if (res_data !== undefined) {
         showAlert = false;
         //tambahkan session
-        const session = req.session;
+        let session = req.session;
         //tambahkan data user ke session
         session.username = res_data.username;
         //mengubah pass yg dikirimkan menjadi hash dengan algo sha256
         session.password = res_data.password;
         session.photo = res_data.user_photo;
+        console.log(session.photo);
         session.full_name = res_data.full_name;
         session.email = res_data.email;
         session.idUser = res_data.idUser;
@@ -285,20 +289,8 @@ app.get('/profile_public', auth, (req, res)=>{
         )
     )
 })
-//membuka halaman followers (user" lain yg mengfollow user tsb)
-app.get('/followers_public',auth, (req, res)=>{
-    res.render('followers_public',{
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64')
-    }) 
-})
-//membuka halaman following (user" lain yg difollow user tsb)
-app.get('/following_public',auth, (req, res)=>{
-    res.render('following_public',{
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64')
-    })  
-})
+
+
 //mencari tau brp banyak followers dari user melalui database
 const followersCount = (id) => {
     return new Promise((resolve, reject) => {
@@ -357,6 +349,92 @@ const userReviews = (id) => {
 };
 
 //==============================================================================================================
+
+//EDIT PROFILE----------------------------------------------------------------------------------------------
+app.get('/edit_profile',auth, (req, res)=>{
+    res.render('edit_profile',{
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64'),
+        full_name: req.session.full_name,
+        email: req.session.email
+    })  
+})
+
+app.post('/change_photo_public', upload.single('photo'), (req, res) => {
+    const newPhoto = req.file; // The uploaded photo is available as req.file
+    const idUser = req.session.idUser;
+    const photoData = fs.readFileSync(newPhoto.path);
+    // Save the new photo to the database and perform other necessary operations
+    changePhoto(idUser,photoData).then(() => 
+        getNewPhoto(idUser).then((newPhoto) => 
+            console.log(newPhoto[0].user_photo),
+            
+
+            res.redirect('/changed_conf_public')// Redirect the user to the profile page after saving changes
+        )
+    )
+  });
+
+//mencari tau review" yang sudah dibuat oleh user
+const changePhoto = (id,photo) => {
+    return new Promise((resolve, reject) => {
+        pool.query('UPDATE user SET user_photo = ? WHERE idUser = ?', [photo, id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const getNewPhoto = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT user_photo FROM user WHERE idUser = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+app.get('/changed_conf_public',auth, (req, res)=>{
+    res.render('changed_conf_public',{
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64')
+    })  
+})
+
+
+//==============================================================================================================
+
+//FOLLOWING LIST----------------------------------------------------------------------------------------------
+//membuka halaman following (user" lain yg difollow user tsb)
+app.get('/following_public',auth, (req, res)=>{
+    res.render('following_public',{
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64')
+    })  
+})
+
+//==============================================================================================================
+
+//FOLLOWERS LIST----------------------------------------------------------------------------------------------
+//membuka halaman followers (user" lain yg mengfollow user tsb)
+app.get('/followers_public',auth, (req, res)=>{
+    res.render('followers_public',{
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64')
+    }) 
+})
+//==============================================================================================================
+
 
 //LOG OUT----------------------------------------------------------------------------------------------
 //membuka halaman log out

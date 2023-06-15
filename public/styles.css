@@ -2043,7 +2043,6 @@ option {
 
 .photo_container_profile{
     background-color: #D0DBF7;
-    padding:0px 0px 20px 0px;
     border-radius: 15px;
 }
 
@@ -2054,6 +2053,7 @@ option {
     border-radius: 15px;
     padding:5px 10px 5px 10px;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 .remove_button_edit {

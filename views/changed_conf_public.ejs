@@ -3,32 +3,16 @@
 
 <head>
 	<title>BAGBOOK</title>
-	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 
 <body>
-    <div class = "public_header">
-        <div class = "logo_header">
-            <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
-        </div>
-        
-        <div class = "log_out"> 
-            <button class = "blue_button">Log out</button>
-        </div>
-        
-        <div class = "profile_header">
-            <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
-        </div>
-
-        <div class = "username_header">
-            <a href = "profile_public.html">username</a>
-        </div>
-    </div>
+    <%- include('./layout/header_public.ejs') %>
 
 
     <div class = "navigator_success_confirm">
         <div class = "logo_changed_confirm">
-            <a href = "../changed_confirm.html"><img src = "../images/success.png" alt = "slogan_changed_confirm" height=180px></a>
+            <img src = "/success.png" alt = "slogan_changed_confirm" height=180px>
         </div>
         <div class = "changed_success">
            Changes is successfully <br>
