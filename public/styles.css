@@ -1334,6 +1334,8 @@ a {
     grid-template-columns: 0.4fr 0.8fr;
     padding: 10px;
     border-radius: 20px;
+    width: 365px;
+    height: 120px;
 }
 
 .nilai_review {

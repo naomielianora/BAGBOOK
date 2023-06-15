@@ -11,7 +11,7 @@
 
     <div class = "navigator_profile">
         <div class = "my_profile">
-            <%= username %>'s PROFILE
+            <%= full_name %>'s PROFILE
         </div>
         <div class = "biodata_profile">
             <div class = "pembungkus_deskripsi_profile">
@@ -20,7 +20,9 @@
                 </div>
                 <div class = "username_my_profile">
                     <%= username %>
-                    <button class = "blue_button">Edit Profile</button>
+                    <a href = "/edit_profile">
+                        <button class = "blue_button">Edit Profile</button>
+                    </a>
                 </div>
 
                 <a href = "/followers_public" class="pembungkus_followers centered">
@@ -49,8 +51,8 @@
             </div>
 
             <div class = "jumlah_reviews_user">
-                <%= user_review %> 
-                <% if(user_review >1){%>
+                <%= user_review_count %> 
+                <% if(user_review_count >1){%>
                     Reviews
                 <% } else{ %>
                     Review
@@ -58,161 +60,27 @@
             </div>
 
             <div class = "pembungkus_pertama_myprofile">
-                <div class = "pembungkus_kedua_myprofile">
-                    <div class="image-alpha" id="top10img1">
-                        <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                    </div>
-                    <div class="rincian_item">
-                        <div class = "nama_tas">ALPHA</div>
-                        <div class = "nilai_review">
-                            <div class = "judul_nilai">
-                                Nilai
-                            </div>
-                            <div class = "nilai_dari_review">
-                                3
-                            </div>
-                        </div>
-                        <div class = "deskripsi_review">
-                            Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                        </div>
-                    </div>
-                </div>
+                <% for(const data of userDataReview) { %>
                     <div class = "pembungkus_kedua_myprofile">
                         <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
+                            <img src="data:image/png;base64, <%= Buffer.from(data.fotoTas).toString('base64') %>" alt="Bag Image" height = 120px width=120px>
                         </div>
                         <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
+                            <div class = "nama_tas"><%= data.namaTas %></div>
                             <div class = "nilai_review">
                                 <div class = "judul_nilai">
                                     Nilai
                                 </div>
                                 <div class = "nilai_dari_review">
-                                    3
+                                    <%= data.nilai %>
                                 </div>
                             </div>
                             <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
+                                <%= data.teks %>
                             </div>
                         </div>
                     </div>
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class = "pembungkus_kedua_myprofile">
-                        <div class="image-alpha" id="top10img1">
-                            <img src="../images/bags/Alpha.png" alt="Bag Image" height = 120px width=120px>
-                        </div>
-                        <div class="rincian_item">
-                            <div class = "nama_tas">ALPHA</div>
-                            <div class = "nilai_review">
-                                <div class = "judul_nilai">
-                                    Nilai
-                                </div>
-                                <div class = "nilai_dari_review">
-                                    3
-                                </div>
-                            </div>
-                            <div class = "deskripsi_review">
-                                Ransel ini desainnya sangat baik dan memiliki banyak kantong
-                            </div>
-                        </div>
-                    </div>
+                <% } %>
             </div>
         </div>
     </div>

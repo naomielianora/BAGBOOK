@@ -58,6 +58,7 @@ app.post('/log_in_public', (req, res) => {
   //mengambil username dan password yg diinput user
   username = req.body.username;
   password = crypto.createHash('sha256').update(req.body.password).digest('base64');
+  console.log(password);
   //cek apakah username dan password tidak kosong
   if (username && password) {
     userLogin(username, password).then((data) => {
@@ -78,7 +79,6 @@ app.post('/log_in_public', (req, res) => {
         session.idU = res_data.idU;
         //status = 1 (publik), 0(admin)
         session.status = res_data.status;
-        console.log(session);
         //jika yang login adalah user publik
         if (session.status === 1) {
           //halaman berpindah ke halaman utama (users)
@@ -128,12 +128,11 @@ app.get('/verify_conf', (req, res)=>{
     }) 
 })
 
-let base64Image;
+
 app.get('/dashboard_public',auth, (req, res)=>{
-    base64Image = Buffer.from(req.session.photo).toString('base64');
     res.render('dashboard_public',{
         username: req.session.username,
-        photo: base64Image
+        photo: Buffer.from(req.session.photo).toString('base64')
     }) 
 })
 
@@ -146,7 +145,7 @@ app.get('/dashboard_admin',auth, (req, res)=>{
 app.get('/sign_up_public', (req, res)=>{
     res.render('sign_up_public')
 })
-
+    
 app.get('/check_username', (req, res) => {
     const inputed_username = req.query.inputed_username;
     let usernameTaken = true;
@@ -177,13 +176,17 @@ app.get('/profile_public', auth, (req, res)=>{
     followingCount(req.session.idU).then((followingCount) => 
         followersCount(req.session.idU).then((followersCount) => 
             reviewUserCount(req.session.idU).then((userReviewCount) => 
-                res.render('profile_public',{
-                    username: req.session.username,
-                    photo: base64Image,
-                    followers:(JSON.parse(JSON.stringify(followersCount))[0]).followers,
-                    following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
-                    user_review: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review
-                })
+                userReviews(req.session.idU).then((userDataReview) =>
+                    res.render('profile_public',{
+                        full_name: req.session.name,
+                        username: req.session.username,
+                        photo: Buffer.from(req.session.photo).toString('base64'),
+                        followers:(JSON.parse(JSON.stringify(followersCount))[0]).followers,
+                        following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
+                        user_review_count: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review,
+                        userDataReview: userDataReview
+                    })
+                )
             )
 
         )
@@ -193,14 +196,15 @@ app.get('/profile_public', auth, (req, res)=>{
 app.get('/followers_public',auth, (req, res)=>{
     res.render('followers_public',{
         username: req.session.username,
-        photo: base64Image
+        photo: Buffer.from(req.session.photo).toString('base64')
     }) 
 })
 
 app.get('/following_public',auth, (req, res)=>{
     res.render('following_public',{
-        username: req.session.username
-    }) 
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64')
+    })  
 })
 
 
@@ -334,6 +338,20 @@ const followingCount = (id) => {
 const reviewUserCount = (id) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT COUNT(idU) AS "jumlah_user_review" FROM review WHERE idU = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+const userReviews = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT review.teks AS "teks", review.nilai AS "nilai", tas.namaT AS "namaTas", tas.fotoT AS "fotoTas" FROM review JOIN tas ON review.idT = tas.idT WHERE idU = ?', [id], (err, result) => {
             if(err){
                 reject (err);
             }

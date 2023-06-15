@@ -5,14 +5,14 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE `User` (
-  `idU` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `idUser` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `nama_lengkap` varchar(35),
+  `full_name` varchar(35),
   `email` varchar(35),
-  `fotoU` blob,
+  `user_photo` blob,
   `status` int(1) NOT NULL DEFAULT 1,
-  CONSTRAINT `UK_user` UNIQUE (`username`, `email`, `idU`)
+  CONSTRAINT `UK_user` UNIQUE (`username`, `email`, `idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -22,84 +22,82 @@ CREATE TABLE `Follow` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Review` (
-  `idR` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `teks` varchar(255) NOT NULL,
-  `nilai` int(11) NOT NULL,
-  `idU` int(11) NOT NULL,
-  `idT` int(11) NOT NULL,
-  CONSTRAINT `UK_Review` UNIQUE (`idR`, `idU`, `idT`)
+  `idReview` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `desc` varchar(255) NOT NULL,
+  `value` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `idBag` int(11) NOT NULL,
+  CONSTRAINT `UK_Review` UNIQUE (`idReview`, `idUser`, `idBag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Nilai_Review` (
-  `nilai_review` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `arti_nilai` varchar(35) NOT NULL,
-  CONSTRAINT `UK_nilai_review` UNIQUE (`nilai_review`, `arti_nilai`)
+CREATE TABLE `Review_Value` (
+  `review_value` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `value_desc` varchar(35) NOT NULL,
+  CONSTRAINT `UK_review_value` UNIQUE (`review_value`, `value_desc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Tas` (
-  `idT` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `namaT` varchar(20) NOT NULL,
-  `fotoT` blob,
-  `panjang` float(11) NOT NULL,
-  `lebar` float(11) NOT NULL,
-  `tinggi` float(11) NOT NULL,
-  `warna` varchar(20) NOT NULL,
-  `idSubK` int(11) NOT NULL,
-  `idM` int(11) NOT NULL,
+CREATE TABLE `Bag` (
+  `idBag` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `bag_name` varchar(20) NOT NULL,
+  `bag_photo` blob,
+  `length` float(11) NOT NULL,
+  `width` float(11) NOT NULL,
+  `height` float(11) NOT NULL,
+  `color` varchar(20) NOT NULL,
+  `idSubCat` int(11) NOT NULL,
+  `idBrand` int(11) NOT NULL,
   `idDes` int(11) DEFAULT NULL,
-  CONSTRAINT `UK_tas` UNIQUE (`idT`, `idSubK`, `idM`, `idDes`)
+  CONSTRAINT `UK_bag` UNIQUE (`idBag`, `idSubCat`, `idBrand`, `idDes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Kategori` (
-  `idK` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `namaK` varchar(20) NOT NULL,
-  CONSTRAINT `UK_kategori` UNIQUE (`idK`, `namaK`)
+CREATE TABLE `Category` (
+  `idCat` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `cat_name` varchar(20) NOT NULL,
+  CONSTRAINT `UK_category` UNIQUE (`idCat`, `cat_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Sub-kategori`(
-	`idSubK` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `namaSubK` varchar(20) NOT NULL,
-    `idK` int(11) NOT NULL,
-    CONSTRAINT `UK_sub_kategori` UNIQUE (`idSubK`, `namaSubK`)
+CREATE TABLE `Sub-category`(
+	`idSubCat` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `subCat_name` varchar(20) NOT NULL,
+  `idCat` int(11) NOT NULL,
+  CONSTRAINT `UK_sub_category` UNIQUE (`idSubCat`, `subCat_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Merk` (
-  `idM` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `namaM` varchar(20) NOT NULL,
-  CONSTRAINT `UK_merk` UNIQUE (`idM`, `namaM`)
+CREATE TABLE `Brand` (
+  `idBrand` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `brand_name` varchar(20) NOT NULL,
+  CONSTRAINT `UK_brand` UNIQUE (`idBrand`, `brand_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Designer` (
   `idDes` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `namaDes` varchar(20) NOT NULL,
-  CONSTRAINT `UK_des` UNIQUE (`idDes`, `namaDes`)
+  `des_name` varchar(20) NOT NULL,
+  CONSTRAINT `UK_des` UNIQUE (`idDes`, `des_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- INSERT INTO `User` (`username`, `password`, `nama_lengkap`, `email`) VALUES
--- ('naomi_elianora', 'naomi123', 'Naomi Elianora', 'naomielianora@gmail.com'),
--- ('ghabrielg', 'ghabs123', 'Ghabriel Galyndeo', 'ghabrielg@gmail.com');
 
--- INSERT INTO `Follow` (`idU1`, `idU2`) VALUES
--- ('1','2');
+INSERT INTO `User` (`username`, `password`, `status`) VALUES
+('admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '0');
 
-INSERT INTO `Nilai_Review` (`nilai_review`, `arti_nilai`) VALUES
-('1', 'sangat jelek'),
-('2', 'jelek'),
-('3', 'biasa saja'),
-('4', 'bagus'),
-('5', 'sangat bagus');
 
-INSERT INTO `Kategori` (`namaK`) VALUES
+-- INSERT INTO `Nilai_Review` (`nilai_review`, `arti_nilai`) VALUES
+-- ('1', 'sangat jelek'),
+-- ('2', 'jelek'),
+-- ('3', 'biasa saja'),
+-- ('4', 'bagus'),
+-- ('5', 'sangat bagus');
+
+INSERT INTO `Category` (`cat_name`) VALUES
 ('Handbag');
 
-INSERT INTO `Sub-kategori` (`namaSubK`, `idK`) VALUES
+INSERT INTO `Sub-category` (`subCat_name`, `idCat`) VALUES
 ('Bucket', '1');
 
-INSERT INTO `Merk` (`namaM`) VALUES
+INSERT INTO `Brand` (`brand_name`) VALUES
 ('Coach');
 
 
-INSERT INTO `Tas` (`namaT`, `panjang`, `lebar`, `tinggi`, `warna`, `idSubK`, `idM`) VALUES
+INSERT INTO `Bag` (`bag_name`, `length`, `width`, `height`, `color`, `idSubCat`, `idBrand`) VALUES
 ('DAKOTA', '34.5', '15', '29','Brown', '1', '1');
 
 -- INSERT INTO `Review` (`teks`, `nilai`, `idU`, `idT`) VALUES
@@ -109,23 +107,23 @@ INSERT INTO `Tas` (`namaT`, `panjang`, `lebar`, `tinggi`, `warna`, `idSubK`, `id
 
 
 ALTER TABLE `Review`
-  ADD CONSTRAINT `fk_nilai_review` FOREIGN KEY (`nilai`) REFERENCES `Nilai_Review` (`nilai_review`),
-  ADD CONSTRAINT `fk_user_review` FOREIGN KEY (`idU`) REFERENCES `User` (`idU`),
-  ADD CONSTRAINT `fk_tas_review` FOREIGN KEY (`idT`) REFERENCES `Tas` (`idT`);
+  ADD CONSTRAINT `fk_review_value` FOREIGN KEY (`value`) REFERENCES `Review_Value` (`review_value`),
+  ADD CONSTRAINT `fk_user_review` FOREIGN KEY (`idUser`) REFERENCES `User` (`idUser`),
+  ADD CONSTRAINT `fk_bag_review` FOREIGN KEY (`idBag`) REFERENCES `Bag` (`idBag`);
 
 
 ALTER TABLE `Follow`
-  ADD CONSTRAINT `fk_following` FOREIGN KEY (`idU1`) REFERENCES `User` (`idU`),
-  ADD CONSTRAINT `fk_followed` FOREIGN KEY (`idU2`) REFERENCES `User` (`idU`);
+  ADD CONSTRAINT `fk_following` FOREIGN KEY (`idU1`) REFERENCES `User` (`idUser`),
+  ADD CONSTRAINT `fk_followed` FOREIGN KEY (`idU2`) REFERENCES `User` (`idUser`);
 
-ALTER TABLE `Sub-kategori`
-  ADD CONSTRAINT `fk_sk_k` FOREIGN KEY (`idK`) REFERENCES `Kategori` (`idK`);
+ALTER TABLE `Sub-category`
+  ADD CONSTRAINT `fk_sc_c` FOREIGN KEY (`idCat`) REFERENCES `Category` (`idCat`);
 
 
-ALTER TABLE `Tas`
-  ADD CONSTRAINT `fk_sk_tas` FOREIGN KEY (`idSubK`) REFERENCES `Sub-kategori` (`idSubK`),
-  ADD CONSTRAINT `fk_merk_tas` FOREIGN KEY (`idM`) REFERENCES `Merk` (`idM`),
-  ADD CONSTRAINT `fk_des_tas` FOREIGN KEY (`idDes`) REFERENCES `Designer` (`idDes`);
+ALTER TABLE `Bag`
+  ADD CONSTRAINT `fk_sc_bag` FOREIGN KEY (`idSubCat`) REFERENCES `Sub-category` (`idSubCat`),
+  ADD CONSTRAINT `fk_brand_bag` FOREIGN KEY (`idBrand`) REFERENCES `Brand` (`idBrand`),
+  ADD CONSTRAINT `fk_des_brand` FOREIGN KEY (`idDes`) REFERENCES `Designer` (`idDes`);
 
 
 
