@@ -415,22 +415,61 @@ app.get('/changed_conf_public',auth, (req, res)=>{
 //FOLLOWING LIST----------------------------------------------------------------------------------------------
 //membuka halaman following (user" lain yg difollow user tsb)
 app.get('/following_public',auth, (req, res)=>{
-    res.render('following_public',{
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64')
-    })  
+    followingList(req.session.idUser).then((followingList) => {
+        res.render('following_public',{
+            username: req.session.username,
+            photo: Buffer.from(req.session.photo).toString('base64'),
+            followingList: followingList
+        })  
+    })
 })
+
+
+
+//mencari tau list user" yang difollow oleh user tsb
+const followingList = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT User.* FROM User INNER JOIN Follow ON User.idUser = Follow.idU2 WHERE Follow.idU1 = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
 
 //==============================================================================================================
 
 //FOLLOWERS LIST----------------------------------------------------------------------------------------------
-//membuka halaman followers (user" lain yg mengfollow user tsb)
 app.get('/followers_public',auth, (req, res)=>{
-    res.render('followers_public',{
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64')
-    }) 
+    followersList(req.session.idUser).then((followersList) => {
+        res.render('followers_public',{
+            username: req.session.username,
+            photo: Buffer.from(req.session.photo).toString('base64'),
+            followersList: followersList
+        })  
+    })
 })
+
+
+
+//mencari tau list user" yang difollow oleh user tsb
+const followersList = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT User.* FROM User INNER JOIN Follow ON User.idUser = Follow.idU1 WHERE Follow.idU2 = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
 //==============================================================================================================
 
 

@@ -16,18 +16,19 @@
         </div>
 
         <div class = "follow_container">
-
-            <div class = "follow_user">
-                <div class = "follow_user_photo">
-                    <img src = "/profile.png" height = 30px width=30px> 
+            <% for(const user of followersList) { %>
+                <div class = "follow_user">
+                    <div class = "follow_user_photo">
+                        <img src = "/profile.png" height = 30px width=30px> 
+                    </div>
+                    <div class = "follow_username">
+                        <%= user.username %>
+                    </div>
+                    <div class = "follow_button">
+                        <button class = "not_followed_button">Follow</button>
+                    </div>
                 </div>
-                <div class = "follow_username">
-                    andreadevi
-                </div>
-                <div class = "follow_button">
-                    <button class = "not_followed_button">Follow</button>
-                </div>
-            </div>
+            <% } %>
 
 
         </div>
