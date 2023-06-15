@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>html Editor</title>
+    <link rel="stylesheet" type="text/css" href="../public/styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class = "header_edit_profile">
+        <div class = "logo_header_profile">
+            <img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px>
+        </div>
+        <h2 class="page_title_profile">EDIT PROFILE</h2>
+    </div>
+    <div class = "navigator_edit_profile">
+        <div class = "navigator_edit_profile_2">
+            <div class="photo_container_profile">
+                <div class= "photo_container_edit">
+                    <img src="../images/photo.png" alt="Bag Photo" id="preview" width=200px height=200px/>
+                </div>
+                <div class="photo_buttons_profile">
+                    <label for="gallery_upload_profile" class="upload_button_edit">Upload from Gallery</label>
+                    <input type="file" id="gallery_upload_profile" style="display: none;"><br>
+                    <button class="remove_button_edit">Remove</button>
+                </div>
+            </div>
+            <div class="form_content_edit">
+                <div class="form_row_edit">
+                    <label for="name">Full Name</label> <br>
+                    <input type="text" id="name_profile" name="name" />
+                </div>
+                <div class="form_row_edit">
+                    <label for="email">Email</label><br>
+                    <input type="text" id="email_profile" name="email" />
+                </div>
+                <div class="form_row_edit">
+                    <label for="username">Username</label><br>
+                    <input type="text" id="username_profile" name="username" />
+                </div>
+            </div>
+        </div>
+        <div class="button_container_edit">
+            <div class = "edit_profile_public_cancel">
+                <a href = "edit_profile_public.html">
+                    <button class = "gray_button">Cancel</button>
+                </a>    
+           </div>
+            <div class = "edit_profile_public_save">
+                <a href = "edit_profile_public.html">
+                    <button class = "blue_button">Save</button>
+                </a>  
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

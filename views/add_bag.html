@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ADD BAG</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>html Editor</title>
     <link rel="stylesheet" type="text/css" href="../public/styles.css">
-    <script type="text/javascript" src="add_bag.js" defer></script>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class = "admin_header">
@@ -32,27 +33,92 @@
         </div>
         
     </div>
-
-    <div class = "add_bag_page">
-        <div class = "judul_add_bag">
-            ADD BAG
-        </div>
-
-        <div class = "add_bag_form">
-            <div class = "add_bag_photo">
-                Photo
-                <img src="#" alt="Bag Photo" id="preview" >
-                <input type="file" class = "blue_button">
-                <button class="gray_button">Remove</button>
+    <div class="add-bag-page">
+        <div class="page-title">ADD BAG</div>
+        <div class="addbag-blue-box">
+            <div class="addbag-form-container">
+                <div class="image-section">
+                    <div class="addbag-form-row" id="img-row">
+                        <div for="photo" class="photo-label">Photo</div>
+                        <div class="photo-container">
+                            <img src="../images/photo.png" alt="Bag Photo" id="preview" />
+                            <div class="photo-buttons">
+                                <input type="file" id="gallery-upload" accept="image/*" style="display: none">
+                                <label for="gallery-upload" class="upload-button">Upload from Gallery</label>
+                                <button class="remove-button">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addbag-form-content">
+                    <div class="addbag-form-row">
+                        <label for="bag-name">Name</label>
+                        <input type="text" id="bag-name" name="name" />
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-color">Color</label>
+                        <input type="text" id="bag-color" name="color" />
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-brand">Brand</label>
+                        <select id="bag-brand" name="select-brand">
+                            <option value="brand1">Brand 1</option>
+                            <option value="brand2">Brand 2</option>
+                            <option value="brand3">Brand 3</option>
+                            <!-- Options for brands -->
+                        </select>
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-designer">Designer</label>
+                        <select id="bag-designer" name="select-designer">
+                            <option value="designer1">Designer 1</option>
+                            <option value="designer2">Designer 2</option>
+                            <option value="designer3">Designer 3</option>
+                            <!-- Options for designers -->
+                        </select>
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-category">Category</label>
+                        <select id="bag-category" name="select-category">
+                            <option value="category1">Category 1</option>
+                            <option value="category2">Category 2</option>
+                            <option value="category3">Category 3</option>
+                            <!-- Options for categories -->
+                        </select>
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-sub-category">Sub-category</label>
+                        <select id="bag-sub-category" name="sub-category">
+                            <option value="sub-category1">Sub-category 1</option>
+                            <option value="sub-category2">Sub-category 2</option>
+                            <option value="sub-category3">Sub-category 3</option>
+                            <!-- Options for sub-categories -->
+                       </select>
+                    </div>
+                    <div class="addbag-form-row">
+                        <label for="bag-dimensions" class = "bag-dimensions-label">Dimensions</label>
+                        <div class="dimensions-input">
+                            <input type="text" id="bag-dimension-1" name="dimension1" />
+                            <span>x</span>
+                            <input type="text" id="bag-dimension-2" name="dimension2" />
+                            <span>x</span>
+                            <input type="text" id="bag-dimension-3" name="dimension3" />
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-content">
-                
-            </div>
         </div>
-
-        <div class = "add_bag_buttons">
-
+        <div class = "button_add_bag">
+            <div class = "cancel_button_bag">
+                 <a href = "add_bag.html">
+                     <button class = "gray_button">Cancel</button>
+                 </a>    
+            </div>
+            <div class = "add_button_bag">
+             <a href = "add_bag.html">
+                 <button class = "blue_button">Add</button>
+             </a>  
+             </div>  
         </div>
     </div>
 </body>
