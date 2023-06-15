@@ -1,8 +1,8 @@
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
-      //akan muncul pop up setelah 2 detik
+      //akan muncul pop up setelah 1 detik
       alert('Your code is 123456!');
-    }, 2000);
+    }, 1000);
   });
 
 // verify_email.js

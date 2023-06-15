@@ -80,12 +80,12 @@ INSERT INTO `User` (`username`, `password`, `status`) VALUES
 ('admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '0');
 
 
--- INSERT INTO `Nilai_Review` (`nilai_review`, `arti_nilai`) VALUES
--- ('1', 'sangat jelek'),
--- ('2', 'jelek'),
--- ('3', 'biasa saja'),
--- ('4', 'bagus'),
--- ('5', 'sangat bagus');
+INSERT INTO `Review_Value` (`review_value`, `value_desc`) VALUES
+('1', 'sangat jelek'),
+('2', 'jelek'),
+('3', 'biasa saja'),
+('4', 'bagus'),
+('5', 'sangat bagus');
 
 INSERT INTO `Category` (`cat_name`) VALUES
 ('Handbag');
