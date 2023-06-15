@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+</head>
+
+<body>
+    <%- include('./layout/header_admin.ejs') %>
+
+    <div class = "navigator_add_brand">
+        <div class = "judul_add_brand">
+            ADD BRAND
+        </div>
+        <div class = "img_add_brand">
+            <img src = "../images/add_brand.png" height = 120px width=120px> 
+        </div>
+        <form>
+            <div class = "grid_brand">
+                <label for="brand" id="label_brand">Brand</label>
+                <input type="text" id="input_brand" name="brand">
+            </div>
+
+            <div class = "button_add_brand">
+                <div class = "cancel_button_brand">
+                     <a href = "pick_add.html">
+                         <button class = "gray_button">Cancel</button>
+                     </a>    
+                </div>
+                <div class = "add_button_brand">
+                 <a href = "add_brand.html">
+                     <button class = "blue_button">Add</button>
+                 </a>    
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
