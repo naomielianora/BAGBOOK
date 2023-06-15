@@ -103,7 +103,6 @@ app.post('/log_in_public', (req, res) => {
         //mengubah pass yg dikirimkan menjadi hash dengan algo sha256
         session.password = res_data.password;
         session.photo = res_data.user_photo;
-        console.log(session.photo);
         session.full_name = res_data.full_name;
         session.email = res_data.email;
         session.idUser = res_data.idUser;
@@ -124,7 +123,7 @@ app.post('/log_in_public', (req, res) => {
         res.redirect('/');
       }
     });
-  }
+    }
 });
 
 const userLogin = (username, pass) => {
@@ -270,10 +269,10 @@ app.get('/dashboard_admin',auth, (req, res)=>{
 //PROFILE PUBLIC----------------------------------------------------------------------------------------------
 //membuka halaman profile public, mengambil data" yang akan ditampilkan dari database
 app.get('/profile_public', auth, (req, res)=>{
-    followingCount(req.session.idUser).then((followingCount) => 
-        followersCount(req.session.idUser).then((followersCount) => 
-            reviewUserCount(req.session.idUser).then((userReviewCount) => 
-                userReviews(req.session.idUser).then((userDataReview) =>
+    followingCount(req.session.idUser).then((followingCount) => {
+        followersCount(req.session.idUser).then((followersCount) => {
+            reviewUserCount(req.session.idUser).then((userReviewCount) => {
+                userReviews(req.session.idUser).then((userDataReview) => {
                     res.render('profile_public',{
                         full_name: req.session.full_name,
                         username: req.session.username,
@@ -283,11 +282,11 @@ app.get('/profile_public', auth, (req, res)=>{
                         user_review_count: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review,
                         userDataReview: userDataReview
                     })
-                )
-            )
+                })
+            })
 
-        )
-    )
+        })
+    })
 })
 
 
@@ -364,16 +363,15 @@ app.post('/change_photo_public', upload.single('photo'), (req, res) => {
     const newPhoto = req.file; // The uploaded photo is available as req.file
     const idUser = req.session.idUser;
     const photoData = fs.readFileSync(newPhoto.path);
-    // Save the new photo to the database and perform other necessary operations
-    changePhoto(idUser,photoData).then(() => 
-        getNewPhoto(idUser).then((newPhoto) => 
-            console.log(newPhoto[0].user_photo),
+    changePhoto(idUser,photoData).then(() => {
+        getNewPhoto(idUser).then((newPhoto) => {
+            req.session.photo = JSON.parse(JSON.stringify(newPhoto))[0].user_photo;
             
 
-            res.redirect('/changed_conf_public')// Redirect the user to the profile page after saving changes
-        )
-    )
-  });
+            res.redirect('/changed_conf_public');// Redirect the user to the profile page after saving changes
+    })
+    })
+  })
 
 //mencari tau review" yang sudah dibuat oleh user
 const changePhoto = (id,photo) => {

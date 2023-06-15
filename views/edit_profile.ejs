@@ -3,8 +3,8 @@
 
 <head>
     <title>html Editor</title>
-    <link rel="stylesheet" type="text/css" href="../public/styles.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="/edit_profile.js" defer></script>
 </head>
 
 <body>
@@ -22,8 +22,10 @@
                             <img src="data:image/png;base64,<%= photo %>" alt="Bag Photo" id="preview" width=200px height=200px />
                         </div>
                         <div class="photo_buttons_profile">
-                            <label for="gallery_upload_profile" class="upload_button_edit">Upload from Gallery</label>
-                            <input type="file" name = "photo" id="gallery_upload_profile" style="display: none;"><br>
+                            <label for="gallery_upload_profile" class="upload_button_edit" id = "upload_button_edit">Upload from Gallery</label>
+                            <span id="file_name_uploaded"></span>
+                            <input type="file" name = "photo" id="gallery_upload_profile"style="display: none;"><br>
+                            
                         </div>
                         
                     </div>

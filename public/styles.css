@@ -2098,6 +2098,7 @@ option {
     padding-top: 15px;
 }
 
+
 .form_row_edit{
     color: #737373;
     font-family: Bold;
@@ -2129,6 +2130,15 @@ option {
     flex-direction: column;
 }
 
+
+#file_name {
+    display: none;
+  }
+
+  #file_name_uploaded{
+    color: #225EFF;
+    font-size: 15px;
+  }
 /* -------------------------------------------- SET_REVIEW --------------------------------------------*/
 
 .navigator_set_review{
