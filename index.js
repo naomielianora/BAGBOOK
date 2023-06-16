@@ -172,8 +172,7 @@ const addUser = (full_name_sign_up, email_sign_up, username_sign_up, password_si
             else{
                 resolve(result);
             }
-        }
-        )
+        })
     })
 };
 
@@ -350,27 +349,90 @@ const userReviews = (id) => {
 //==============================================================================================================
 
 //OTHER PEOPLE PROFILE----------------------------------------------------------------------------------------------
-app.get('/other_user_profile/:userId', auth, (req, res) => {
-    const userId = req.params.userId;
-    
-    followingCount(userId).then((followingCount) => {
-      followersCount(userId).then((followersCount) => {
-        reviewUserCount(userId).then((userReviewCount) => {
-          userReviews(userId).then((userDataReview) => {
-            res.render('other_user_profile', {
-              full_name: req.session.full_name,
-              username: req.session.username,
-              photo: Buffer.from(req.session.photo).toString('base64'),
-              followers: (JSON.parse(JSON.stringify(followersCount))[0]).followers,
-              following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
-              user_review_count: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review,
-              userDataReview: userDataReview
-            });
-          });
+app.get('/other_user/:userId', auth, async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const followingResult = await followingCount(userId);
+      const following = followingResult[0].following;
+      console.log("a");
+  
+      const followersResult = await followersCount(userId);
+      const followers = followersResult[0].followers;
+      console.log("b");
+  
+      const userReviewCountResult = await reviewUserCount(userId);
+      const userReviewCount = userReviewCountResult[0].jumlah_user_review;
+      console.log("c");
+  
+      const userDataReview = await userReviews(userId);
+      console.log("d");
+  
+      const otherUserData = await getOtherUserData(userId);
+      const res_otherUserData = JSON.parse(JSON.stringify(otherUserData))[0];
+      console.log("e");
+  
+      const renderProfile = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0)); // Delay to allow rendering to occur
+        res.render('other_user_profile', {
+          username: req.session.username,
+          photo: Buffer.from(req.session.photo).toString('base64'),
+          other_full_name: res_otherUserData.full_name,
+          other_username: res_otherUserData.username,
+          other_photo: res_otherUserData.user_photo,
+          other_followers: followers,
+          other_following: following,
+          other_user_review_count: userReviewCount,
+          other_userDataReview: userDataReview,
         });
-      });
-    });
+      };
+  
+      await renderProfile();
+    } catch (error) {
+      console.error('Error retrieving other user profile:', error);
+      res.status(500).send('Error retrieving other user profile');
+    }
   });
+  
+  
+//   app.get('/other_user/:userId', auth, (req, res)=>{
+//     const userId = req.params.userId;
+//     followingCount(userId).then((followingCount) => {
+//         followersCount(userId).then((followersCount) => {
+//             reviewUserCount(userId).then((userReviewCount) => {
+//                 userReviews(userId).then((userDataReview) => {
+//                     getOtherUserData(userId).then((res_otherUserData) => {
+//                         res.render('other_user_profile',{
+//                             username: req.session.username,
+//                             photo: Buffer.from(req.session.photo).toString('base64'),
+//                             other_full_name: JSON.parse(JSON.stringify(res_otherUserData))[0].full_name,
+//                             other_username: JSON.parse(JSON.stringify(res_otherUserData))[0].username,
+//                             other_photo: JSON.parse(JSON.stringify(res_otherUserData))[0].user_photo,
+//                             other_followers: followersCount[0].followers,
+//                             other_following: followingCount[0].following,
+//                             other_user_review_count: userReviewCount[0].jumlah_user_review,
+//                             other_userDataReview: userDataReview,
+//                         })
+//                     })
+//                 })
+//             })
+
+//         })
+//     })
+// })
+
+  const getOtherUserData = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM user WHERE idUser = ?', [id], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
 
 
 //==============================================================================================================

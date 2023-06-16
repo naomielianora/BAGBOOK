@@ -42,4 +42,12 @@ function followUser(userId) {
       followButton.textContent = 'Follow';
     }
   }
+
+// Function to redirect to the user's profile page
+function redirectToProfile(other_userId) {
+  window.location.href = `/other_user/${other_userId}`;
+}
+
+
+
   

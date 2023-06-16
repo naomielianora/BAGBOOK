@@ -17,10 +17,10 @@
         <div class="follow_container">
           <% for(const user of followingList) { %>
           <div class="follow_user">
-            <div class="follow_user_photo">
-              <img src="data:image/png;base64,<%= user.user_photo %>" height="30px" width="30px">
+            <div class="follow_user_photo" onclick="redirectToProfile('<%= user.idUser %>')">
+              <img src="data:image/png;base64, <%= Buffer.from(user.user_photo).toString('base64') %>" height="30px" width="30px">
             </div>
-            <div class="follow_username">
+            <div class="follow_username" onclick="redirectToProfile('<%= user.idUser %>')">
               <%= user.username %>
             </div>
             <div class="follow_button">

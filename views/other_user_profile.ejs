@@ -11,49 +11,46 @@
 
     <div class = "navigator_profile">
         <div class = "my_profile">
-            MY PROFILE
+            <%= other_full_name %>'s PROFILE
         </div>
         <div class = "biodata_profile">
             <div class = "pembungkus_deskripsi_profile">
                 <div class = "profile_my_profile">
-                    <a href = "/profile_public"><img src = "data:image/png;base64,<%= photo %>" height = 120px width=120px class = "user_profile_photo"></a>
+                    <img src = "data:image/png;base64, <%= Buffer.from(other_photo).toString('base64') %>" height = 120px width=120px class = "user_profile_photo">
                 </div>
                 <div class = "username_my_profile">
-                    <%= username %>
-                    <a href = "/edit_profile">
-                        <button class = "blue_button">Edit Profile</button>
-                    </a>
-                    <a href = "/dashboard_public" class = "gray_button">Back to Dashboard</a>
+                    <%= other_username %>
+                    <a href = "/profile_public" class = "gray_button">Back to My Profile</a>
                 </div>
 
-                <a href = "/followers_public" class="pembungkus_followers centered">
+                <div class="pembungkus_followers centered">
                     <div class="jumlah_followers">
-                        <%= followers %>
+                        <%= other_followers %>
                     </div>
                     <div class="followers_nama">
-                        <% if(followers >1){%>
+                        <% if(other_followers >1){%>
                             Followers
                         <% } else{ %>
                             Follower
                         <% } %>
                     </div>
-                </a>
+                </div>
 
-                <a href = "/following_public" class="pembungkus_following centered">
+                <div class="pembungkus_following centered">
                     <div class="jumlah_following">
-                        <%= following %>
+                        <%= other_following %>
                     </div>
                     <div class="following_nama">
                         Following
                     </div>
-                </a>
+                </div>
 
 
             </div>
 
             <div class = "jumlah_reviews_user">
-                <%= user_review_count %> 
-                <% if(user_review_count >1){%>
+                <%= other_user_review_count %> 
+                <% if(other_user_review_count >1){%>
                     Reviews
                 <% } else{ %>
                     Review
@@ -61,7 +58,7 @@
             </div>
 
             <div class = "pembungkus_pertama_myprofile">
-                <% for(const data of userDataReview) { %>
+                <% for(const data of other_userDataReview) { %>
                     <div class = "pembungkus_kedua_myprofile">
                         <div class="image-alpha" id="top10img1">
                             <img src="data:image/png;base64, <%= Buffer.from(data.fotoTas).toString('base64') %>" alt="Bag Image" height = 120px width=120px>
