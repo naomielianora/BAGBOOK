@@ -102,6 +102,10 @@ a {
     text-decoration: none;
 }
 
+img{
+    border-radius: 20px;
+}
+
 
 /* -------------------------------------------- PUBLIC HEADER --------------------------------------------*/
 .public_header {
@@ -1377,6 +1381,10 @@ a {
     font-size: 12px;
 }
 
+.profile_my_profile{
+    margin-right: 10px;
+}
+
 
 /* -------------------------------------------- REVIEW_ADDED_CONF --------------------------------------------*/
 .review_added_conf_page {
@@ -2082,13 +2090,6 @@ option {
     padding-top: 20px;
 }
 
-.edit_profile_public_cancel{
-    padding-right: 50px;
-}
-
-.edit_profile_public_save{
-    padding-left: 50px;
-}
 
 .photo_container_edit{
     display: flex;

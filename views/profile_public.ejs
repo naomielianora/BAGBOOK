@@ -16,13 +16,14 @@
         <div class = "biodata_profile">
             <div class = "pembungkus_deskripsi_profile">
                 <div class = "profile_my_profile">
-                    <a href = "/profile_public"><img src = "data:image/png;base64,<%= photo %>" height = 100px width=100px></a>
+                    <a href = "/profile_public"><img src = "data:image/png;base64,<%= photo %>" height = 120px width=120px class = "user_profile_photo"></a>
                 </div>
                 <div class = "username_my_profile">
                     <%= username %>
                     <a href = "/edit_profile">
                         <button class = "blue_button">Edit Profile</button>
                     </a>
+                    <a href = "/dashboard_public" class = "gray_button">Back to Dashboard</a>
                 </div>
 
                 <a href = "/followers_public" class="pembungkus_followers centered">

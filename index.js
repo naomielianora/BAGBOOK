@@ -349,6 +349,32 @@ const userReviews = (id) => {
 
 //==============================================================================================================
 
+//OTHER PEOPLE PROFILE----------------------------------------------------------------------------------------------
+app.get('/other_user_profile/:userId', auth, (req, res) => {
+    const userId = req.params.userId;
+    
+    followingCount(userId).then((followingCount) => {
+      followersCount(userId).then((followersCount) => {
+        reviewUserCount(userId).then((userReviewCount) => {
+          userReviews(userId).then((userDataReview) => {
+            res.render('other_user_profile', {
+              full_name: req.session.full_name,
+              username: req.session.username,
+              photo: Buffer.from(req.session.photo).toString('base64'),
+              followers: (JSON.parse(JSON.stringify(followersCount))[0]).followers,
+              following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
+              user_review_count: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review,
+              userDataReview: userDataReview
+            });
+          });
+        });
+      });
+    });
+  });
+
+
+//==============================================================================================================
+
 //EDIT PROFILE----------------------------------------------------------------------------------------------
 app.get('/edit_profile',auth, (req, res)=>{
     res.render('edit_profile',{
@@ -412,7 +438,7 @@ app.get('/changed_conf_public',auth, (req, res)=>{
 
 //==============================================================================================================
 
-//FOLLOWING LIST----------------------------------------------------------------------------------------------
+//FOLLOWING & FOLLOWERS LIST---------------------------------------------------------------------------------
 //membuka halaman following (user" lain yg difollow user tsb)
 app.get('/following_public',auth, (req, res)=>{
     followingList(req.session.idUser).then((followingList) => {
@@ -429,7 +455,7 @@ app.get('/following_public',auth, (req, res)=>{
 //mencari tau list user" yang difollow oleh user tsb
 const followingList = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT User.* FROM User INNER JOIN Follow ON User.idUser = Follow.idU2 WHERE Follow.idU1 = ?', [id], (err, result) => {
+        pool.query('SELECT User.*, CASE WHEN EXISTS (SELECT 1 FROM Follow WHERE idU1 = ? AND idU2 = User.idUser) THEN 1 ELSE 0 END AS isFollowed FROM User INNER JOIN Follow ON User.idUser = Follow.idU2 WHERE Follow.idU1 = ?', [id,id], (err, result) => {
             if(err){
                 reject (err);
             }
@@ -441,9 +467,6 @@ const followingList = (id) => {
     })
 };
 
-//==============================================================================================================
-
-//FOLLOWERS LIST----------------------------------------------------------------------------------------------
 app.get('/followers_public',auth, (req, res)=>{
     followersList(req.session.idUser).then((followersList) => {
         res.render('followers_public',{
@@ -459,7 +482,7 @@ app.get('/followers_public',auth, (req, res)=>{
 //mencari tau list user" yang difollow oleh user tsb
 const followersList = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT User.* FROM User INNER JOIN Follow ON User.idUser = Follow.idU1 WHERE Follow.idU2 = ?', [id], (err, result) => {
+        pool.query('SELECT User.*, CASE WHEN EXISTS (SELECT 1 FROM Follow WHERE idU1 = ? AND idU2 = User.idUser) THEN 1 ELSE 0 END AS isFollowed FROM User INNER JOIN Follow ON User.idUser = Follow.idU1 WHERE Follow.idU2 = ?', [id,id], (err, result) => {
             if(err){
                 reject (err);
             }
@@ -470,6 +493,75 @@ const followersList = (id) => {
         )
     })
 };
+
+// Follow/unfollow a user
+app.post('/follow/:userId', auth, (req, res) => {
+    const userIdFollow = req.params.userId;
+  
+    checkFollowQuery(req.session.idUser, userIdFollow)
+      .then((hasFollow) => {
+        const followExists = hasFollow[0].count > 0;
+  
+        if (followExists) {
+          return unfollowUser(req.session.idUser, userIdFollow);
+        } else {
+          return followUser(req.session.idUser, userIdFollow);
+        }
+      })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch((error) => {
+        console.error('Failed to follow/unfollow user:', error);
+        res.status(500).json({ success: false, error: error.message });
+      });
+  });
+
+//mencari tahu apakah user tsb sudah difollow (tampilan button followed)
+const checkFollowQuery = (myId, userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT COUNT(*) AS count FROM Follow WHERE idU1 = ? AND idU2 = ?', [myId, userId], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+//mengupdate data jika user mengfollow user lain
+const followUser = (myId, userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query('INSERT INTO Follow (idU1, idU2) VALUES (?, ?)', [myId, userId], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+
+//mengupdate data jika user mengunfollow user lain
+const unfollowUser = (myId, userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query('DELETE FROM Follow WHERE idU1 = ? AND idU2 = ?', [myId, userId], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+  
 //==============================================================================================================
 
 
@@ -495,8 +587,3 @@ app.get('/log_out_conf', auth, (req, res) => {
     });
 })
 //==============================================================================================================
-
-
-
-
-

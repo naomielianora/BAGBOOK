@@ -4,34 +4,36 @@
 <head>
 	<title>BAGBOOK_PUBLIC</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="/follow.js" defer></script>
 </head>
 
 <body>
     <%- include('./layout/header_public.ejs') %>
 
-    <div class = "follow_page">
-
-        <div class = "follow_page_title">
-            Following
+    <div class="follow_page">
+        <div class="follow_page_title">
+          Following
+        </div>
+        <div class="follow_container">
+          <% for(const user of followingList) { %>
+          <div class="follow_user">
+            <div class="follow_user_photo">
+              <img src="data:image/png;base64,<%= user.user_photo %>" height="30px" width="30px">
+            </div>
+            <div class="follow_username">
+              <%= user.username %>
+            </div>
+            <div class="follow_button">
+                <button id="followButton-<%= user.idUser %>" class="<%= user.isFollowed ? 'followed_button' : 'not_followed_button' %>" onclick="followUser('<%= user.idUser %>')">
+                    <%= user.isFollowed ? 'Following' : 'Follow' %>
+                  </button>
+            </div>
+          </div>
+          <% } %>
         </div>
 
-        <div class = "follow_container">
-            <% for(const user of followingList) { %>
-                <div class = "follow_user">
-                    <div class = "follow_user_photo">
-                        <img src = "/profile.png" height = 30px width=30px> 
-                    </div>
-                    <div class = "follow_username">
-                        <%= user.username %>
-                    </div>
-                    <div class = "follow_button">
-                        <button class = "followed_button">Following</button>
-                    </div>
-                </div>
-            <% } %>
-
-        </div>
-    </div>
+        <a href = "/profile_public" class = "gray_button">Back to My Profile</a>
+      </div>
 
 
 </body>
