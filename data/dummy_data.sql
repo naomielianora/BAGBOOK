@@ -25,7 +25,7 @@ INSERT INTO `Category` (`cat_name`) VALUES
 ('Crossbody Bags');
 
 -- Sub-category table
-INSERT INTO `Sub-category` (`subCat_name`, `idCat`) VALUES
+INSERT INTO `Sub_category` (`subCat_name`, `idCat`) VALUES
 -- Handbags
 ('Leather', 1),
 ('Satchel', 1),
@@ -75,6 +75,7 @@ INSERT INTO `Brand` (`brand_name`) VALUES
 
 
 INSERT INTO `Designer` (`des_name`) VALUES
+('No Designer'),
 ('Nicolas Ghesquière'),
 ('Alessandro Michele'),
 ('Virginie Viard'),
@@ -108,196 +109,162 @@ INSERT INTO `Bag` (`bag_name`, `length`, `width`, `height`, `color`, `idSubCat`,
 ('Mini Luggage', 22, 21, 12, 'Blue', 19, 5, 4),
 ('Camera Bag', 18, 22, 8, 'Beige', 20, 2, 1),
 ('Dionysus Mini', 16, 10, 4, 'Pink', 21, 3, 2),
-('Saddle Crossbody', 21, 18, 6, 'Brown', 22, 4, 3);
-
---NO DESIGNER
+('Saddle Crossbody', 21, 18, 6, 'Brown', 22, 4, 3),
+-- NO DESIGNER
 -- Tote Bags
-('Large Shopper Tote', 38, 32, 20, 'Taupe', 12, 9, 7),
-('Structured Work Tote', 36, 27, 16, 'Black', 12, 10, NULL),
+('Large Shopper Tote', 38, 32, 20, 'Taupe', 12, 9, 1),
+('Structured Work Tote', 36, 27, 16, 'Black', 12, 10, 1),
 -- Clutches
-('Metallic Evening Clutch', 20, 12, 5, 'Silver', 15, 5, NULL),
-('Satin Box Clutch', 18, 10, 4, 'Red', 17, 4, NULL),
+('Metallic Evening Clutch', 20, 12, 5, 'Silver', 15, 5, 1),
+('Satin Box Clutch', 18, 10, 4, 'Red', 17, 4, 1),
 -- Crossbody Bags
-('Mini Crossbody', 22, 20, 10, 'Caramel', 18, 2, NULL),
-('Leather Saddle Bag', 26, 24, 11, 'Burgundy', 21, 5, NULL),
-('Convertible Chain Bag', 20, 16, 8, 'White', 23, 7, NULL),
-('Quilted Mini Bag', 18, 15, 6, 'Pink', 24, 3, NULL)
+('Mini Crossbody', 22, 20, 10, 'Caramel', 18, 2, 1),
+('Leather Saddle Bag', 26, 24, 11, 'Burgundy', 21, 5, 1),
+('Convertible Chain Bag', 20, 16, 8, 'White', 23, 7, 1),
+('Quilted Mini Bag', 18, 15, 6, 'Pink', 24, 3, 1);
 
-
-
-
+INSERT INTO `Review_Value` (`review_value`, `value_desc`) VALUES
+('1', 'sangat jelek'),
+('2', 'jelek'),
+('3', 'biasa saja'),
+('4', 'bagus'),
+('5', 'sangat bagus');
 -- Review table
 INSERT INTO `Review` (`desc`, `value`, `idUser`, `idBag`) VALUES
--- Neverfull GM (10 reviews)
-('Great bag! Spacious and stylish.', 5, 2, 1),
-('Not as big as I expected, but still a nice bag.', 4, 3, 1),
-('Love the design and quality.', 5, 4, 1),
-('Decent bag for everyday use.', 3, 5, 1),
-('Highly recommended!', 5, 6, 1),
-('Perfect size for my needs.', 5, 7, 1),
-('The color is stunning!', 5, 8, 1),
-('A bit too heavy for my liking.', 3, 9, 1),
-('Good bag, but the price is high.', 4, 10, 1),
-('Not my style, but good quality.', 3, 11, 1),
-
--- Lady Dior (8 reviews)
-('Absolutely stunning! Worth the investment.', 5, 2, 2),
-('Beautiful bag, but the size is a bit small.', 4, 3, 2),
-('Classic and elegant.', 5, 4, 2),
-('Luxurious and iconic.', 5, 5, 2),
-('Nice design, but overpriced.', 3, 6, 2),
-('Great craftsmanship.', 5, 7, 2),
-('Received many compliments.', 5, 8, 2),
-('The strap could be more comfortable.', 3, 9, 2),
-
--- Faye Day (12 reviews)
-('My favorite bag! Perfect size and trendy design.', 5, 2, 3),
-('Nice bag, but the color is a bit dull.', 4, 3, 3),
-('Love the unique style.', 5, 4, 3),
-('Chic and fashionable.', 5, 5, 3),
-('Not worth the price.', 2, 6, 3),
-('Versatile and functional.', 5, 7, 3),
-('Good quality, but the strap broke.', 3, 8, 3),
-('Received the wrong color.', 2, 9, 3),
-('Excellent customer service.', 5, 10, 3),
-('Too small for my belongings.', 3, 11, 3),
-('Unique and eye-catching bag.', 4, 12, 3),
-('The material is starting to wear off.', 3, 13, 3),
-
--- Puzzle (6 reviews)
-('Unique and eye-catching bag.', 5, 2, 4),
-('Good quality, but the price is high.', 4, 3, 4),
-('Average bag, nothing special.', 3, 4, 4),
-('Great craftsmanship.', 5, 5, 4),
-('Not my style.', 2, 6, 4),
-('Received many compliments.', 4, 7, 4),
-
--- Mini City (15 reviews)
-('Cute and compact.', 4, 2, 5),
-('Not enough storage space.', 3, 3, 5),
-('Stylish and durable.', 5, 4, 5),
-('Nice bag for casual outings.', 4, 5, 5),
-('Too small for my needs.', 3, 6, 5),
-('Great value for the price.', 4, 7, 5),
-('Received the wrong color.', 2, 8, 5),
-('The material feels cheap.', 2, 9, 5),
-('Versatile and practical.', 4, 10, 5),
-('The zipper broke after a few uses.', 2, 11, 5),
-('Good for everyday use.', 4, 12, 5),
-('Lightweight and easy to carry.', 5, 13, 5),
-('Love the color options.', 5, 14, 5),
-('The straps are not adjustable.', 3, 15, 5),
-('Great bag, but the price is high.', 4, 16, 5),
-
--- Graffiti Backpack (9 reviews)
-('Fun and vibrant design!', 5, 2, 6),
-('A bit flashy for my taste.', 3, 3, 6),
-('Unique and artsy.', 4, 4, 6),
-('Good quality, but the price is steep.', 4, 5, 6),
-('Not enough compartments.', 3, 6, 6),
-('Received many compliments.', 4, 7, 6),
-('The straps are not comfortable.', 3, 8, 6),
-('Great for casual outings.', 4, 9, 6),
-('Too small for my belongings.', 3, 10, 6),
-
--- Le Pliage Neo (7 reviews)
-('Classic and practical.', 4, 2, 7),
-('Love the color and durability.', 5, 3, 7),
-('Great for travel.', 4, 4, 7),
-('A reliable everyday bag.', 4, 5, 7),
-('Received the wrong size.', 2, 6, 7),
-('Versatile and stylish.', 4, 7, 7),
-('The material is not water-resistant.', 3, 8, 7),
-
--- Classic Backpack (14 reviews)
-('Simple and functional.', 4, 2, 8),
-('Good value for the price.', 4, 3, 8),
-('Not enough compartments.', 3, 4, 8),
-('The straps are not durable.', 2, 5, 8),
-('Great bag for school.', 4, 6, 8),
-('Love the design and color options.', 5, 7, 8),
-('Received the wrong item.', 2, 8, 8),
-('The zipper is difficult to use.', 3, 9, 8),
-('Sturdy and well-made.', 5, 10, 8),
-('Too small for my books.', 3, 11, 8),
-('Comfortable to wear.', 4, 12, 8),
-('Nice bag for daily use.', 4, 13, 8),
-('Received many compliments.', 4, 14, 8),
-('Not as stylish as I hoped.', 3, 15, 8),
-
--- Speedy 35 (5 reviews)
-('Classic and timeless.', 5, 2, 9),
-('Great for travel.', 4, 3, 9),
-('Love the monogram print.', 5, 4, 9),
-('Not enough organization.', 3, 5, 9),
-('Received many compliments.', 4, 6, 9),
-
--- Medium Phantom (11 reviews)
-('Spacious and elegant.', 5, 2, 10),
-('The leather quality is amazing!', 5, 3, 10),
-('Great for work.', 4, 4, 10),
-('Received the wrong color.', 2, 5, 10),
-('Stylish and versatile.', 4, 6, 10),
-('The bag is too heavy.', 3, 7, 10),
-('Love the unique design.', 5, 8, 10),
-('Not worth the price.', 3, 9, 10),
-('Received many compliments.', 4, 10, 10),
-('Good quality, but the size is small.', 4, 11, 10),
-('The straps are not comfortable.', 3, 12, 10),
-
--- Rivington PM (13 reviews)
-('Versatile and spacious.', 4, 2, 11),
-('Love the Damier Ebene pattern.', 5, 3, 11),
-('Great for work and travel.', 4, 4, 11),
-('The bag is a bit heavy.', 3, 5, 11),
-('Received many compliments.', 4, 6, 11),
-('Good quality, but the price is high.', 4, 7, 11),
-('The material feels cheap.', 2, 8, 11),
-('Stylish and durable.', 5, 9, 11),
-('Not enough compartments.', 3, 10, 11),
-('Love the versatile strap options.', 5, 11, 11),
-('Great bag for everyday use.', 4, 12, 11),
-('Received the wrong item.', 2, 13, 11),
-('The zipper is not smooth.', 3, 14, 11),
-
--- Striped Tote (3 reviews)
-('Love the black and white stripes.', 5, 2, 12),
-('Not enough storage space.', 3, 3, 12),
-('Received the wrong color.', 2, 4, 12),
-
--- Soho Disco (4 reviews)
-('Cute and compact.', 4, 2, 15),
-('Not enough room for my essentials.', 3, 3, 15),
-('Received the wrong color.', 2, 4, 15),
-('Comfortable to wear.', 4, 5, 15),
-
--- Envelope Wristlet (7 reviews)
-('Versatile and stylish.', 4, 2, 16),
-('Love the blush pink color.', 5, 3, 16),
-('Received many compliments.', 4, 4, 16),
-('Not enough card slots.', 3, 5, 16),
-('Good quality, but the price is high.', 4, 6, 16),
-('The strap is too short.', 3, 7, 16),
-('Compact and convenient.', 4, 8, 16),
-
--- Box Clutch (9 reviews)
-('Elegant and glamorous.', 5, 2, 17),
-('Nice clutch for special occasions.', 4, 3, 17),
-('Received the wrong color.', 2, 4, 17),
-('Love the gold finish.', 5, 5, 17),
-('Not enough room for essentials.', 3, 6, 17),
-('Received many compliments.', 4, 7, 17),
-('Good quality, but the price is high.', 4, 8, 17),
-('The clasp is not secure.', 3, 9, 17),
-('Great for formal events.', 4, 10, 17),
-
--- Satin Clutch (6 reviews)
-('Love the navy blue color.', 5, 2, 18),
-('Not enough room for essentials.', 3, 3, 18),
-('Received the wrong color.', 2, 4, 18),
-('Stylish and elegant.', 4, 5, 18),
-('Good quality, but the price is high.', 4, 6, 18),
-('Compact and convenient.', 4, 7, 18);
-
-
-
+-- Handbags
+('Great size for everyday use.', 5, 1, 1),
+('Not as spacious as expected.', 3, 2, 1),
+('Excellent quality and craftsmanship.', 5, 3, 1),
+('Love the iconic design.', 4, 4, 1),
+-- Backpacks
+('Comfortable and practical.', 5, 1, 5),
+('Vibrant colors, perfect for travel.', 4, 2, 5),
+('Durable and lightweight.', 4, 3, 5),
+('Could use more internal pockets.', 3, 4, 5),
+-- Tote Bags
+('Spacious and versatile.', 5, 1, 9),
+('Beautiful and elegant.', 4, 2, 9),
+('Not suitable for heavy items.', 3, 3, 9),
+('Classic design that never goes out of style.', 5, 4, 9),
+-- Clutches
+('Perfect for a night out.', 5, 1, 15),
+('Compact and holds essentials.', 4, 2, 15),
+('The color is more vibrant in person.', 5, 3, 15),
+('Could be slightly larger.', 3, 4, 15),
+-- Crossbody Bags
+('Ideal for daily use.', 4, 1, 19),
+('Strap could be more adjustable.', 3, 2, 19),
+('Love the unique details.', 4, 3, 19),
+('Not enough room for essentials.', 3, 4, 19),
+-- Tote Bags
+('Roomy and stylish.', 4, 1, 25),
+('Great for work and travel.', 5, 2, 25),
+('Not as sturdy as expected.', 3, 3, 25),
+('Good value for the price.', 4, 4, 25),
+-- Clutches
+('Eye-catching and glamorous.', 5, 1, 21),
+('Compact and convenient.', 4, 2, 21),
+('Received the wrong color.', 2, 3, 21),
+('Stylish and elegant.', 4, 4, 21),
+-- Crossbody Bags
+('Good quality, but the price is high.', 4, 1, 22),
+('Versatile and easy to carry.', 5, 2, 22),
+('Love the adjustable strap.', 4, 3, 22),
+('Not suitable for larger items.', 3, 4, 22),
+-- Additional reviews to reach a total of 100
+('Great value for the quality.', 5, 1, 2),
+('The size is perfect for everyday use.', 4, 2, 2),
+('The color is even more beautiful in person.', 5, 3, 2),
+('The stitching is coming undone.', 2, 4, 2),
+('Very sturdy and well-made.', 5, 1, 3),
+('Not enough compartments for organization.', 3, 2, 3),
+('The design is timeless and elegant.', 5, 3, 3),
+('The strap is uncomfortable.', 2, 4, 3),
+('I love the unique shape of this bag.', 4, 1, 4),
+('The material feels luxurious.', 5, 2, 4),
+('The bag arrived with a small stain.', 3, 3, 4),
+('The white color gets dirty easily.', 2, 4, 4),
+('Perfect size for everyday essentials.', 4, 1, 5),
+('The backpack straps are adjustable and comfortable.', 5, 2, 5),
+('The bag is starting to show signs of wear.', 3, 3, 5),
+('The multicolor design is eye-catching.', 4, 4, 5),
+('Great bag for travel and everyday use.', 5, 1, 6),
+('The graffiti pattern is unique and fun.', 4, 2, 6),
+('The zippers are not very smooth.', 3, 3, 6),
+('The navy blue color is rich and beautiful.', 4, 4, 6),
+('The bag has a classic and timeless design.', 4, 1, 7),
+('The material feels durable and high-quality.', 5, 2, 7),
+('The bag is larger than expected.', 3, 3, 7),
+('The brown color goes with everything.', 4, 4, 7),
+('The monogram print is iconic.', 5, 1, 8),
+('The bag is spacious and holds a lot.', 4, 2, 8),
+('The bag arrived with a minor scratch.', 3, 3, 8),
+('The black and white stripes are chic.', 4, 4, 8),
+('The red color is vibrant and eye-catching.', 5, 1, 10),
+('The bag is lightweight and easy to carry.', 4, 2, 10),
+('The strap is not adjustable.', 2, 3, 10),
+('The gold color adds a touch of luxury.', 4, 4, 10),
+('The navy blue satin is elegant and luxurious.', 5, 1, 11),
+('The bag is spacious enough for essentials.', 4, 2, 11),
+('The clutch arrived with a loose thread.', 2, 3, 11),
+('The bag has a timeless and versatile design.', 4, 4, 11),
+('The blue color is vibrant and beautiful.', 4, 1, 12),
+('The bag is small and lightweight.', 3, 2, 12),
+('The pink color is softer than expected.', 4, 3, 12),
+('The brown color is versatile and goes with everything.', 4, 4, 12),
+('The bag is perfect for travel.', 4, 1, 13),
+('The strap is detachable and convenient.', 3, 2, 13),
+('The bag arrived with a small scuff.', 2, 3, 13),
+('The damier ebene pattern is classic.', 4, 4, 13),
+('The bag is small and compact.', 4, 1, 14),
+('The blush pink color is feminine and pretty.', 4, 2, 14),
+('The bag arrived with a scratch on the hardware.', 2, 3, 14),
+('The black leather is sleek and sophisticated.', 4, 4, 14),
+-- Tote Bags
+('The taupe color is versatile and goes with everything.', 4, 1, 15),
+('The bag is spacious and fits all my belongings.', 5, 2, 15),
+('The stitching is starting to come loose.', 2, 3, 15),
+('The price is reasonable for the quality.', 4, 4, 15),
+('The black color is sleek and professional.', 4, 1, 16),
+('The bag is sturdy and holds its shape.', 5, 2, 16),
+('The bag arrived with a small stain.', 3, 3, 16),
+('The bag is great for work and travel.', 4, 4, 16),
+-- Clutches
+('The metallic finish adds a touch of glam.', 5, 1, 17),
+('The bag is compact and holds all my essentials.', 4, 2, 17),
+('Received the wrong color.', 2, 3, 17),
+('The red satin is luxurious and elegant.', 4, 4, 17),
+('The price is high for the quality.', 4, 1, 18),
+('The bag is versatile and can be worn multiple ways.', 5, 2, 18),
+('The strap is not adjustable.', 3, 3, 18),
+('The pink color is soft and feminine.', 4, 4, 18),
+-- Crossbody Bags
+('The bag is well-made and durable.', 4, 1, 19),
+('The size is perfect for everyday use.', 4, 2, 19),
+('The strap is not adjustable.', 2, 3, 19),
+('The burgundy color is rich and beautiful.', 4, 4, 19),
+('The bag is versatile and can be worn as a shoulder bag or crossbody.', 4, 1, 20),
+('The leather is soft and smooth.', 5, 2, 20),
+('The bag arrived with a scratch on the hardware.', 2, 3, 20),
+('The white color is clean and fresh.', 4, 4, 20),
+('The bag is small and compact.', 4, 1, 21),
+('The chain strap is not very comfortable.', 3, 2, 21),
+('The bag is versatile and can be dressed up or down.', 4, 3, 21),
+('The quilted pattern adds a touch of luxury.', 4, 4, 21),
+('The bag is a great size for everyday use.', 4, 1, 22),
+('The material feels durable and high-quality.', 5, 2, 22),
+('The bag arrived with a small stain.', 3, 3, 22),
+('The strap is not adjustable.', 2, 4, 22),
+('The bag is compact and holds essentials.', 4, 1, 23),
+('The silver color is shiny and eye-catching.', 4, 2, 23),
+('The bag arrived with a scratch on the hardware.', 2, 3, 23),
+('The red color is vibrant and bold.', 4, 4, 23),
+('The price is high for the quality.', 4, 1, 24),
+('The bag is versatile and can be worn as a shoulder bag or crossbody.', 5, 2, 24),
+('The strap is not adjustable.', 3, 3, 24),
+('The pink color is feminine and pretty.', 4, 4, 24),
+-- Tote Bags
+('Roomy and stylish.', 4, 1, 25),
+('Great for work and travel.', 5, 2, 25),
+('Not as sturdy as expected.', 3, 3, 25),
+('Good value for the price.', 4, 4, 25);

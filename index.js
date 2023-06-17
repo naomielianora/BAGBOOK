@@ -392,35 +392,6 @@ app.get('/other_user/:userId', auth, async (req, res) => {
     }
 });
 
-
-  
-  
-//   app.get('/other_user/:userId', auth, (req, res)=>{
-//     const userId = req.params.userId;
-//     followingCount(userId).then((followingCount) => {
-//         followersCount(userId).then((followersCount) => {
-//             reviewUserCount(userId).then((userReviewCount) => {
-//                 userReviews(userId).then((userDataReview) => {
-//                     getOtherUserData(userId).then((res_otherUserData) => {
-//                         res.render('other_user_profile',{
-//                             username: req.session.username,
-//                             photo: Buffer.from(req.session.photo).toString('base64'),
-//                             other_full_name: JSON.parse(JSON.stringify(res_otherUserData))[0].full_name,
-//                             other_username: JSON.parse(JSON.stringify(res_otherUserData))[0].username,
-//                             other_photo: JSON.parse(JSON.stringify(res_otherUserData))[0].user_photo,
-//                             other_followers: followersCount[0].followers,
-//                             other_following: followingCount[0].following,
-//                             other_user_review_count: userReviewCount[0].jumlah_user_review,
-//                             other_userDataReview: userDataReview,
-//                         })
-//                     })
-//                 })
-//             })
-
-//         })
-//     })
-// })
-
   const getOtherUserData = (id) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM user WHERE idUser = ?', [id], (err, result) => {

@@ -17,10 +17,10 @@
         <div class="follow_container">
           <% for(const user of followersList) { %>
           <div class="follow_user">
-            <div class="follow_user_photo">
+            <div class="follow_user_photo" onclick="window.location.href = '/other_user/' + '<%= user.idUser %>';">
                 <img src="data:image/png;base64, <%= Buffer.from(user.user_photo).toString('base64') %>" height="30px" width="30px">
             </div>
-            <div class="follow_username">
+            <div class="follow_username" onclick="window.location.href = '/other_user/' + '<%= user.idUser %>';">
               <%= user.username %>
             </div>
             <div class="follow_button">
