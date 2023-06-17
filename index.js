@@ -261,7 +261,7 @@ app.get('/dashboard_public',auth, (req, res)=>{
 
 const getDashboardData = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT bag.bag_name, bag.bag_photo, review_count.banyak_review, review_avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count) ON bag.idBag = review_count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg) ON bag.idBag = review_avg.idBag ORDER BY review_avg.nilai_review DESC LIMIT 10', (err, result) => {
+        pool.query('SELECT bag.bag_name, bag.bag_photo, bag.idBag, review_count.banyak_review, review_avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count) ON bag.idBag = review_count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg) ON bag.idBag = review_avg.idBag ORDER BY review_avg.nilai_review DESC LIMIT 10', (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -279,13 +279,13 @@ app.get('/sortData', (req, res) => {
   
     // Determine the SQL query based on the sortOption
     if (sortOption === 'review-nilai') {
-      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY avg.nilai_review DESC LIMIT 10';
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag,count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY avg.nilai_review DESC LIMIT 10';
     } else if (sortOption === 'review-banyak') {
-      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY count.banyak_review DESC LIMIT 10';
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag,count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY count.banyak_review DESC LIMIT 10';
     }
   
     // Execute the SQL query and retrieve sorted data
-pool.query(sqlQuery, (err, result) => {
+    pool.query(sqlQuery, (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Internal Server Error');
@@ -307,8 +307,99 @@ pool.query(sqlQuery, (err, result) => {
   });
   
   });
-  
-  
+//==============================================================================================================
+
+//BAG REVIEW----------------------------------------------------------------------------------------------
+app.get('/bag_details/:id', async (req, res) => {
+    try {
+        //mengambil id dari bag yg ingin dilihat detailnya
+        const idBag = parseInt(req.params.id); // Convert userId to an integer
+
+        if (isNaN(idBag)) {
+            res.status(500).send('Invalid userId'); // Send an error message to the client
+            return; // Stop further code execution
+        }
+
+        const bagDetails = await getBagDetails(idBag);
+        const res_bagDetails = JSON.parse(JSON.stringify(bagDetails))[0];
+
+        const bagReviews = await getBagReviews(idBag);
+         
+        const bagReviewCount = await getBagReviewsCount(idBag);
+        const bagReviewAvg = await getBagReviewsAvg(idBag);
+
+        res.render('bag_review', {
+            username: req.session.username,
+            photo: Buffer.from(req.session.photo).toString('base64'),
+            res_bagDetails: res_bagDetails,
+            bagReviews: bagReviews,
+            bagReviewCount: (JSON.parse(JSON.stringify(bagReviewCount))[0]).jumlah,
+            bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+const getBagDetails = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM bag JOIN sub_category ON Bag.idSubCat = sub_category.idSubCat JOIN category ON sub_category.idCat = category.idCat JOIN brand ON brand.idBrand = bag.idBrand JOIN designer ON designer.idDes = bag.idDes WHERE bag.idBag = ?', [id], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getBagReviews = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM review JOIN user ON review.idUser = user.idUser WHERE idBag = ?', [id], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getBagReviewsCount = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT COUNT(idReview) AS "jumlah" FROM review WHERE idBag = ? GROUP BY idBag ', [id], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getBagReviewsAvg = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT AVG(value) AS "avg" FROM review WHERE idBag = ? GROUP BY idBag ', [id], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+//==============================================================================================================
+
+//SEARCH FOR USER----------------------------------------------------------------------------------------------
+
+
+
+//==============================================================================================================
+
+//SEARCH FOR BAG----------------------------------------------------------------------------------------------
+
 
 
 //==============================================================================================================
@@ -405,7 +496,7 @@ const userReviews = (id) => {
 
 //==============================================================================================================
 
-//warning: kode bawah ini akan run dua kali --> menyebabkan pembacaan undefined pada iterasi kedua
+//warning: kode bawah ini akan run dua kali --> menyebabkan pembacaan undefined pada iterasi kedua (sudah dihandle menggunakan isNaN(userId))
 //OTHER PEOPLE PROFILE----------------------------------------------------------------------------------------------
 app.get('/other_user/:userId', auth, async (req, res) => {
     try {

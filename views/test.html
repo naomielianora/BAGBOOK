@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script>
+        // Get the category dropdown element
+        const categoryDropdown = document.getElementById('category');
+        // Get the sub-category dropdown element
+        const subcategoryDropdown = document.getElementById('subcategory');
+
+        // Event listener for category dropdown change
+        categoryDropdown.addEventListener('change', async () => {
+            const categoryId = categoryDropdown.value;
+            try {
+                // Fetch sub-categories based on the selected category
+                const response = await fetch(`/getSubCategories?category=${categoryId}`);
+                const data = await response.json();
+                const subcategories = data.subCategories;
+
+                // Clear existing options
+                subcategoryDropdown.innerHTML = '';
+
+                // Add default "All" option
+                const allOption = document.createElement('option');
+                allOption.value = 'all';
+                allOption.textContent = 'All';
+                subcategoryDropdown.appendChild(allOption);
+
+                // Populate sub-category dropdown with fetched data
+                subcategories.forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory.idSubCat;
+                    option.textContent = subcategory.subCat_name;
+                    subcategoryDropdown.appendChild(option);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+
+
+</head>
+
+<body>
+    <div class="admin_header">
+        <div class="logo_header">
+            <a href="dashboard_admin.html"><img src="../images/logo_header.png" alt="bagbook_logo" height="100px"></a>
+        </div>
+
+        <div class="navigator_admin">
+            <a href="set_review.html">Set Review</a>
+            <a href="import_data.html">Import Data</a>
+            <a href="see_report.html">See Report</a>
+            <a href="pick_add.html">Add Item</a>
+            <a href="dashboard_public.html">Main Website</a>
+        </div>
+
+        <div class="admin_log_out">
+            <button class="gray_button">Log out</button>
+        </div>
+
+        <div class="admin_profile_header">
+            <img src="../images/profile.png" height="40px" width="40px">
+        </div>
+
+        <div class="admin_username_header">
+            admin
+        </div>
+    </div>
+
+    <div class="container_see_report">
+        <div class="filter-bar_see_report">
+            <span class="filter_by_report">Filter by</span>
+            <!-- Category dropdown -->
+            <select name="category" id="category">
+                <option value="all">All</option>
+                <% categories.forEach(function(category) { %>
+                    <option value="<%= category.idCat %>">
+                        <%= category.cat_name %>
+                    </option>
+                    <% }); %>
+            </select>
+            <select id="subcategory">
+                <option value="all">All</option>
+                <% for (let i=0; i < subCategories.length; i++) { %>
+                    <option value="<%= subCategories[i].idSubCat %>">
+                        <%= subCategories[i].subCat_name %>
+                    </option>
+                    <% } %>
+            </select>
+
+
+
+            <!-- Brand dropdown -->
+            <select name="brand">
+                <option value="all">All</option>
+                <% brands.forEach(function(brand) { %>
+                    <option value="<%= brand.idBrand %>">
+                        <%= brand.brand_name %>
+                    </option>
+                    <% }); %>
+            </select>
+            <!-- Designer dropdown -->
+            <select name="designer">
+                <option value="all">All</option>
+                <% designers.forEach(function(designer) { %>
+                    <option value="<%= designer.idDes %>">
+                        <%= designer.des_name %>
+                    </option>
+                    <% }); %>
+            </select>
+
+            <div class="submit_button_report">
+                <a href="see_report.html">
+                    <button class="blue_button submit_report">Submit</button>
+                </a>
+            </div>
+        </div>
+        <div class="grid-container_see_report">
+            <div class="grid-row_see_report_1">
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_1">Total Bag</div>
+                    <div class="grid_item_report_1_2">
+                        <%= totalBagCount %>
+                    </div>
+                </div>
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_3">Total Category</div>
+                    <div class="grid_item_report_1_4">
+                        <%= totalCategoryCount %>
+                    </div>
+                    <div class="grid-item_report_1">
+                        <div class="grid-item_report_1_5">Total Sub-category</div>
+                        <div class="grid_item_report_1_6">
+                            <%= totalSubcategoryCount %>
+                        </div>
+                        <div class="grid-item_report_1">
+                            <div class="grid-item_report_1_7">Total Brand</div>
+                            <div class="grid_item_report_1_8">
+                                <%= totalBrandCount %>
+                            </div>
+
+                            <div class="grid-item_report_1">
+                                <div class="grid-item_report_1_9">Total Designer</div>
+                                <div class="grid_item_report_1_10">
+                                    <%= totalDesignerCount %>
+                                </div>
+                            </div>
+                            <div class="grid-row_see_report_2">
+                                <div class="grid-item_report_2">
+                                    <div class="grid-item_report_2_1">Minimum Total Review</div>
+                                    <div class="grid_item_report_2_2">
+                                        <%= lowestReviewBag.name %>
+                                    </div>
+                                    <div class="grid_item_report_2_3">
+                                        <%= lowestReviewCount %>
+                                    </div>
+                                </div>
+                                <div class="grid-item_report_2">
+                                    <div class="grid-item_report_2_4">Total Review</div>
+                                    <div class="grid_item_report_2_5">
+                                        <%= totalReviewCount %>
+                                    </div>
+                                    <div class="grid-item_report_2">
+                                        <div class="grid-item_report_2_6">Maximum Total Review</div>
+                                        <div class="grid_item_report_2_7">
+                                            <%= highestReviewBag.name %>
+                                        </div>
+                                        <div class="grid_item_report_2_8">
+                                            <%= highestReviewCount %>
+                                        </div>
+
+                                    </div>
+                                    <div class="grid-row_see_report_3">
+                                        <div class="grid-item_report_3">
+                                            <div class="grid-item_report_3_1">Minimum Review Value</div>
+
+                                            <div class="grid_item_report_3_2">
+                                                <%= lowestReviewValueBag.name %>
+                                            </div>
+                                            <div class="grid_item_report_3_3">
+                                                <%= lowestReviewValue %>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item_report_3">
+                                            <div class="grid-item_report_3_4">Average Review Value</div>
+                                            <div class="grid_item_report_3_5">
+                                                <%= averageReviewValue %>
+                                            </div>
+                                        </div>
+                                        <div class="grid-item_report_3">
+                                            <div class="grid-item_report_3_6">Maximum Review Value</div>
+                                            <div class="grid_item_report_3_7">
+                                                <%= highestReviewValueBag.name %>
+                                            </div>
+                                            <div class="grid_item_report_3_8">
+                                                <%= highestReviewValue %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button_save_clear">
+                                    <div class="clear_button_report">
+                                        <a href="see_report.html">
+                                            <button class="gray_button">Clear</button>
+                                        </a>
+                                    </div>
+                                    <div class="save_pdf_report">
+                                        <a href="see_report.html">
+                                            <button class="blue_button">Save as PDF</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

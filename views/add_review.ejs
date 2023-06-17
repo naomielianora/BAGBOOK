@@ -3,36 +3,18 @@
 
 <head>
 	<title>BAGBOOK_PUBLIC</title>
-	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 
 <body>
-    <div class = "public_header">
-        <div class = "logo_header">
-            <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
-        </div>
-        
-        <div class = "log_out"> 
-            <a href = "log_out_public.html">
-                <button class = "blue_button">Log out</button>
-            </a>  
-        </div>
-        
-        <div class = "profile_header">
-            <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
-        </div>
-
-        <div class = "username_header">
-            <a href = "profile_public.html">username</a>
-        </div>
-    </div>
+    <%- include('./layout/header_public.ejs') %>
 
     <div class = "bag_review_page">
 
         <div class = "bag_detail_container">
 
             <div class = "bag_review_photo">
-                <img src = "../images/bags/Dakota.png" width = 250px height = 250px>
+                <img src = "data:image/jpeg;base64, <%= Buffer.from(dashboardData[i].bag_photo).toString('base64') %>" width = 250px height = 250px>
             </div>
 
             <div class = "bag_review_name">
@@ -94,7 +76,7 @@
             </div>
 
             <div class = "nilai_review_input">
-                Nilai
+                Rating
 
                 <input type="radio" id="nilai_review_1" name="nilai_review" value="nilai_review_1">
                 <label for="nilai_review_1">1</label>

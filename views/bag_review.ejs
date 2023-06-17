@@ -3,292 +3,98 @@
 
 <head>
 	<title>BAGBOOK_PUBLIC</title>
-	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 
 <body>
-    <div class = "public_header">
-        <div class = "logo_header">
-            <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
-        </div>
-        
-        <div class = "log_out"> 
-            <a href = "log_out_public.html">
-                <button class = "blue_button">Log out</button>
-            </a>  
-        </div>
-        
-        <div class = "profile_header">
-            <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
-        </div>
-
-        <div class = "username_header">
-            <a href = "profile_public.html">username</a>
-        </div>
-    </div>
+    <%- include('./layout/header_public.ejs') %>
 
     <div class = "bag_review_page">
 
         <div class = "bag_detail_container">
 
             <div class = "bag_review_photo">
-                <img src = "../images/bags/Dakota.png" width = 250px height = 250px>
+                <img src = "data:image/jpeg;base64, <%= Buffer.from(res_bagDetails.bag_photo).toString('base64') %>" width = 250px height = 250px>
             </div>
 
             <div class = "bag_review_name">
-                DAKOTA
+                <%= res_bagDetails.bag_name %>
             </div>
 
             <div class = "add_review_button">
-                <a href = "add_review.html">
+                <a href = "/dashboard_public">
+                    <button class = "gray_button">Back</button>
+                </a>  
+                <a href = "/add_review">
                     <button class = "blue_button">Add Review</button>
                 </a>  
             </div>
 
             <div class = "bag_status">
-                123 Review | Nilai: 3,6
+                <%= bagReviewCount %> Review | Nilai: <%= bagReviewAvg.toFixed(2)   %>
             </div>
 
             <div class = "category_label">
                 <div class = "label_title">Category</div>
-                <div class = "label_content">Handbag</div>
+                <div class = "label_content"><%= res_bagDetails.cat_name %></div>
             </div>
 
             <div class = "color_label">
                 <div class = "label_title">Color</div>
-                <div class = "label_content">Brown</div>
+                <div class = "label_content"><%= res_bagDetails.color %></div>
             </div>
 
             <div class = "sub_category_label">
                 <div class = "label_title">Sub-category</div>
-                <div class = "label_content">Bucket</div>
+                <div class = "label_content"><%= res_bagDetails.subCat_name %></div>
             </div>
 
             <div class = "brand_label">
                 <div class = "label_title">Brand</div>
-                <div class = "label_content">Coach</div>
+                <div class = "label_content"><%= res_bagDetails.brand_name %></div>
             </div>
 
             <div class = "designer_label">
                 <div class = "label_title">Designer</div>
-                <div class = "label_content">-</div>
+                <div class = "label_content"><%= res_bagDetails.des_name %></div>
             </div>
 
             <div class = "length_label">
                 <div class = "label_title">Length</div>
-                <div class = "label_content_cm">21</div>
+                <div class = "label_content_cm"><%= res_bagDetails.length %></div>
                 <div class = "label_cm">cm</div>
             </div>
 
             <div class = "width_label">
                 <div class = "label_title">Width</div>
-                <div class = "label_content_cm">11</div>
+                <div class = "label_content_cm"><%= res_bagDetails.width %></div>
                 <div class = "label_cm">cm</div>
             </div>
 
             <div class = "height_label">
                 <div class = "label_title">Height</div>
-                <div class = "label_content_cm">18</div>
+                <div class = "label_content_cm"><%= res_bagDetails.height %></div>
                 <div class = "label_cm">cm</div>
             </div>
         </div>
 
         <div class = "bag_review_container">
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
+            <% for(const review of bagReviews) { %>
+                <div class = "single_review">
+                    <div class = "review_user_profile">
+                        <img src = "data:image/png;base64, <%= Buffer.from(review.user_photo).toString('base64') %>" heigth = 30px width = 30px>
+                        <%= review.username %>
+                    </div>
+                    <div class = "review_user_nilai">
+                        <div class = "review_user_nilai_label">Rating</div>
+                        <div class = "review_user_nilai_angka"><%= review.value %></div>
+                    </div>
+                    <div class = "review_user_teks">
+                        <%= review.desc %>
+                    </div>
                 </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
+            <% } %>
 
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
-
-            <div class = "single_review">
-                <div class = "review_user_profile">
-                    <img src = "../images/profile.png" heigth = 30px width = 30px>
-                    username
-                </div>
-                <div class = "review_user_nilai">
-                    <div class = "review_user_nilai_label">Nilai</div>
-                    <div class = "review_user_nilai_angka">5</div>
-                </div>
-                <div class = "review_user_teks">
-                    Saya baru saja membeli tas DAKOTA yang sangat menarik dan saya sangat senang dengan pembelian saya. Tas ini memandukan gaya yang menawan dengan fungsionalitas yang luar biasa.
-                </div>
-            </div>
         </div>
 
     </div>
