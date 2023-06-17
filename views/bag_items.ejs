@@ -1,0 +1,19 @@
+<% for (let i = 0; i < dashboardData.length; i++) { %>
+    <div class="item">
+      <div class="item-ranking">
+        <%= i + 1 %>
+      </div>
+      <div class="item-image" id="top10img<%= i + 1 %>">
+        <a href="/dashboard_public">
+          <img src="data:image/jpeg;base64, <%= Buffer.from(dashboardData[i].bag_photo).toString('base64') %>" alt="Bag Image">
+        </a>
+      </div>
+      <div class="item-details">
+        <div class="bag_name"><%= dashboardData[i].bag_name %></div>
+        <div class="bag_review_desc">
+          <%= dashboardData[i].banyak_review %> Reviews<br>Nilai: <%= dashboardData[i].nilai_review.toFixed(2) %>
+        </div>
+      </div>
+    </div>
+  <% } %>
+  

@@ -250,11 +250,68 @@ app.get('/verify_conf', (req, res)=>{
 
 //PUBLIC DASHBOARD----------------------------------------------------------------------------------------------
 app.get('/dashboard_public',auth, (req, res)=>{
-    res.render('dashboard_public',{
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64')
-    }) 
+    getDashboardData().then((dashboardData) => {
+        res.render('dashboard_public',{
+            username: req.session.username,
+            photo: Buffer.from(req.session.photo).toString('base64'),
+            dashboardData: dashboardData
+        }) 
+    })
 })
+
+const getDashboardData = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT bag.bag_name, bag.bag_photo, review_count.banyak_review, review_avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count) ON bag.idBag = review_count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg) ON bag.idBag = review_avg.idBag ORDER BY review_avg.nilai_review DESC LIMIT 10', (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+
+// Add a new route for sorting
+app.get('/sortData', (req, res) => {
+    console.log(req.url);
+    const sortOption = req.query.sort;
+    let sqlQuery = '';
+  
+    // Determine the SQL query based on the sortOption
+    if (sortOption === 'review-nilai') {
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY avg.nilai_review DESC LIMIT 10';
+    } else if (sortOption === 'review-banyak') {
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY count.banyak_review DESC LIMIT 10';
+    }
+  
+    // Execute the SQL query and retrieve sorted data
+pool.query(sqlQuery, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      const sortedData = result;
+  
+      // Render the sorted data using the same EJS template
+      res.render('bag_items', { 
+        dashboardData: sortedData
+     }, (err, html) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Internal Server Error');
+        } else {
+          res.send(html);
+        }
+      });
+    }
+  });
+  
+  });
+  
+  
+
+
 //==============================================================================================================
 
 //ADMIN DASHBOARD----------------------------------------------------------------------------------------------
