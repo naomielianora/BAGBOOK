@@ -274,7 +274,6 @@ const getDashboardData = (id) => {
 
 // Add a new route for sorting
 app.get('/sortData', (req, res) => {
-    console.log(req.url);
     const sortOption = req.query.sort;
     let sqlQuery = '';
   

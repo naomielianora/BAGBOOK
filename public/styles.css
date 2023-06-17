@@ -631,6 +631,18 @@ img{
     align-items: center;
     height: 100%;
     padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.search_logo{
+    border-radius: 20px 0px 0px 20px;
+    background-color: white;
+    padding: 5px 0px 5px 10px;
+}
+
+.search_buttons button{
+    border-radius: 30px;
 }
 
 #search-input {
@@ -639,10 +651,11 @@ img{
     padding: 10px 20px 10px 20px;
     border: none;
     outline: none;
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 0px 20px 20px 0px;
     color: #376CFB;
     font-size: 15px;
     font-family: SemiBold;
+    width: 1000px;
 }
 
 #search-input::placeholder {

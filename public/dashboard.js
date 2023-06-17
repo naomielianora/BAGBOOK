@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function handleSortButton(button) {
     const buttons = document.getElementsByClassName('sort-button');
     const sortOption = button.getAttribute('data-value');
-    console.log(sortOption);
   
     // Update the style of the clicked button and remove style from other buttons
     for (let i = 0; i < buttons.length; i++) {
