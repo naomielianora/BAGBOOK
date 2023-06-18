@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
           labels: reviewValues,
           datasets: [{
             data: reviewPercentages,
-            backgroundColor: ["#51EAEA", "#FCDDB0", "#FF9D76", "#FB3569", "#82CD47"],
+            backgroundColor: ["#737373", "#B9C8EA", "#D0DBF7", "#4294FF", "#225EFF"],
           }],
         },
         options: {
