@@ -13,7 +13,11 @@
 </head>
 
 <body>
-    <%- include('./layout/header_public.ejs') %>
+    <% if (status == 1) { %>
+        <%- include('./layout/header_public.ejs') %>
+    <% } else { %>
+        <%- include('./layout/header_admin.ejs') %>
+    <% } %>
 
     <div class = "navigator_profile">
         <div class = "my_profile">

@@ -257,7 +257,8 @@ app.get('/dashboard_public',auth, (req, res)=>{
         res.render('dashboard_public',{
             username: req.session.username,
             photo: Buffer.from(req.session.photo).toString('base64'),
-            dashboardData: dashboardData
+            dashboardData: dashboardData,
+            status : req.session.status
         }) 
     })
 })
@@ -339,7 +340,8 @@ app.get('/bag_details/:id',auth, async (req, res) => {
             bagReviews: bagReviews,
             bagReviewCount: (JSON.parse(JSON.stringify(bagReviewCount))[0]).jumlah,
             bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg,
-            bagReviewsValue: bagReviewsValue
+            bagReviewsValue: bagReviewsValue,
+            status : req.session.status
         })
     } catch (error) {
         console.error(error);
@@ -502,7 +504,8 @@ app.get('/search', auth, async (req, res) => {
         followingList: following,
         followersList: followers,
         searchResultsUsers: users,
-        searchResultsBags: bags
+        searchResultsBags: bags,
+        status : req.session.status
       });
     } catch (err) {
       console.error(err);
@@ -555,26 +558,42 @@ app.get('/search', auth, async (req, res) => {
 
 //PROFILE PUBLIC----------------------------------------------------------------------------------------------
 //membuka halaman profile public, mengambil data" yang akan ditampilkan dari database
-app.get('/profile_public', auth, (req, res)=>{
-    followingCount(req.session.idUser).then((followingCount) => {
-        followersCount(req.session.idUser).then((followersCount) => {
-            reviewUserCount(req.session.idUser).then((userReviewCount) => {
-                userReviews(req.session.idUser).then((userDataReview) => {
-                    res.render('profile_public',{
-                        full_name: req.session.full_name,
-                        username: req.session.username,
-                        photo: Buffer.from(req.session.photo).toString('base64'),
-                        followers:(JSON.parse(JSON.stringify(followersCount))[0]).followers,
-                        following: (JSON.parse(JSON.stringify(followingCount))[0]).following,
-                        user_review_count: (JSON.parse(JSON.stringify(userReviewCount))[0]).jumlah_user_review,
-                        userDataReview: userDataReview
-                    })
-                })
-            })
-
-        })
-    })
-})
+app.get('/profile_public', auth, async (req, res) => {
+    try {
+      const startData = req.query.start;
+      const followingCountResult = await followingCount(req.session.idUser);
+      const followersCountResult = await followersCount(req.session.idUser);
+      const reviewUserCountResult = await reviewUserCount(req.session.idUser);
+  
+      const followingCountValue = JSON.parse(JSON.stringify(followingCountResult))[0].following;
+      const followersCountValue = JSON.parse(JSON.stringify(followersCountResult))[0].followers;
+      const userReviewCountValue = JSON.parse(JSON.stringify(reviewUserCountResult))[0].jumlah_user_review;
+  
+      let userDataReviewResult;
+  
+      if (startData !== undefined) {
+        userDataReviewResult = await userReviewsLimit(req.session.idUser, startData);
+      } else {
+        userDataReviewResult = await userReviews(req.session.idUser);
+      }
+  
+      res.render('profile_public', {
+        full_name: req.session.full_name,
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64'),
+        followers: followersCountValue,
+        following: followingCountValue,
+        user_review_count: userReviewCountValue,
+        userDataReview: userDataReviewResult
+      });
+    } catch (error) {
+      // Handle any errors that occur during the async operations
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  
 
 
 //mencari tau brp banyak followers dari user melalui database
@@ -634,6 +653,20 @@ const userReviews = (id) => {
     })
 };
 
+//mencari tau review" yang sudah dibuat oleh user
+const userReviewsLimit = (id,start_data) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT review.review_text AS "teks", review.value AS "nilai", bag.bag_name AS "namaTas", bag.bag_photo AS "fotoTas" FROM review JOIN bag ON review.idBag = bag.idBag WHERE idUser = ? LIMIT ?,?', [id, parseInt(start_data), 4], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
 //==============================================================================================================
 
 //warning: kode bawah ini akan run dua kali --> menyebabkan pembacaan undefined pada iterasi kedua (sudah dihandle menggunakan isNaN(userId))
@@ -673,6 +706,7 @@ app.get('/other_user/:userId', auth, async (req, res) => {
             other_following: following,
             other_user_review_count: userReviewCount,
             other_userDataReview: userDataReviewRes,
+            status : req.session.status
         });
     } catch (error) {
         console.error(error);

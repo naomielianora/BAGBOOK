@@ -8,7 +8,11 @@
 </head>
 
 <body>
-    <%- include('./layout/header_public.ejs') %>
+      <% if (status == 1) { %>
+        <%- include('./layout/header_public.ejs') %>
+    <% } else { %>
+        <%- include('./layout/header_admin.ejs') %>
+    <% } %>
     
     <div class="grid-container">
         
@@ -35,12 +39,15 @@
               <div class="follow_username" onclick="window.location.href = '/other_user/' + '<%= user.idUser %>';">
                 <%= user.username %>
               </div>
-              <div class="follow_button">
-                <button id="followButton-<%= user.idUser %>" class="<%= user.isFollowed ? 'followed_button' : 'not_followed_button' %>"
-                  onclick="followUser('<%= user.idUser %>')">
-                  <%= user.isFollowed ? 'Following' : 'Follow' %>
-                </button>
-              </div>
+              <% if (status == 1) { %>
+                <div class="follow_button">
+                  <button id="followButton-<%= user.idUser %>" class="<%= user.isFollowed ? 'followed_button' : 'not_followed_button' %>"
+                    onclick="followUser('<%= user.idUser %>')">
+                    <%= user.isFollowed ? 'Following' : 'Follow' %>
+                  </button>
+                </div>
+            <% } %>
+              
             </div>
           <% } %>
         <% } %>

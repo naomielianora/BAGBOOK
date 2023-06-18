@@ -14,7 +14,11 @@
 </head>
 
 <body>
-    <%- include('./layout/header_public.ejs') %>
+    <% if (status == 1) { %>
+        <%- include('./layout/header_public.ejs') %>
+    <% } else { %>
+        <%- include('./layout/header_admin.ejs') %>
+    <% } %>
 
     <div class = "bag_review_page">
 
@@ -30,8 +34,11 @@
 
             <div class = "add_review_button">
                 <button onclick="goBack()" class="gray_button">Back</button>
-
-                <button class = "blue_button" onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add Review</button> 
+                <% if (status == 1) { %>
+                    <button class="blue_button" onclick="window.location.href='/add_review/' + '<%= res_bagDetails.idBag %>';">Add Review</button> 
+                <% } %>
+                
+                
             </div>
 
             <div class = "bag_status">
