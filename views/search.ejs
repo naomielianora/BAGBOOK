@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK_PUBLIC</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="/search.js" defer></script>
+</head>
+
+<body>
+    <%- include('./layout/header_public.ejs') %>
+    
+    <div class="grid-container">
+        
+      <form action="/search" method="GET">
+          <div class="search-bar">
+              <div class="search_logo">
+                <img src="/search.png" height="31px" width="30px">
+              </div>
+            <input type="text" id="search-input" name="search_input" placeholder="Search for bags you want to review or users you want to follow!"> 
+          </div>
+      </form>
+    
+      <!-- RESULT OF SEARCH USER -->
+      <div class="search_follow_container">
+        <div class="search_title">User Search Result</div>
+        <% if (searchResultsUsers.length === 0) { %>
+          <div class="no_results_message">No users found.</div>
+        <% } else { %>
+          <% for (const user of searchResultsUsers) { %>
+            <div class="search_follow_user">
+              <div class="follow_user_photo" onclick="window.location.href = '/other_user/' + '<%= user.idUser %>';">
+                <img src="data:image/png;base64, <%= Buffer.from(user.user_photo).toString('base64') %>" height="30px" width="30px">
+              </div>
+              <div class="follow_username" onclick="window.location.href = '/other_user/' + '<%= user.idUser %>';">
+                <%= user.username %>
+              </div>
+              <div class="follow_button">
+                <button id="followButton-<%= user.idUser %>" class="<%= user.isFollowed ? 'followed_button' : 'not_followed_button' %>"
+                  onclick="followUser('<%= user.idUser %>')">
+                  <%= user.isFollowed ? 'Following' : 'Follow' %>
+                </button>
+              </div>
+            </div>
+          <% } %>
+        <% } %>
+      </div>
+    
+      <!-- RESULT OF SEARCH BAG -->
+      <div class="blue-box">
+        <div class="search_bag_container">
+          <div class="search_title">Bag Search Result</div>
+          <% if (searchResultsBags.length === 0) { %>
+            <div class="no_results_message">No bags found.</div>
+          <% } else { %>
+            <div class="search_item-container" id="item-container">
+              <% for (let i = 0; i < searchResultsBags.length; i++) { %>
+                <div class="search_item" onclick="window.location.href = '/bag_details/' + '<%= searchResultsBags[i].idBag %>';">
+                  <div class="search_item-image" id="top10img<%= i + 1 %>">
+                    <img src="data:image/jpeg;base64, <%= Buffer.from(searchResultsBags[i].bag_photo).toString('base64') %>" alt="Bag Image">
+                  </div>
+                  <div class="search_item-details">
+                    <div class="bag_name"><%= searchResultsBags[i].bag_name %></div>
+                    <div class="bag_review_desc">
+                      <%= searchResultsBags[i].banyak_review %> Review<br>Rating: <%= searchResultsBags[i].nilai_review.toFixed(2) %>
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    
+
+    </div>
+</body>
+</html>
+

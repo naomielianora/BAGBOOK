@@ -4,6 +4,12 @@
 <head>
 	<title>BAGBOOK_PUBLIC</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css">
+    
+    <script>
+    function goBack() {
+      history.back();
+    }
+    </script>
 </head>
 
 <body>
@@ -20,7 +26,7 @@
                 </div>
                 <div class = "username_my_profile">
                     <%= other_username %>
-                    <a href = "/profile_public" class = "gray_button">Back to My Profile</a>
+                    <button onclick="goBack()" class="gray_button">Back</button>
                 </div>
 
                 <div class="pembungkus_followers centered">

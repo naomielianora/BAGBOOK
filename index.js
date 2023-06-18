@@ -484,21 +484,74 @@ app.get('/review_added_conf',auth, (req, res)=>{
 
 //==============================================================================================================
 
-//SEARCH FOR USER----------------------------------------------------------------------------------------------
+//SEARCH FOR USER&BAG----------------------------------------------------------------------------------------------
+app.get('/search', auth, async (req, res) => {
+    try {
+      const search_input = req.query.search_input;
+      const userId = req.session.idUser;
+  
+      const users = await searchUsers(search_input, userId);
+      const bags = await searchBags(search_input);
+      const following = await followingList(userId);
+      const followers = await followersList(userId);
+  
+      res.render('search', {
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64'),
+        followingList: following,
+        followersList: followers,
+        searchResultsUsers: users,
+        searchResultsBags: bags
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  
+  //method to search users (cannot search admin and their own account)
+  const searchUsers = (search_input, userId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT User.*, 
+          CASE WHEN EXISTS (SELECT 1 FROM Follow WHERE idU1 = ? AND idU2 = User.idUser) THEN 1 ELSE 0 END AS isFollowed 
+        FROM User 
+        WHERE username LIKE ? AND status = 1 AND User.idUser <> ?`;
+      const params = [userId, `%${search_input}%`, userId];
+  
+      pool.query(query, params, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          const usersWithFollowStatus = result.map((user) => {
+            user.isFollowed = user.isFollowed === 1; // Convert 1/0 to true/false
+            return user;
+          });
+          resolve(usersWithFollowStatus);
+        }
+      });
+    });
+  };
 
-
-
+  //method to search for bags
+  const searchBags = (search_input) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT bag.bag_name, bag.bag_photo, bag.idBag, review_count.banyak_review, review_avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count) ON bag.idBag = review_count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg) ON bag.idBag = review_avg.idBag WHERE bag.bag_name LIKE ?', ['%' + search_input + '%'], (err, result) => {
+            if(err){
+                reject (err);
+            }
+            else{
+                resolve(result);
+            }
+        }
+        )
+    })
+};
+  
+  
 //==============================================================================================================
 
-//SEARCH FOR BAG----------------------------------------------------------------------------------------------
-
-
-
-//==============================================================================================================
-
-
-
-    
 //PROFILE PUBLIC----------------------------------------------------------------------------------------------
 //membuka halaman profile public, mengambil data" yang akan ditampilkan dari database
 app.get('/profile_public', auth, (req, res)=>{
@@ -614,6 +667,7 @@ app.get('/other_user/:userId', auth, async (req, res) => {
             other_full_name: res_otherUserData.full_name,
             other_username: res_otherUserData.username,
             other_photo: res_otherUserData.user_photo,
+            other_id :res_otherUserData.idUser,
             other_followers: followers,
             other_following: following,
             other_user_review_count: userReviewCount,

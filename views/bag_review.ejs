@@ -6,6 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="/bag_review.js" defer></script>
+    <script>
+        function goBack() {
+          history.back();
+        }
+        </script>
 </head>
 
 <body>
@@ -24,9 +29,7 @@
             </div>
 
             <div class = "add_review_button">
-                <a href = "/dashboard_public">
-                    <button class = "gray_button">Back</button>
-                </a>  
+                <button onclick="goBack()" class="gray_button">Back</button>
 
                 <button class = "blue_button" onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add Review</button> 
             </div>
