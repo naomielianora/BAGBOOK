@@ -944,7 +944,7 @@ img{
     grid-template-columns: 150px auto;
     background-color: #B9C8EA;
     border-radius: 20px;
-    width: 440px;
+    width: 435px;
     height: 150px;
     padding: 15px;
     gap: 10px;
@@ -1492,6 +1492,26 @@ img{
     gap: 10px;
     overflow-y: scroll;
     margin-bottom: 20px;
+}
+
+.pagination_pembungkus_pertama_myprofile {
+    background-color: #D0DBF7;
+    width: 800px;
+    height: 300px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.pagination{
+    font-family: Bold;
+    font-size:  20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 

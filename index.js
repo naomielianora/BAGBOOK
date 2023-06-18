@@ -559,39 +559,40 @@ app.get('/search', auth, async (req, res) => {
 //PROFILE PUBLIC----------------------------------------------------------------------------------------------
 //membuka halaman profile public, mengambil data" yang akan ditampilkan dari database
 app.get('/profile_public', auth, async (req, res) => {
-    try {
-      const startData = req.query.start;
-      const followingCountResult = await followingCount(req.session.idUser);
-      const followersCountResult = await followersCount(req.session.idUser);
-      const reviewUserCountResult = await reviewUserCount(req.session.idUser);
-  
-      const followingCountValue = JSON.parse(JSON.stringify(followingCountResult))[0].following;
-      const followersCountValue = JSON.parse(JSON.stringify(followersCountResult))[0].followers;
-      const userReviewCountValue = JSON.parse(JSON.stringify(reviewUserCountResult))[0].jumlah_user_review;
-  
-      let userDataReviewResult;
-  
-      if (startData !== undefined) {
-        userDataReviewResult = await userReviewsLimit(req.session.idUser, startData);
-      } else {
-        userDataReviewResult = await userReviews(req.session.idUser);
-      }
-  
-      res.render('profile_public', {
-        full_name: req.session.full_name,
-        username: req.session.username,
-        photo: Buffer.from(req.session.photo).toString('base64'),
-        followers: followersCountValue,
-        following: followingCountValue,
-        user_review_count: userReviewCountValue,
-        userDataReview: userDataReviewResult
-      });
-    } catch (error) {
-      // Handle any errors that occur during the async operations
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+  try {
+    let startData = req.query.start;
+    const followingCountResult = await followingCount(req.session.idUser);
+    const followersCountResult = await followersCount(req.session.idUser);
+    const reviewUserCountResult = await reviewUserCount(req.session.idUser);
+
+    const followingCountValue = JSON.parse(JSON.stringify(followingCountResult))[0].following;
+    const followersCountValue = JSON.parse(JSON.stringify(followersCountResult))[0].followers;
+    const userReviewCountValue = JSON.parse(JSON.stringify(reviewUserCountResult))[0].jumlah_user_review;
+
+    let userDataReviewResult;
+
+    if (startData === undefined) {
+      startData = 0; // Set default value to 0
     }
-  });
+    
+    userDataReviewResult = await userReviewsLimit(req.session.idUser, startData);
+
+    res.render('profile_public', {
+      full_name: req.session.full_name,
+      username: req.session.username,
+      photo: Buffer.from(req.session.photo).toString('base64'),
+      followers: followersCountValue,
+      following: followingCountValue,
+      user_review_count: userReviewCountValue,
+      userDataReview: userDataReviewResult
+    });
+  } catch (error) {
+    // Handle any errors that occur during the async operations
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
   
   
 
