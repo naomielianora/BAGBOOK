@@ -2,125 +2,134 @@
 <html>
 
 <head>
-	<title>BAGBOOK_PUBLIC</title>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <title>BAGBOOK_PUBLIC</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="/add_review.js" defer></script>
 </head>
 
 <body>
     <%- include('./layout/header_public.ejs') %>
 
-    <div class = "bag_review_page">
+        <div class="bag_review_page">
 
-        <div class = "bag_detail_container">
+            <div class="bag_detail_container">
 
-            <div class = "bag_review_photo">
-                <img src = "data:image/jpeg;base64, <%= Buffer.from(res_bagDetails.bag_photo).toString('base64') %>" width = 250px height = 250px>
-            </div>
-
-            <div class = "bag_review_name">
-                <%= res_bagDetails.bag_name %>
-            </div>
-
-            <div class = "add_review_button">
-                <button class = "gray_button" onclick="window.location.href = '/bag_details/' + '<%= res_bagDetails.idBag %>';">Back</button>
-
-                <button class = "blue_button" onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add Review</button> 
-            </div>
-
-            <div class = "bag_status">
-                <%= bagReviewCount %> Review | Nilai: <%= bagReviewAvg.toFixed(2)   %>
-            </div>
-
-            <div class = "category_label">
-                <div class = "label_title">Category</div>
-                <div class = "label_content"><%= res_bagDetails.cat_name %></div>
-            </div>
-
-            <div class = "color_label">
-                <div class = "label_title">Color</div>
-                <div class = "label_content"><%= res_bagDetails.color %></div>
-            </div>
-
-            <div class = "sub_category_label">
-                <div class = "label_title">Sub-category</div>
-                <div class = "label_content"><%= res_bagDetails.subCat_name %></div>
-            </div>
-
-            <div class = "brand_label">
-                <div class = "label_title">Brand</div>
-                <div class = "label_content"><%= res_bagDetails.brand_name %></div>
-            </div>
-
-            <div class = "designer_label">
-                <div class = "label_title">Designer</div>
-                <div class = "label_content"><%= res_bagDetails.des_name %></div>
-            </div>
-
-            <div class = "length_label">
-                <div class = "label_title">Length</div>
-                <div class = "label_content_cm"><%= res_bagDetails.length %></div>
-                <div class = "label_cm">cm</div>
-            </div>
-
-            <div class = "width_label">
-                <div class = "label_title">Width</div>
-                <div class = "label_content_cm"><%= res_bagDetails.width %></div>
-                <div class = "label_cm">cm</div>
-            </div>
-
-            <div class = "height_label">
-                <div class = "label_title">Height</div>
-                <div class = "label_content_cm"><%= res_bagDetails.height %></div>
-                <div class = "label_cm">cm</div>
-            </div>
-        </div>
-
-        <div class = add_review_title>Add your review</div>
-
-        <div class = "add_review_container">
-
-            <div class = "reviewer_profile">
-                <img src = "data:image/png;base64,<%= photo %>" width=50px height=50px>
-                <%= username %>
-            </div>
-
-            <form method = "POST" action = "/add_review">
-                
-                <div class = "nilai_review_input">
-                    Rating
-    
-                    <input type="radio" id="nilai_review_1" name="nilai_review" value="nilai_review_1">
-                    <label for="nilai_review_1">1</label>
-    
-                    <input type="radio" id="nilai_review_2" name="nilai_review" value="nilai_review_2">
-                    <label for="nilai_review_2">2</label>
-    
-                    <input type="radio" id="nilai_review_3" name="nilai_review" value="nilai_review_3">
-                    <label for="nilai_review_3">3</label>
-    
-                    <input type="radio" id="nilai_review_4" name="nilai_review" value="nilai_review_4">
-                    <label for="nilai_review_4">4</label>
-    
-                    <input type="radio" id="nilai_review_5" name="nilai_review" value="nilai_review_5">
-                    <label for="nilai_review_5">5</label>
-                    
+                <div class="bag_review_photo">
+                    <img src="data:image/jpeg;base64, <%= Buffer.from(res_bagDetails.bag_photo).toString('base64') %>"
+                        width=250px height=250px>
                 </div>
-    
-                <div class = "teks_review_input">
-                    <textarea class = "input_review" name = "input_review" placeholder="What do you think about this bag?"></textarea>
+
+                <div class="bag_review_name">
+                    <%= res_bagDetails.bag_name %>
                 </div>
-    
-                <div class = "submit_review_button">
-                    <a href = "/review_added_conf" class = "blue_button">Add</a>
+
+                <div class="add_review_button">
+                    <button class="gray_button"
+                        onclick="window.location.href = '/bag_details/' + '<%= res_bagDetails.idBag %>';">Back</button>
+
+                    <button class="blue_button"
+                        onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add
+                        Review</button>
+                </div>
+
+                <div class="bag_status">
+                    <%= bagReviewCount %> Review | Rating: <%= bagReviewAvg.toFixed(2) %>
+                </div>
+
+                <div class="category_label">
+                    <div class="label_title">Category</div>
+                    <div class="label_content">
+                        <%= res_bagDetails.cat_name %>
+                    </div>
+                </div>
+
+                <div class="color_label">
+                    <div class="label_title">Color</div>
+                    <div class="label_content">
+                        <%= res_bagDetails.color %>
+                    </div>
+                </div>
+
+                <div class="sub_category_label">
+                    <div class="label_title">Sub-category</div>
+                    <div class="label_content">
+                        <%= res_bagDetails.subCat_name %>
+                    </div>
+                </div>
+
+                <div class="brand_label">
+                    <div class="label_title">Brand</div>
+                    <div class="label_content">
+                        <%= res_bagDetails.brand_name %>
+                    </div>
+                </div>
+
+                <div class="designer_label">
+                    <div class="label_title">Designer</div>
+                    <div class="label_content">
+                        <%= res_bagDetails.des_name %>
+                    </div>
+                </div>
+
+                <div class="length_label">
+                    <div class="label_title">Length</div>
+                    <div class="label_content_cm">
+                        <%= res_bagDetails.length %>
+                    </div>
+                    <div class="label_cm">cm</div>
+                </div>
+
+                <div class="width_label">
+                    <div class="label_title">Width</div>
+                    <div class="label_content_cm">
+                        <%= res_bagDetails.width %>
+                    </div>
+                    <div class="label_cm">cm</div>
+                </div>
+
+                <div class="height_label">
+                    <div class="label_title">Height</div>
+                    <div class="label_content_cm">
+                        <%= res_bagDetails.height %>
+                    </div>
+                    <div class="label_cm">cm</div>
+                </div>
+            </div>
+
+            <div class=add_review_title>Add your review</div>
+            <form method="POST" action="/add_review/<%= res_bagDetails.idBag %>">
+                <div class="add_review_container">
+
+                    <div class="reviewer_profile">
+                        <img src="data:image/png;base64,<%= photo %>" width=50px height=50px>
+                        <%= username %>
+                    </div>
+
+
+                    <div class="nilai_review_input">
+                        Rating
+                        <% for (let i = 0; i < reviewDesc.length; i++) { %>
+                            <input type="radio" id="nilai_review_<%= i + 1 %>" name="nilai_review" value="<%= i + 1 %>">
+                            <label for="nilai_review_<%= i + 1 %>" data-tooltip="<%= reviewDesc[i].value_desc %>"><%= i + 1 %></label>
+                          <% } %>
+
+                    </div>
+
+                    <div class="teks_review_input">
+                        <textarea class="input_review" name="input_review"
+                            placeholder="What do you think about this bag?" required></textarea>
+                    </div>
+
+                    <div class="submit_review_button">
+                        <button class="blue_button" id="submit_review_button">Add</button>
+                    </div>
+                    <div class = "add_review_warning hidden" id = "all_rating_warning">
+                        *please make sure to pick a rating and give your review in words!
+                    </div>
+
                 </div>
             </form>
-            
         </div>
-
-        
-
-    </div>
-    
 </body>
-</html>
 
+</html>

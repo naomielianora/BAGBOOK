@@ -24,51 +24,52 @@ document.addEventListener('DOMContentLoaded', function () {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: reviewValues,
-            datasets: [{
-                data: reviewPercentages,
-                backgroundColor: ["#51EAEA", "#FCDDB0", "#FF9D76", "#FB3569", "#82CD47"],
-            }],
+          labels: reviewValues,
+          datasets: [{
+            data: reviewPercentages,
+            backgroundColor: ["#51EAEA", "#FCDDB0", "#FF9D76", "#FB3569", "#82CD47"],
+          }],
         },
         options: {
-            responsive: false,
-            maintainAspectRatio: false,
-            indexAxis: 'y',
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    max: 100,
-                    min: 0,
-                    ticks: {
-                        callback: value => `${value}%`,
-                    },
-                    axisLabel: {
-                        display: true,
-                        labelString: 'Percentage',
-                        font: {
-                            size: 14,
-                            weight: 'bold',
-                        },
-                    },
+          responsive: false,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              min: 0,
+              ticks: {
+                callback: value => `${value}%`,
+              },
+              title: {
+                display: true,
+                text: 'Review Count / value (%)',
+                font: {
+                  size: 14,
+                  weight: 'bold',
                 },
-                y: {
-                    axisLabel: {
-                        display: true,
-                        labelString: 'Review Value',
-                        font: {
-                            size: 14,
-                            weight: 'bold',
-                        },
-                    },
-                },
+              },
             },
-            plugins: {
-                legend: {
-                    display: false, // Hide the legend
+            y: {
+              title: {
+                display: true,
+                text: 'Review Value',
+                font: {
+                  size: 14,
+                  weight: 'bold',
                 },
+              },
             },
+          },
+          plugins: {
+            legend: {
+              display: false, // Hide the legend
+            },
+          },
         },
-    });
+      });
+      
     
 
 });

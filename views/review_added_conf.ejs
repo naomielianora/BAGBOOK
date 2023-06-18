@@ -3,39 +3,21 @@
 
 <head>
 	<title>BAGBOOK_PUBLIC</title>
-	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 
 <body>
-    <div class = "public_header">
-        <div class = "logo_header">
-            <a href = "dashboard_public.html"><img src = "../images/logo_header.png" alt = "bagbook_logo" height=100px></a>
-        </div>
-        
-        <div class = "log_out"> 
-            <a href = "log_out_public.html">
-                <button class = "blue_button">Log out</button>
-            </a>  
-        </div>
-        
-        <div class = "profile_header">
-            <a href = "profile_public.html"><img src = "../images/profile.png" height = 40px width=40px></a>
-        </div>
-
-        <div class = "username_header">
-            <a href = "profile_public.html">username</a>
-        </div>
-    </div>
+    <%- include('./layout/header_public.ejs') %>
 
     <div class = "review_added_conf_page">
         <div class = "logo_changed_confirm">
-            <img src = "../images/success.png" alt = "slogan_changed_confirm" height=180px>
+            <img src = "/success.png" alt = "slogan_changed_confirm" height=180px>
         </div>
         <div class = "review_success">
            Your review is<br>successfully added
         </div>
         <br>
-        <a href = "dashboard_public.html" class = "gray_button">Back to Dashboard</a>
+        <a href = "/dashboard_public" class = "gray_button">Back to Dashboard</a>
     </div>
 </body>
 </html>

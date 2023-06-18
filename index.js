@@ -275,7 +275,7 @@ const getDashboardData = (id) => {
 
 
 // Add a new route for sorting
-app.get('/sortData', (req, res) => {
+app.get('/sortData',auth, (req, res) => {
     const sortOption = req.query.sort;
     let sqlQuery = '';
   
@@ -312,7 +312,7 @@ app.get('/sortData', (req, res) => {
 //==============================================================================================================
 
 //BAG REVIEW----------------------------------------------------------------------------------------------
-app.get('/bag_details/:id', async (req, res) => {
+app.get('/bag_details/:id',auth, async (req, res) => {
     try {
         //mengambil id dari bag yg ingin dilihat detailnya
         const idBag = parseInt(req.params.id); // Convert userId to an integer
@@ -409,7 +409,7 @@ const getBagReviewsAvg = (id) => {
 //==============================================================================================================
 
 //ADD REVIEW----------------------------------------------------------------------------------------------
-app.get('/add_review/:id', async (req, res) => {
+app.get('/add_review/:id',auth, async (req, res) => {
     try {
         //mengambil id dari bag yg ingin dilihat detailnya
         const idBag = parseInt(req.params.id); // Convert userId to an integer
@@ -423,6 +423,7 @@ app.get('/add_review/:id', async (req, res) => {
         const res_bagDetails = JSON.parse(JSON.stringify(bagDetails))[0];
         const bagReviewCount = await getBagReviewsCount(idBag);
         const bagReviewAvg = await getBagReviewsAvg(idBag);
+        const reviewDesc = await getReviewDetails();
 
         res.render('add_review', {
             username: req.session.username,
@@ -430,6 +431,7 @@ app.get('/add_review/:id', async (req, res) => {
             res_bagDetails: res_bagDetails,
             bagReviewCount: (JSON.parse(JSON.stringify(bagReviewCount))[0]).jumlah,
             bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg,
+            reviewDesc: reviewDesc
         })
     } catch (error) {
         console.error(error);
@@ -437,7 +439,48 @@ app.get('/add_review/:id', async (req, res) => {
     }
 });
 
+const getReviewDetails = () => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM review_value', (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
 
+app.post('/add_review/:idBagtoReview',auth, (req, res)=>{
+    const idBagtoReview = parseInt(req.params.idBagtoReview);
+    const rating = req.body.nilai_review;
+    const review = req.body.input_review;
+    const idUser = req.session.idUser;
+
+    
+    addReview(idBagtoReview, rating, review, idUser).then(() => 
+        res.redirect('/review_added_conf')
+    )
+})
+
+const addReview = (idBag, rating, review, idUser) => {
+    return new Promise((resolve, reject) => {
+        pool.query('INSERT INTO Review (idBag, value, review_text, idUser) VALUES (?, ?,?,?)',[idBag, rating, review, idUser], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+app.get('/review_added_conf',auth, (req, res)=>{
+    res.render('review_added_conf',{
+        username: req.session.username,
+        photo: Buffer.from(req.session.photo).toString('base64')
+    }) 
+})
 
 //==============================================================================================================
 
@@ -525,7 +568,7 @@ const reviewUserCount = (id) => {
 //mencari tau review" yang sudah dibuat oleh user
 const userReviews = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT review.desc AS "teks", review.value AS "nilai", bag.bag_name AS "namaTas", bag.bag_photo AS "fotoTas" FROM review JOIN bag ON review.idBag = bag.idBag WHERE idUser = ?', [id], (err, result) => {
+        pool.query('SELECT review.review_text AS "teks", review.value AS "nilai", bag.bag_name AS "namaTas", bag.bag_photo AS "fotoTas" FROM review JOIN bag ON review.idBag = bag.idBag WHERE idUser = ?', [id], (err, result) => {
             if(err){
                 reject (err);
             }
@@ -609,7 +652,7 @@ app.get('/edit_profile',auth, (req, res)=>{
     })  
 })
 
-app.post('/change_photo_public', upload.single('photo'), (req, res) => {
+app.post('/change_photo_public', upload.single('photo'), auth, (req, res) => {
     const newPhoto = req.file; // The uploaded photo is available as req.file
     const idUser = req.session.idUser;
     const photoData = fs.readFileSync(newPhoto.path);

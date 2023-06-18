@@ -32,7 +32,7 @@
             </div>
 
             <div class = "bag_status">
-                <%= bagReviewCount %> Review | Nilai: <%= bagReviewAvg.toFixed(2)   %>
+                <%= bagReviewCount %> Review | Rating: <%= bagReviewAvg.toFixed(2)   %>
             </div>
 
             <div class = "category_label">
@@ -96,7 +96,7 @@
                         <div class = "review_user_nilai_angka"><%= review.value %></div>
                     </div>
                     <div class = "review_user_teks">
-                        <%= review.desc %>
+                        <%= review.review_text %>
                     </div>
                 </div>
             <% } %>
