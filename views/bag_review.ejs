@@ -4,6 +4,8 @@
 <head>
 	<title>BAGBOOK_PUBLIC</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="/bag_review.js" defer></script>
 </head>
 
 <body>
@@ -25,9 +27,8 @@
                 <a href = "/dashboard_public">
                     <button class = "gray_button">Back</button>
                 </a>  
-                <a href = "/add_review">
-                    <button class = "blue_button">Add Review</button>
-                </a>  
+
+                <button class = "blue_button" onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add Review</button> 
             </div>
 
             <div class = "bag_status">
@@ -77,6 +78,11 @@
                 <div class = "label_cm">cm</div>
             </div>
         </div>
+
+        <div class = bag_review_title>Ratings and reviews</div>
+        <canvas id="reviewChart"></canvas>
+        <input type="hidden" id="bagReviewsData" value="<%- JSON.stringify(bagReviews.map(review => review.value)) %>">
+
 
         <div class = "bag_review_container">
             <% for(const review of bagReviews) { %>

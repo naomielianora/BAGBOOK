@@ -5,6 +5,8 @@ import crypto from 'crypto';
 import memorystore from 'memorystore';
 import multer from 'multer';
 import fs from 'fs';
+import {Chart} from 'chart.js';
+
 
 const PORT = 8080;
 const app = express();
@@ -327,6 +329,7 @@ app.get('/bag_details/:id', async (req, res) => {
          
         const bagReviewCount = await getBagReviewsCount(idBag);
         const bagReviewAvg = await getBagReviewsAvg(idBag);
+        const bagReviewsValue = await getBagReviewsValue(idBag);
 
         res.render('bag_review', {
             username: req.session.username,
@@ -334,7 +337,8 @@ app.get('/bag_details/:id', async (req, res) => {
             res_bagDetails: res_bagDetails,
             bagReviews: bagReviews,
             bagReviewCount: (JSON.parse(JSON.stringify(bagReviewCount))[0]).jumlah,
-            bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg
+            bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg,
+            bagReviewsValue: bagReviewsValue
         })
     } catch (error) {
         console.error(error);
@@ -357,6 +361,18 @@ const getBagDetails = (id) => {
 const getBagReviews = (id) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM review JOIN user ON review.idUser = user.idUser WHERE idBag = ?', [id], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const getBagReviewsValue = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT value FROM review WHERE idBag = ?', [id], (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -392,6 +408,39 @@ const getBagReviewsAvg = (id) => {
 
 //==============================================================================================================
 
+//ADD REVIEW----------------------------------------------------------------------------------------------
+app.get('/add_review/:id', async (req, res) => {
+    try {
+        //mengambil id dari bag yg ingin dilihat detailnya
+        const idBag = parseInt(req.params.id); // Convert userId to an integer
+
+        if (isNaN(idBag)) {
+            res.status(500).send('Invalid userId'); // Send an error message to the client
+            return; // Stop further code execution
+        }
+
+        const bagDetails = await getBagDetails(idBag);
+        const res_bagDetails = JSON.parse(JSON.stringify(bagDetails))[0];
+        const bagReviewCount = await getBagReviewsCount(idBag);
+        const bagReviewAvg = await getBagReviewsAvg(idBag);
+
+        res.render('add_review', {
+            username: req.session.username,
+            photo: Buffer.from(req.session.photo).toString('base64'),
+            res_bagDetails: res_bagDetails,
+            bagReviewCount: (JSON.parse(JSON.stringify(bagReviewCount))[0]).jumlah,
+            bagReviewAvg: (JSON.parse(JSON.stringify(bagReviewAvg))[0]).avg,
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+
+//==============================================================================================================
+
 //SEARCH FOR USER----------------------------------------------------------------------------------------------
 
 
@@ -404,13 +453,7 @@ const getBagReviewsAvg = (id) => {
 
 //==============================================================================================================
 
-//ADMIN DASHBOARD----------------------------------------------------------------------------------------------
-app.get('/dashboard_admin',auth, (req, res)=>{
-    res.render('dashboard_admin',{
-        username: req.session.username
-    }) 
-})
-//==============================================================================================================
+
 
     
 //PROFILE PUBLIC----------------------------------------------------------------------------------------------
@@ -745,6 +788,13 @@ const unfollowUser = (myId, userId) => {
   
 //==============================================================================================================
 
+//ADMIN DASHBOARD----------------------------------------------------------------------------------------------
+app.get('/dashboard_admin',auth, (req, res)=>{
+    res.render('dashboard_admin',{
+        username: req.session.username
+    }) 
+})
+//==============================================================================================================
 
 //LOG OUT----------------------------------------------------------------------------------------------
 //membuka halaman log out
