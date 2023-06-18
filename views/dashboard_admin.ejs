@@ -12,6 +12,65 @@
     <div class = "dashboard_admin_content">
         <div>Welcome <b><%= username %></b>,</div>
         <div>what do you want to do today?</div>
+        <br>
+        <div class="grid-container_see_report">
+            <div class="grid-row_see_report_1">
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_1">Total Bag</div>
+                    <div class="grid_item_report_1_2"><%= totalBagCount %></div>
+                </div>
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_3">Total Category</div>
+                    <div class="grid_item_report_1_4"><%= totalCategoryCount %></div>
+                </div>
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_5">Total Sub-category</div>
+                    <div class="grid_item_report_1_6"><%= totalSubcategoryCount %></div>
+                    </div>
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_7">Total Brand</div>
+                    <div class="grid_item_report_1_8"><%= totalBrandCount %></div>
+                </div>
+                <div class="grid-item_report_1">
+                    <div class="grid-item_report_1_9">Total Designer</div>
+                    <div class="grid_item_report_1_10"><%= totalDesignerCount %></div>
+                </div>
+            </div>
+            <div class="grid-row_see_report_2">
+                <div class="grid-item_report_2">
+                    <div class="grid-item_report_2_1">Minimum Total Review</div>
+                    <div class="grid_item_report_2_2"><%= lowestReviewBag.bag_name %></div>
+                    <div class="grid_item_report_2_3"><%= lowestReviewCount %></div>
+                </div>
+                <div class="grid-item_report_2">
+                    <div class="grid-item_report_2_4">Total Review</div>
+                    <div class="grid_item_report_2_5"><%= totalReviewCount %></div>
+                </div>
+                <div class="grid-item_report_2">
+                    <div class="grid-item_report_2_6">Maximum Total Review</div>
+                    <div class="grid_item_report_2_7"><%= highestReviewBag %></div>
+                    <div class="grid_item_report_2_8"><%= highestReviewCount %></div>
+                </div>
+            </div>
+            <div class="grid-row_see_report_3">
+                <div class="grid-item_report_3">
+                    <div class="grid-item_report_3_1">Minimum Review Value</div>
+                    <div class="grid_item_report_3_2"><%= lowestReviewValueBag %></div>
+                    <div class="grid_item_report_3_3"><%= lowestReviewValue %></div>
+                </div>
+                <div class="grid-item_report_3">
+                    <div class="grid-item_report_3_4">Average Review Value</div>
+                    <div class="grid_item_report_3_5"><%= averageReviewValue %></div>
+                </div>
+                <div class="grid-item_report_3">
+                    <div class="grid-item_report_3_6">Maximum Review Value</div>
+                    <div class="grid_item_report_3_7"><%= highestReviewValueBag %></div>
+                    <div class="grid_item_report_3_8"><%= highestReviewValue %></div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
 </body>
 </html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BAGBOOK</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="add_bag.js" defer></script>
+</head>
+<body>
+    <%- include('./layout/header_admin.ejs') %>
+    <form action="/add_bag" method = "POST" enctype="multipart/form-data">
+        <div class="add-bag-page">
+            <div class="page-title">ADD BAG</div>
+            <div class="addbag-blue-box">
+                <div class="addbag-form-container">
+                    <div class="image-section">
+                        <div class="addbag-form-row" id="img-row">
+                            <div for="photo" class="photo-label">Photo</div>
+                            <div class="photo-container">
+                                <img src="/photo.png" alt="Bag Photo" id="preview" />
+                                <div class="photo-buttons">
+                                    <input type="file" id="gallery-upload" accept="image/*" style="display: none" name = "bag_photo">
+                                    <label for="bag_photo" class="upload-button">Upload from Gallery</label>
+                                    <button class="remove-button">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addbag-form-content">
+                        <div class="addbag-form-row">
+                            <label for="bag_name">Name</label>
+                            <input type="text" id="bag-name" name="bag_name" />
+                        </div>
+                        <div class="addbag-form-row">
+                            <label for="bag_color">Color</label>
+                            <input type="text" id="bag-color" name="bag_color" />
+                        </div>
+                        <div class="addbag-form-row">
+                            <label for="select_brand">Brand</label>
+                            <select id="bag-brand" name="select_brand">
+                                <option value="" disabled selected class="custom-select_brand">Select brand</option>
+                                <% brands.forEach(function(brand) { %>
+                                    <option value="<%= brand.brand_name %>"><%= brand.brand_name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="addbag-form-row">
+                            <label for="select_designer">Designer</label>
+                            <select id="bag-designer" name="select_designer">
+                                <option value="" disabled selected class="custom-select_designer">Select designer</option>
+                                <% designers.forEach(function(designer) { %>
+                                    <option value="<%= designer.des_name %>"><%= designer.des_name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="addbag-form-row">
+                            <label for="select-category">Category</label>
+                            <select id="bag-category" name="select-category">
+                                <option value="" disabled selected class="custom-select_category">Select category</option>
+                                <% categories.forEach(function(category) { %>
+                                    <option value="<%= category.idCat %>"><%= category.cat_name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="addbag-form-row">
+                            <label for="bag_sub_category">Sub-category</label>
+                            <select id="bag-sub-category" name="bag_sub_category">
+                              <option value="" disabled selected class="custom-select_sub_category">Select sub-category</option>
+                              <% subCategories.forEach(function(subCategory) { %>
+                                <option value="<%= subCategory.idSubCat %>"><%= subCategory.subCat_name %></option>
+                              <% }); %>
+                            </select>
+                          </div>                          
+                        <div class="addbag-form-row">
+                            <label for="bag-dimensions" class = "bag-dimensions-label">Dimensions</label>
+                            <div class="dimensions-input">
+                                <input type="text" id="bag-dimension-1" name="dimension1" />
+                                <span>x</span>
+                                <input type="text" id="bag-dimension-2" name="dimension2" />
+                                <span>x</span>
+                                <input type="text" id="bag-dimension-3" name="dimension3" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "button_add_bag">
+                     <button class = "blue_button">Add</button>  
+            </div>
+        </div>
+    </form>
+    <div class = "cancel_button_bag">
+        <a href = "/pick_add">
+            <button class = "gray_button">Cancel</button>
+        </a>    
+   </div>
+</body>
+</html>

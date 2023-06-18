@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="../public/styles.css">
+</head>
+
+<body>
+    <%- include('./layout/header_admin.ejs') %>
+
+    <div class = "pick_add_page">
+        <div class = "judul_add">
+            PICK WHAT TO ADD
+        </div>
+
+        <div class = "pick_menu">
+
+            <div class = "pick_menu_row1">
+
+                <div  class = "pick_option">
+                    <div class = "pick_logo">
+                        <a href = "/add_category">
+                            <img src = "/category.png" alt = "add_category_logo" width = 125px>
+                        </a>
+                    </div>
+                    <div class = "pick_name">
+                        Add Category
+                    </div>
+                </div>
+
+                <div  class = "pick_option">
+                    <div class = "pick_logo">
+                        <a href = "/add_sub_category">
+                            <img src = "/subcategory.png" alt = "add_sub_category_logo" width = 125px>
+                        </a>
+                    </div>
+                    <div class = "pick_name">
+                        Add<br>Sub-category
+                    </div>
+                </div>
+
+                <div  class = "pick_option">
+                    <div class = "pick_logo">
+                        <a href = "/add_bag">
+                            <img src = "/add_bag.png" alt = "add_bag_logo" width = 125px>
+                        </a>
+                    </div>
+                    <div class = "pick_name">
+                        Add Bag
+                    </div>
+                </div>
+
+            </div>
+
+            <div class = "pick_menu_row2">
+
+                <div  class = "pick_option">
+                    <div class = "pick_logo">
+                        <a href = "/add_brand">
+                            <img src = "/add_brand.png" alt = "add_brand_logo" width = 125px>
+                        </a>
+                    </div>
+                    <div class = "pick_name">
+                        Add Brand
+                    </div>
+                </div>
+
+                <div  class = "pick_option">
+                    <div class = "pick_logo">
+                        <a href = "/add_designer">
+                            <img src = "/add_des.png" alt = "add_des_logo" width = 125px>
+                        </a>
+                    </div>
+                    <div class = "pick_name">
+                        Add Designer
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

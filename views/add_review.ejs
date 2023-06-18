@@ -5,6 +5,11 @@
     <title>BAGBOOK_PUBLIC</title>
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <script type="text/javascript" src="/add_review.js" defer></script>
+    <script>
+        function goBack() {
+          history.back();
+        }
+        </script>
 </head>
 
 <body>
@@ -24,8 +29,7 @@
                 </div>
 
                 <div class="add_review_button">
-                    <button class="gray_button"
-                        onclick="window.location.href = '/bag_details/' + '<%= res_bagDetails.idBag %>';">Back</button>
+                    <button onclick="goBack()" class="gray_button">Back</button>
 
                     <button class="blue_button"
                         onclick="window.location.href = '/add_review/' + '<%= res_bagDetails.idBag %>';">Add

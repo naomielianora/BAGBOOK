@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BAGBOOK</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <script type="text/javascript" src="add_sub_category.js" defer></script>
+</head>
+<body>
+    <%- include('./layout/header_admin.ejs') %>
+    <div class="navigator_add_sub_category">
+        <div class="judul_add_sub_category">
+            ADD SUB-CATEGORY
+        </div>
+        <div class="img_add_sub_category">
+            <img src="/subcategory.png" height="120px" width="120px"> 
+        </div>
+        <form action="/add_sub_category" method="post">
+            <div class="grid_sub_category">
+                <label for="category_sub" id="label_category_sub">Category</label>
+                <select id="input_category_sub" name="category_sub" class="custom-select_sub">
+                    <option value="" disabled selected class="custom-select_sub">select category</option>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.cat_name %>"><%= category.cat_name %></option>
+                    <% }); %>
+                </select>
+                <label for="sub_category_name" id="label_sub_category">Sub-category</label>
+                <input type="text" id="input_sub_category" name="sub_category_name" required>
+            </div>
+            <div class = "sub_category_add_warning hidden" id = "sub_category_warning">
+                *Sub-category is already registered, please input another sub-category
+            </div>
+            <br>
+            <div class="button_add_sub_category">
+                <button class="blue_button" type="submit" id="add_sub_category_button">Add</button>   
+            </div>
+            <div class = "sub_category_add_warning hidden" id = "input_sub_category_warning">
+                *Input must be valid
+            </div>
+        </form>
+        <div class="cancel_button_sub_category">
+            <a href="/pick_add" id = "cancel_button_sub_category">
+                <button class="gray_button">Cancel</button>
+            </a>    
+        </div>
+    </div>
+</body>
+</html>

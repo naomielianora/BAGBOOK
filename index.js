@@ -6,6 +6,7 @@ import memorystore from 'memorystore';
 import multer from 'multer';
 import fs from 'fs';
 import {Chart} from 'chart.js';
+import csvParser from 'csv-parser';
 
 
 const PORT = 8080;
@@ -281,9 +282,9 @@ app.get('/sortData',auth, (req, res) => {
   
     // Determine the SQL query based on the sortOption
     if (sortOption === 'review-nilai') {
-      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag,count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY avg.nilai_review DESC LIMIT 10';
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag, COALESCE(count.banyak_review, 0) AS banyak_review, COALESCE(avg.nilai_review, 0) AS nilai_review FROM bag LEFT JOIN (SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count ON bag.idBag = count.idBag LEFT JOIN (SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg ON bag.idBag = avg.idBag ORDER BY avg.nilai_review DESC LIMIT 10';
     } else if (sortOption === 'review-banyak') {
-      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag,count.banyak_review, avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count) ON bag.idBag = count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg) ON bag.idBag = avg.idBag ORDER BY count.banyak_review DESC LIMIT 10';
+      sqlQuery = 'SELECT bag.bag_name, bag.bag_photo, bag.idBag, COALESCE(count.banyak_review, 0) AS banyak_review, COALESCE(avg.nilai_review, 0) AS nilai_review FROM bag LEFT JOIN (SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS count ON bag.idBag = count.idBag LEFT JOIN (SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS avg ON bag.idBag = avg.idBag ORDER BY COALESCE(count.banyak_review, 0) DESC LIMIT 10';
     }
   
     // Execute the SQL query and retrieve sorted data
@@ -360,7 +361,7 @@ const getBagDetails = (id) => {
 
 const getBagReviews = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM review JOIN user ON review.idUser = user.idUser WHERE idBag = ?', [id], (err, result) => {
+        pool.query('SELECT * FROM bag LEFT JOIN review ON bag.idBag = review.idBag JOIN user ON review.idUser = user.idUser WHERE bag.idBag = ?', [id], (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -384,7 +385,7 @@ const getBagReviewsValue = (id) => {
 
 const getBagReviewsCount = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT COUNT(idReview) AS "jumlah" FROM review WHERE idBag = ? GROUP BY idBag ', [id], (err, result) => {
+        pool.query('SELECT COALESCE(COUNT(idReview), 0) AS "jumlah" FROM review WHERE idBag = ?', [id], (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -396,7 +397,7 @@ const getBagReviewsCount = (id) => {
 
 const getBagReviewsAvg = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT AVG(value) AS "avg" FROM review WHERE idBag = ? GROUP BY idBag ', [id], (err, result) => {
+        pool.query('SELECT COALESCE(AVG(value), 0) AS "avg" FROM review WHERE idBag = ?', [id], (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -537,7 +538,7 @@ app.get('/search', auth, async (req, res) => {
   //method to search for bags
   const searchBags = (search_input) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT bag.bag_name, bag.bag_photo, bag.idBag, review_count.banyak_review, review_avg.nilai_review FROM bag JOIN ((SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count) ON bag.idBag = review_count.idBag JOIN ((SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg) ON bag.idBag = review_avg.idBag WHERE bag.bag_name LIKE ?', ['%' + search_input + '%'], (err, result) => {
+        pool.query('SELECT bag.bag_name, bag.bag_photo, bag.idBag, IFNULL(review_count.banyak_review, 0) AS banyak_review, IFNULL(review_avg.nilai_review, 0) AS nilai_review FROM bag LEFT JOIN (SELECT COUNT(idReview) AS banyak_review, idBag FROM review GROUP BY idBag) AS review_count ON bag.idBag = review_count.idBag LEFT JOIN (SELECT AVG(value) AS nilai_review, idBag FROM review GROUP BY idBag) AS review_avg ON bag.idBag = review_avg.idBag WHERE bag.bag_name LIKE ?', ['%' + search_input + '%'], (err, result) => {
             if(err){
                 reject (err);
             }
@@ -885,13 +886,6 @@ const unfollowUser = (myId, userId) => {
   
 //==============================================================================================================
 
-//ADMIN DASHBOARD----------------------------------------------------------------------------------------------
-app.get('/dashboard_admin',auth, (req, res)=>{
-    res.render('dashboard_admin',{
-        username: req.session.username
-    }) 
-})
-//==============================================================================================================
 
 //LOG OUT----------------------------------------------------------------------------------------------
 //membuka halaman log out
@@ -915,3 +909,1543 @@ app.get('/log_out_conf', auth, (req, res) => {
     });
 })
 //==============================================================================================================
+
+//ADMIN-------------------------------------------------------------------------------------------
+
+
+// agar bisa masuk ke halaman add item
+app.get('/pick_add', (req, res) => {
+    res.render('pick_add');
+});
+
+//ADD ITEM -------------------------------------------------------------------------------------------
+
+// agar bisa masuk ke halaman add_category
+app.get('/add_category', (req, res) => {
+    res.render('add_category');
+});
+
+// agar bisa masuk ke add_sub_category
+app.get('/add_sub_category', (req, res) => {
+    getCategories()
+        .then(categories => {
+            res.render('add_sub_category', { categories });
+        })
+});
+
+// agar bisa masuk ke add_brand
+app.get('/add_brand', (req, res) => {
+    res.render('add_brand');
+});
+
+// agar bisa masuk ke add_bag
+app.get('/add_bag', (req, res) => {
+    Promise.all([getBrands(), getDesigners(), getCategoriesBag(), getSubCategories()])
+      .then(([brands, designers, categories, subCategories]) => {
+        res.render('add_bag', { brands, designers, categories, subCategories });
+      })
+  });
+
+// agar bisa masuk ke add_designer
+app.get('/add_designer', (req, res) => {
+    res.render('add_designer');
+});
+
+//==============================================================================================================
+
+//ADD CATEGORY-------------------------------------------------------------------------------------------
+// agar bisa ngambil data dari add_category
+app.post('/add_category', (req, res) => {
+  let added_category = req.body.category;
+  addCategory(added_category)
+    .then(() => {
+      res.redirect('/item_added_conf');
+    })
+});
+
+// mengecek kategori menggunakan AJAX
+app.get('/check_category', (req, res) => {
+  let category = req.query.inputed_category;
+  let categoryTaken = true;
+  checkCategoryExistence(category).then((exists) => {
+      categoryTaken = (JSON.parse(JSON.stringify(exists))[0]) !==undefined;
+        const response = {
+            taken: categoryTaken
+          };
+      res.json( response );
+    })
+    
+});
+
+const checkCategoryExistence = (added_category) => {
+  return new Promise((resolve, reject) => {
+      pool.query('SELECT idCat FROM category WHERE cat_name = ?', [added_category], (err, result) => {
+          if(err){
+              reject (err);
+          }
+          else{
+              resolve(result);
+          }
+      }
+      )
+  })
+};
+
+
+// meletakkan data dari input ke database kategori
+const addCategory = (category) => {
+    return new Promise((resolve, reject) => {
+      pool.query('INSERT INTO category (cat_name) VALUES (?)', [category], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+//==============================================================================================================
+
+//ITEM_ADDED_CONF-------------------------------------------------------------------------------------------
+
+app.get('/item_added_conf', (req, res) => {
+    res.render('item_added_conf');
+});
+
+//==============================================================================================================
+
+//ADD BRAND-------------------------------------------------------------------------------------------
+
+// agar bisa ngambil data dari add_brand
+app.post('/add_brand', (req, res) => {
+    let added_brand = req.body.brand;
+    addBrand(added_brand)
+        .then(() => {
+            res.redirect('/item_added_conf');
+        })
+});
+
+// meletakkan data dari input ke database brand
+const addBrand = (brand) => {
+    return new Promise((resolve, reject) => {
+      pool.query('INSERT INTO brand (brand_name) VALUES (?)', [brand], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
+// mengecek kategori menggunakan AJAX
+app.get('/check_brand', (req, res) => {
+  let brand = req.query.inputed_brand;
+  let brandTaken = true;
+  checkBrandExistence(brand).then((exists) => {
+      brandTaken = (JSON.parse(JSON.stringify(exists))[0]) !==undefined;
+        const response = {
+            taken: brandTaken
+          };
+      res.json( response );
+    })
+    
+});
+
+const checkBrandExistence = (added_brand) => {
+  return new Promise((resolve, reject) => {
+      pool.query('SELECT idBrand FROM brand WHERE brand_name = ?', [added_brand], (err, result) => {
+          if(err){
+              reject (err);
+          }
+          else{
+              resolve(result);
+          }
+      }
+      )
+  })
+};
+
+  
+//==============================================================================================================
+
+//ADD DESIGNER-------------------------------------------------------------------------------------------
+
+// agar bisa ngambil data dari add_designer
+app.post('/add_designer', (req, res) => {
+    let added_designer = req.body.designer;
+    addDesigner(added_designer)
+        .then(() => {
+            res.redirect('/item_added_conf');
+        })
+});
+
+// meletakkan data dari input ke database designer
+const addDesigner = (designer) => {
+    return new Promise((resolve, reject) => {
+      pool.query('INSERT INTO designer (des_name) VALUES (?)', [designer], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
+// mengecek designer menggunakan AJAX
+app.get('/check_designer', (req, res) => {
+  let designer = req.query.inputed_designer;
+  let designerTaken = true;
+  checkDesignerExistence(designer).then((exists) => {
+      designerTaken = (JSON.parse(JSON.stringify(exists))[0]) !==undefined;
+        const response = {
+            taken: designerTaken
+          };
+      res.json( response );
+    })
+    
+});
+
+const checkDesignerExistence = (added_designer) => {
+  return new Promise((resolve, reject) => {
+      pool.query('SELECT idDes FROM designer WHERE des_name = ?', [added_designer], (err, result) => {
+          if(err){
+              reject (err);
+          }
+          else{
+              resolve(result);
+          }
+      }
+      )
+  })
+};
+  
+//==============================================================================================================
+
+//ADD SUBCATEGORY-------------------------------------------------------------------------------------------
+app.post('/add_sub_category', (req, res) => {
+    const category_name = req.body.category_sub;
+    const sub_category_name = req.body.sub_category_name;
+
+    getCategories()
+        .then(categories => {
+            const category = categories.find(cat => cat.cat_name === category_name);
+            if (category) {
+                return addSubCategory(category.idCat, sub_category_name);
+            }
+        })
+        .then(() => {
+            res.redirect('/item_added_conf');
+        })
+});
+
+const addSubCategory = (idCat, sub_category_name) => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+            if (err) {
+                reject(err);
+            } else {
+                const query = 'INSERT INTO sub_category (idCat, subCat_name) VALUES (?, ?)';
+                const values = [idCat, sub_category_name];
+
+                conn.query(query, values, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                    conn.release();
+                });
+            }
+        });
+    });
+};
+
+const getCategories = () => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+            if (err) {
+                reject(err);
+            } else {
+                const query = 'SELECT * FROM category';
+
+                conn.query(query, (err, results) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results);
+                    }
+                    conn.release();
+                });
+            }
+        });
+    });
+};
+
+// mengecek designer menggunakan AJAX
+app.get('/check_subCategory', (req, res) => {
+let subCategory = req.query.inputed_subCategory;
+let subCategoryTaken = true;
+checkSubCategoryExistence(subCategory).then((exists) => {
+    subCategoryTaken = (JSON.parse(JSON.stringify(exists))[0]) !==undefined;
+      const response = {
+          taken: subCategoryTaken
+        };
+    res.json( response );
+  })
+  
+});
+
+const checkSubCategoryExistence = (added_subCategory) => {
+return new Promise((resolve, reject) => {
+    pool.query('SELECT idSubCat FROM  sub_category WHERE subCat_name = ?', [added_subCategory], (err, result) => {
+        if(err){
+            reject (err);
+        }
+        else{
+            resolve(result);
+        }
+    }
+    )
+})
+};
+
+//==============================================================================================================
+
+
+//ADD BAG-------------------------------------------------------------------------------------------
+  app.get('/get_subcategories', (req, res) => {
+    const category = req.query.category;
+  
+    getSubCategories(category)
+      .then(subCategories => {
+        res.json({ subCategories });
+      });
+  });
+  
+  const addBag2 = (bag_name, length, width, height, color, idSubCat, idBrand, idDes, photoData) => {
+    return new Promise((resolve, reject) => {
+      const queryBrand = 'SELECT idBrand FROM brand WHERE brand_name = ?';
+      const valuesBrand = [idBrand];
+  
+      pool.query(queryBrand, valuesBrand, (errBrand, resultBrand) => {
+        if (errBrand) {
+          reject(errBrand);
+        } else {
+          const idBrand = resultBrand[0].idBrand;
+  
+          const queryDesigner = 'SELECT idDes FROM designer WHERE des_name = ?';
+          const valuesDesigner = [idDes];
+  
+          pool.query(queryDesigner, valuesDesigner, (errDesigner, resultDesigner) => {
+            if (errDesigner) {
+              reject(errDesigner);
+            } else {
+              const idDes = resultDesigner[0].idDes;
+  
+              const insertQuery = 'INSERT INTO bag (bag_name, length, width, height, color, idSubCat, idBrand, idDes, bag_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+              const insertValues = [bag_name, length, width, height, color, idSubCat, idBrand, idDes, photoData];
+  
+              pool.query(insertQuery, insertValues, (errInsert, resultInsert) => {
+                if (errInsert) {
+                  reject(errInsert);
+                } else {
+                  resolve(resultInsert);
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+  }
+  
+
+  app.post('/add_bag', upload.single('bag_photo'), (req, res) => {
+    const bag_name = req.body.bag_name;
+    const length = req.body.dimension1;
+    const width = req.body.dimension2;
+    const height = req.body.dimension3;
+    const color = req.body.bag_color;
+    const idSubCat = req.body.bag_sub_category;
+    const idBrand = req.body.select_brand;
+    const idDes = req.body.select_designer;
+  
+    const photoData = fs.readFileSync(req.file.path); // Membaca file foto yang diunggah
+  
+    addBag2(bag_name, length, width, height, color, idSubCat, idBrand, idDes, photoData)
+      .then((resultInsert) => {
+        const bagId = resultInsert.insertId; // Mengambil ID tas yang baru saja ditambahkan
+  
+        // Menambahkan foto ke dalam database dengan ID tas yang baru
+        changePhotoBag(bagId, photoData)
+          .then(() => {
+            // Mengambil foto tas yang baru saja diubah
+            getNewPhotoBag(bagId)
+              .then((newPhoto) => {
+                req.session.photo = JSON.parse(JSON.stringify(newPhoto))[0].bag_photo;
+                res.redirect('/item_added_conf');
+              })
+              .catch((error) => {
+                console.error('Failed to get new bag photo:', error);
+                res.status(500).send('Internal Server Error');
+              });
+          })
+          .catch((error) => {
+            console.error('Failed to change bag photo:', error);
+            res.status(500).send('Internal Server Error');
+          });
+      })
+      .catch((error) => {
+        console.error('Failed to add bag:', error);
+        res.status(500).send('Internal Server Error');
+      });
+  });
+
+  const getNewPhotoBag = (idBag) => {
+    return new Promise((resolve, reject) => {
+      pool.query('SELECT bag_photo FROM bag WHERE idBag = ?', [idBag], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  const changePhotoBag = (idBag, photo) => {
+    return new Promise((resolve, reject) => {
+      pool.query('UPDATE bag SET bag_photo = ? WHERE idBag = ?', [photo, idBag], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  
+  // menampilkan brand di dropdown
+  const getBrands = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM brand';
+  
+          conn.query(query, (err, results) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+            conn.release();
+          });
+        }
+      });
+    });
+  };
+  
+
+  const getDesigners = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM designer';
+  
+          conn.query(query, (err, results) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+            conn.release();
+          });
+        }
+      });
+    });
+  };
+
+  const getCategoriesBag = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM category';
+  
+          conn.query(query, (err, results) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+            conn.release();
+          });
+        }
+      });
+    });
+  };
+
+  const getSubCategories = (category) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM sub_category WHERE idCat = ?';
+          conn.query(query, [category], (err, results) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+            conn.release();
+          });
+        }
+      });
+    });
+  };
+
+//==============================================================================================================
+
+
+//CHANGED_CONF-------------------------------------------------------------------------------------------
+
+app.get('/changed_conf_admin', (req, res) => {
+    res.render('changed_conf_admin');
+});
+
+//==============================================================================================================
+
+
+//DATA_ADDED_CONF-------------------------------------------------------------------------------------------
+
+app.get('/data_added_conf', (req, res) => {
+    res.render('data_added_conf');
+});
+
+//==============================================================================================================
+
+
+//SET_REVIEW-------------------------------------------------------------------------------------------
+
+app.use(bodyParser.json());
+
+app.get('/set_review', (req, res) => {
+  res.render('set_review');
+});
+
+let minimalReview = 0;
+let rentangNilai = '1-5';
+app.post('/set_review', (req, res) => {
+  minimalReview = req.body.minimalReview;
+  rentangNilai = req.body.rentangNilai;
+  let artiNilai = req.body.artiNilai;
+
+  let values = [];
+
+  values = artiNilai.split(';').map(value => value.trim());
+
+  if (rentangNilai === '1-5') {
+    values = values.slice(0, 5);
+  }
+
+  let reviewValues = values.map(value => [value]);
+
+  pool.query('INSERT INTO review_value (value_desc) VALUES ?', [reviewValues], (err, result) => {
+    if (err) {
+      console.error('Error inserting data into review_value table:', err);
+      res.status(500).json({ error: 'Error inserting data into review_value table' });
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
+
+
+
+//==============================================================================================================
+
+
+//IMPORT_DATA-------------------------------------------------------------------------------------------
+app.get('/import_data', (req, res) => {
+  res.render('import_data');
+});
+
+
+app.post('/import_data', upload.single('file_upload'), (req, res) => {
+  const csvFile = req.file;
+  console.log(csvFile);
+
+  
+  pool.getConnection((err, conn) => {
+    if (err) {
+      console.error('Error connecting to database:', err);
+      res.status(500).send('Error connecting to database');
+      return;
+    }
+
+    fs.createReadStream(csvFile.path)
+      .pipe(csvParser())
+      .on('data', (row) => {
+        console.log(row);
+        const bag = {
+          bag_name: row.bag_name,
+          bag_photo: Buffer.from(row.bag_photo, 'base64'),
+          length: row.length,
+          width: row.width,
+          height: row.height,
+          color: row.color,
+          idSubCat: row.idSubCat,
+          idDes: row.idDes,
+          idBrand: row.idBrand
+        };
+
+        const query = 'INSERT INTO bag SET ?';
+        conn.query(query, bag, (error, results, fields) => {
+          if (error) {
+            console.error('Error importing data to Bag table:', error);
+          }
+        });
+      })
+      .on('end', () => {
+        conn.release(); 
+        res.redirect('/item_added_conf');
+      });
+  });
+});
+
+
+//==============================================================================================================
+
+
+//ADMIN DASHBOARD----------------------------------------------------------------------------------------------
+
+const dashboard_getBrands = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM brand';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  
+  const dashboard_getDesigners = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM designer';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const dashboard_getCategoriesBag = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM category';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const dashboard_getSubCategories = (category) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT * FROM `sub_category` WHERE idCat = ?';
+          conn.query(query, [category], (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  app.get('/dashboard_admin', auth, async (req, res) => {
+    try {
+      const brands = await dashboard_getBrands();
+      const designers = await dashboard_getDesigners();
+      const categories = await getCategoriesBag();
+      const subCategories = await dashboard_getSubCategories();
+      // Additional code to fetch and calculate the required data
+      const totalBagCount = await getTotalBagCount();
+      const totalCategoryCount = await getTotalCategoryCount();
+      const totalSubcategoryCount = await getTotalSubcategoryCount();
+      const totalBrandCount = await getTotalBrandCount();
+      const totalDesignerCount = await getTotalDesignerCount();
+      const lowestReviewBag = await getBagWithLowestReview();
+      const lowestReviewCount = await getLowestReviewCount();
+      const totalReviewCount = await getTotalReviewCount();
+      const highestReviewBag = await getBagWithHighestReview();
+      const highestReviewCount = await getHighestReviewCount();
+      const lowestReviewValueBag = await getBagWithLowestReviewValue();
+      const lowestReviewValue = await getLowestReviewValue();
+      const averageReviewValue = await getAverageReviewValue();
+      const highestReviewValueBag = await getBagWithHighestReviewValue();
+      const highestReviewValue = await getHighestReviewValue();
+  
+      res.render('dashboard_admin', {
+        username: req.session.username,
+        brands,
+        designers,
+        categories,
+        subCategories,
+        totalBagCount,
+        totalCategoryCount,
+        totalSubcategoryCount,
+        totalBrandCount,
+        totalDesignerCount,
+        lowestReviewBag,
+        lowestReviewCount,
+        totalReviewCount,
+        highestReviewBag,
+        highestReviewCount,
+        lowestReviewValueBag,
+        lowestReviewValue,
+        averageReviewValue,
+        highestReviewValueBag,
+        highestReviewValue
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  app.get('/get_subcategories', async (req, res) => {
+    const { category } = req.query;
+    try {
+      const subcategories = await getSubCategories(category);
+      res.json(subcategories);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  app.get('/getSubCategories', async (req, res) => {
+    const { category } = req.query;
+  
+    try {
+      const subCategories = await getSubCategories(category);
+  
+      res.json({ subCategories });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  const getTotalBagCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT COUNT(*) AS totalBagCount FROM bag';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0].totalBagCount);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getTotalCategoryCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT COUNT(*) AS totalCategoryCount FROM category';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0].totalCategoryCount);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getTotalSubcategoryCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT COUNT(*) AS totalSubcategoryCount FROM `sub_category`';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0].totalSubcategoryCount);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getTotalBrandCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT COUNT(*) AS totalBrandCount FROM brand';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0].totalBrandCount);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getTotalDesignerCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT COUNT(*) AS totalDesignerCount FROM designer';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0].totalDesignerCount);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getBagWithLowestReview = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT b.bag_name, COUNT(r.idBag) AS review_count FROM review r JOIN bag b ON r.idBag = b.idBag GROUP BY r.idBag ORDER BY review_count ASC LIMIT 1';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0]);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getLowestReviewCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT MIN(review_count) AS lowest_review_count FROM (SELECT COUNT(idReview) AS review_count FROM review GROUP BY idBag) AS subquery';
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].lowest_review_count);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getTotalReviewCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT SUM(review_count) AS total_review_count FROM (SELECT COUNT(idReview) AS review_count FROM review GROUP BY idBag) AS subquery';
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].total_review_count);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getBagWithHighestReview = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT b.bag_name, COUNT(r.idBag) AS review_count FROM review r JOIN bag b ON r.idBag = b.idBag GROUP BY r.idBag ORDER BY review_count DESC LIMIT 1';
+  
+          conn.query(query, (err, results) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results[0]);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getHighestReviewCount = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = 'SELECT MAX(review_count) AS highest_review_count FROM (SELECT COUNT(idReview) AS review_count FROM review GROUP BY idBag) AS subquery';
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].highest_review_count);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getBagWithLowestReviewValue = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = `
+            SELECT b.bag_name
+            FROM bag AS b
+            JOIN review AS r ON b.idBag = r.idBag
+            ORDER BY r.value ASC
+            LIMIT 1
+          `;
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].bag_name);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getLowestReviewValue = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = `
+            SELECT MIN(value) AS lowest_review_value
+            FROM review
+          `;
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].lowest_review_value);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getAverageReviewValue = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = `
+            SELECT AVG(value) AS average_review_value
+            FROM review
+          `;
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].average_review_value);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getBagWithHighestReviewValue = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = `
+            SELECT b.bag_name
+            FROM bag AS b
+            JOIN review AS r ON b.idBag = r.idBag
+            ORDER BY r.value DESC
+            LIMIT 1
+          `;
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].bag_name);
+            }
+          });
+        }
+      });
+    });
+  };
+  
+  const getHighestReviewValue = () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          reject(err);
+        } else {
+          const query = `
+            SELECT MAX(value) AS highest_review_value
+            FROM review
+          `;
+  
+          conn.query(query, (err, result) => {
+            conn.release();
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result[0].highest_review_value);
+            }
+          });
+        }
+      });
+    });
+  };
+
+//see_report-------------------------------------------------------------------------------------------------------
+app.get('/see_report', async (req, res) => {
+    try {
+      // Query the database to retrieve the necessary data
+      const bagQuery = `
+        SELECT Bag.bag_name, Category.cat_name, sub_category.subCat_name, Brand.brand_name, Designer.des_name,
+        COUNT(Review.idReview) AS bagCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes       
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Bag.idBag
+      `;
+  
+      const categoryQuery = `
+        SELECT Category.cat_name, COUNT(Review.idReview) AS ReviewCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Category.idCat
+      `;
+  
+      const subCategoryQuery = `
+        SELECT Category.cat_name, sub_category.subCat_name, COUNT(Review.idReview) AS ReviewCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY sub_category.idSubCat
+      `;
+  
+      const brandQuery = `
+        SELECT Brand.brand_name, COUNT(Review.idReview) AS ReviewCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Brand.idBrand
+      `;
+      
+      const designerQuery = `
+        SELECT Designer.des_name, COUNT(Review.idReview) AS ReviewCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Designer.idDes
+      `;
+  
+      const conn = await dbConnect(); // Connect to the database
+  
+      // Retrieve data for bags report
+      const bagResults = await new Promise((resolve, reject) => {
+        conn.query(bagQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const bags = bagResults.map(row => ({
+        bag_name: row.bag_name,
+        cat_name: row.cat_name,
+        subCat_name: row.subCat_name,
+        brand_name: row.brand_name,
+        des_name: row.des_name,
+        bagCount: row.bagCount,
+        reviewValueAvg: row.reviewValueAvg,
+      }));
+  
+      // Retrieve data for category report
+      const categoryResults = await new Promise((resolve, reject) => {
+        conn.query(categoryQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const categoryReport = categoryResults.map(row => ({
+        cat_name: row.cat_name,
+        ReviewCount: row.ReviewCount,
+        reviewValueAvg: row.reviewValueAvg,
+      }));
+  
+      // Retrieve data for sub-category report
+      const subCategoryResults = await new Promise((resolve, reject) => {
+        conn.query(subCategoryQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const subCategoryReport = subCategoryResults.map(row => ({
+        cat_name: row.cat_name,
+        subCat_name: row.subCat_name,
+        ReviewCount: row.ReviewCount,
+        reviewValueAvg: row.reviewValueAvg,
+      }));
+  
+      // Retrieve data for brand report
+      const brandResults = await new Promise((resolve, reject) => {
+        conn.query(brandQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const brandReport = brandResults.map(row => ({
+        brand_name: row.brand_name,
+        ReviewCount: row.ReviewCount,
+        reviewValueAvg: row.reviewValueAvg,
+      }));
+      
+      // Retrieve data for designer report
+      const designerResults = await new Promise((resolve, reject) => {
+        conn.query(designerQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const designerReport = designerResults.map(row => ({
+        des_name: row.des_name,
+        ReviewCount: row.ReviewCount,
+        reviewValueAvg: row.reviewValueAvg,
+      }));
+  
+      res.render('see_report', { bags, categoryReport, subCategoryReport, brandReport, designerReport }); // Render the see_report.ejs template with the retrieved data
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+  import { fileURLToPath } from 'url';
+  import { dirname } from 'path';
+  
+  app.post('/generate_report_pdf', async (req, res) => {
+    try {
+      const conn = await dbConnect(); // Connect to the database
+  
+      const bagQuery = `
+        SELECT Bag.bag_name, Category.cat_name, sub_category.subCat_name, Brand.brand_name, Designer.des_name,
+        COUNT(Review.idReview) AS bagCount, ROUND(AVG(Review.value), 1) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes       
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Bag.idBag
+      `;
+  
+      const bags = await new Promise((resolve, reject) => {
+        conn.query(bagQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const categoryQuery = `
+        SELECT Category.cat_name, COUNT(Review.idReview) AS ReviewCount, AVG(Review.value) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Category.idCat
+      `;
+  
+      const categoryReport = await new Promise((resolve, reject) => {
+        conn.query(categoryQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const subCategoryQuery = `
+        SELECT Category.cat_name, sub_category.subCat_name, COUNT(Review.idReview) AS ReviewCount, AVG(Review.value) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY sub_category.idSubCat
+      `;
+  
+      const subCategoryReport = await new Promise((resolve, reject) => {
+        conn.query(subCategoryQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const brandQuery = `
+        SELECT Brand.brand_name, COUNT(Review.idReview) AS ReviewCount, AVG(Review.value) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Brand.idBrand
+      `;
+  
+      const brandReport = await new Promise((resolve, reject) => {
+        conn.query(brandQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const designerQuery = `
+        SELECT Designer.des_name, COUNT(Review.idReview) AS ReviewCount, AVG(Review.value) AS reviewValueAvg
+        FROM Category
+        JOIN sub_category ON Category.idCat = sub_category.idCat
+        JOIN Bag ON Bag.idSubCat = sub_category.idSubCat
+        JOIN Brand ON Brand.idBrand = Bag.idBrand
+        JOIN Designer ON Designer.idDes = Bag.idDes
+        JOIN Review ON Bag.idBag = Review.idBag
+        GROUP BY Designer.idDes
+      `;
+  
+      const designerReport = await new Promise((resolve, reject) => {
+        conn.query(designerQuery, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        });
+      });
+  
+      const pdfDoc = await PDFDocument.create();
+      const page = null;
+  
+      // Set the font for the page
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  
+      const unsortedBagTable = `Unsorted Bag Table:\n`
+        + `${bags.map(row => `${row.bag_name}, ${row.cat_name}, ${row.subCat_name}, ${row.brand_name}, ${row.des_name}, ${row.bagCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      const unsortedCategoryTable = `Unsorted Category Table:\n`
+        + `${categoryReport.map(row => `${row.cat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      const unsortedSubcategoryTable = `Unsorted Subcategory Table:\n`
+        + `${subCategoryReport.map(row => `${row.cat_name}, ${row.subCat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      const unsortedBrandTable = `Unsorted Brand Table:\n`
+        + `${brandReport.map(row => `${row.brand_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      const unsortedDesignerTable = `Unsorted Designer Table:\n`
+        + `${designerReport.map(row => `${row.des_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      const sortedBagByName = [...bags].sort((a, b) => a.bag_name.localeCompare(b.bag_name));
+      const sortedCategoryByName = [...categoryReport].sort((a, b) => a.cat_name.localeCompare(b.cat_name));
+      const sortedSubcategoryByName = [...subCategoryReport].sort((a, b) => a.subCat_name.localeCompare(b.subCat_name));
+      const sortedBrandByName = [...brandReport].sort((a, b) => a.brand_name.localeCompare(b.brand_name));
+      const sortedDesignerByName = [...designerReport].sort((a, b) => a.des_name.localeCompare(b.des_name));
+  
+      // Sort the tables by review count in descending order (high to low)
+      const sortedBagByReviewCount = [...bags].sort((a, b) => b.bagCount - a.bagCount);
+      const sortedCategoryByReviewCount = [...categoryReport].sort((a, b) => b.ReviewCount - a.ReviewCount);
+      const sortedSubcategoryByReviewCount = [...subCategoryReport].sort((a, b) => b.ReviewCount - a.ReviewCount);
+      const sortedBrandByReviewCount = [...brandReport].sort((a, b) => b.ReviewCount - a.ReviewCount);
+      const sortedDesignerByReviewCount = [...designerReport].sort((a, b) => b.ReviewCount - a.ReviewCount);
+  
+      // Sort the tables by average review value in descending order (high to low)
+      const sortedBagByReviewValue = [...bags].sort((a, b) => b.reviewValueAvg - a.reviewValueAvg);
+      const sortedCategoryByReviewValue = [...categoryReport].sort((a, b) => b.reviewValueAvg - a.reviewValueAvg);
+      const sortedSubcategoryByReviewValue = [...subCategoryReport].sort((a, b) => b.reviewValueAvg - a.reviewValueAvg);
+      const sortedBrandByReviewValue = [...brandReport].sort((a, b) => b.reviewValueAvg - a.reviewValueAvg);
+      const sortedDesignerByReviewValue = [...designerReport].sort((a, b) => b.reviewValueAvg - a.reviewValueAvg);
+  
+      const sortedTables = `Sorted Tables:\n`
+        + `Sorted Bag Table by Name (Ascending):\n`
+        + `${sortedBagByName.map(row => `${row.bag_name}, ${row.cat_name}, ${row.subCat_name}, ${row.brand_name}, ${row.des_name}, ${row.bagCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Bag Table by Review Count (Highest to Lowest):\n`
+        + `${sortedBagByReviewCount.map(row => `${row.bag_name}, ${row.cat_name}, ${row.subCat_name}, ${row.brand_name}, ${row.des_name}, ${row.bagCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Bag Table by Average Review Value (Highest to Lowest):\n`
+        + `${sortedBagByReviewValue.map(row => `${row.bag_name}, ${row.cat_name}, ${row.subCat_name}, ${row.brand_name}, ${row.des_name}, ${row.bagCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Category Table by Name (Ascending):\n`
+        + `${sortedCategoryByName.map(row => `${row.cat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Category Table by Review Count (Highest to Lowest):\n`
+        + `${sortedCategoryByReviewCount.map(row => `${row.cat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Category Table by Average Review Value (Highest to Lowest):\n`
+        + `${sortedCategoryByReviewValue.map(row => `${row.cat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Subcategory Table by Name (Ascending):\n`
+        + `${sortedSubcategoryByName.map(row => `${row.cat_name}, ${row.subCat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Subcategory Table by Review Count (Highest to Lowest):\n`
+        + `${sortedSubcategoryByReviewCount.map(row => `${row.cat_name}, ${row.subCat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Subcategory Table by Average Review Value (Highest to Lowest):\n`
+        + `${sortedSubcategoryByReviewValue.map(row => `${row.cat_name}, ${row.subCat_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Brand Table by Name (Ascending):\n`
+        + `${sortedBrandByName.map(row => `${row.brand_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Brand Table by Review Count (Highest to Lowest):\n`
+        + `${sortedBrandByReviewCount.map(row => `${row.brand_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Brand Table by Average Review Value (Highest to Lowest):\n`
+        + `${sortedBrandByReviewValue.map(row => `${row.brand_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Designer Table by Name (Ascending):\n`
+        + `${sortedDesignerByName.map(row => `${row.des_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Designer Table by Review Count (Highest to Lowest):\n`
+        + `${sortedDesignerByReviewCount.map(row => `${row.des_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`
+        + `Sorted Designer Table by Average Review Value (Highest to Lowest):\n`
+        + `${sortedDesignerByReviewValue.map(row => `${row.des_name}, ${row.ReviewCount}, ${row.reviewValueAvg}`).join('\n')}\n\n`;
+  
+      // Generate the report content
+      const content = `Report!!!\n\n`
+        + unsortedBagTable
+        + unsortedCategoryTable
+        + unsortedSubcategoryTable
+        + unsortedBrandTable
+        + unsortedDesignerTable
+        + sortedTables;
+  
+      // Calculate the height of the content
+  // Set the page size and margins
+  const pageWidth = 720;
+  const pageHeight = 800;
+  const margin = 50;
+  let currentPage = null;
+  let y = pageHeight - margin;
+  let isFirstPage = true;
+  
+  // Calculate the height of the content
+  const textHeight = font.heightAtSize(12);
+  const lineSpacing = 10;
+  const availableHeight = pageHeight - margin * 2;
+  const maxLinesPerPage = Math.floor(availableHeight / (textHeight + lineSpacing));
+  
+  // Split the content into lines
+  const textLines = content.split('\n');
+  
+  // Iterate over the lines and draw them on the pages
+  let linesDrawn = 0;
+  
+  for (const line of textLines) {
+    if (linesDrawn === maxLinesPerPage || currentPage === null) {
+      // Skip the first page if there is no content to be drawn
+      if (isFirstPage && linesDrawn === 0) {
+        isFirstPage = false;
+      } else {
+        // Create a new page when the current page is full or if there is no current page
+        currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+        y = currentPage.getHeight() - margin;
+      }
+      linesDrawn = 0;
+    }
+  
+    if (currentPage) {
+      currentPage.drawText(line, {
+        x: margin,
+        y,
+        size: 12,
+        font,
+      });
+  
+      y -= textHeight + lineSpacing;
+      linesDrawn++;
+    }
+  }
+  // Save the PDF document to a file
+  const pdfBytes = await pdfDoc.save();
+  const fileName = 'report.pdf';
+  const currentFilePath = fileURLToPath(import.meta.url);
+  // Resolve the directory path
+  const currentDirPath = dirname(currentFilePath);
+  const filePath = `${currentDirPath}/${fileName}`;
+  
+  fs.writeFileSync(filePath, pdfBytes);
+  
+  res.download(filePath, 'report.pdf', (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  
+    // Delete the generated file after download
+    fs.unlinkSync(filePath);
+  });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
