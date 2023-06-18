@@ -1644,41 +1644,41 @@ img{
     align-items: center;
     gap: 5px;
     width: 100%;
-    height: 70%;
+    height: 80%;
     justify-content: center;
 }
 
-.judul_add_brand {
+.judul_add_brand{
     color: #737373;
     font-family: Bold;
     font-size: 40px;
     margin-bottom: 15px;
 }
 
-.grid_brand {
+.grid_brand{
     display: grid;
     grid-template-columns: 0.7fr 1.2fr;
     height: 30px;
     width: 500px;
     color: #737373;
     font-family: Bold;
-    padding: 20px 10px 70px 10px;
+    padding:20px 10px 40px 10px ;
 }
 
-#label_brand {
+#label_brand{
     grid-column: 1;
     background-color: #D0DBF7;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
     font-size: 20px;
 }
 
-#input_brand {
+#input_brand{
     grid-column: 2;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border: none;
-    color: #737373;
+    color: white;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
     font-family: SemiBold;
@@ -1686,11 +1686,18 @@ img{
 }
 
 
-.button_add_brand {
+.button_add_brand{
     display: flex;
     align-items: center;
-    gap: 50px;
     justify-content: center;
+    padding-bottom: 15px;
+}
+
+.brand_add_warning {
+    color: red;
+    font-size: 13px;
+    text-align:center;
+
 }
 
 /* -------------------------------------------- ADD_CATEGORY --------------------------------------------*/
@@ -1701,41 +1708,41 @@ img{
     align-items: center;
     gap: 5px;
     width: 100%;
-    height: 70%;
+    height: 80%;
     justify-content: center;
 }
 
-.judul_add_category {
+.judul_add_category{
     color: #737373;
     font-family: Bold;
     font-size: 40px;
     margin-bottom: 15px;
 }
 
-.grid_category {
+.grid_category{
     display: grid;
     grid-template-columns: 0.7fr 1.2fr;
     height: 30px;
     width: 500px;
     color: #737373;
     font-family: Bold;
-    padding: 20px 10px 70px 10px;
+    padding:20px 10px 40px 10px ;
 }
 
-#label_category {
+#label_category{
     grid-column: 1;
     background-color: #D0DBF7;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
     font-size: 20px;
 }
 
-#input_category {
+#input_category{
     grid-column: 2;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border: none;
-    color: #737373;
+    color: white;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
     font-family: SemiBold;
@@ -1743,13 +1750,23 @@ img{
 }
 
 
-.button_add_category {
+.button_add_category{
     display: flex;
     align-items: center;
-    gap: 50px;
     justify-content: center;
+    padding-bottom: 15px;
 }
 
+.category_add_warning {
+    color: red;
+    font-size: 13px;
+    text-align:center;
+
+}
+
+.hidden {
+    display: none;
+}
 /* -------------------------------------------- ADD_DESIGNER --------------------------------------------*/
 
 .navigator_add_designer {
@@ -1758,41 +1775,41 @@ img{
     align-items: center;
     gap: 5px;
     width: 100%;
-    height: 70%;
+    height: 80%;
     justify-content: center;
 }
 
-.judul_add_designer {
+.judul_add_designer{
     color: #737373;
     font-family: Bold;
     font-size: 40px;
     margin-bottom: 15px;
 }
 
-.grid_designer {
+.grid_designer{
     display: grid;
     grid-template-columns: 0.7fr 1.2fr;
     height: 30px;
     width: 500px;
     color: #737373;
     font-family: Bold;
-    padding: 20px 10px 70px 10px;
+    padding:20px 10px 40px 10px ;
 }
 
-#label_designer {
+#label_designer{
     grid-column: 1;
     background-color: #D0DBF7;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
     font-size: 20px;
 }
 
-#input_designer {
+#input_designer{
     grid-column: 2;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border: none;
-    color: #737373;
+    color: white;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
     font-family: SemiBold;
@@ -1800,13 +1817,19 @@ img{
 }
 
 
-.button_add_designer {
+.button_add_designer{
     display: flex;
     align-items: center;
-    gap: 50px;
     justify-content: center;
+    padding-bottom: 15px;
 }
 
+.designer_add_warning {
+    color: red;
+    font-size: 13px;
+    text-align:center;
+
+}
 /* -------------------------------------------- ADD_SUB_CATEGORY --------------------------------------------*/
 
 .navigator_add_sub_category {
@@ -1815,42 +1838,40 @@ img{
     align-items: center;
     gap: 5px;
     width: 100%;
-    height: 70%;
+    height: 75%;
     justify-content: center;
 }
 
-.judul_add_sub_category {
+.judul_add_sub_category{
     color: #737373;
     font-family: Bold;
     font-size: 40px;
     margin-bottom: 15px;
 }
 
-.grid_sub_category {
+.grid_sub_category{
     display: grid;
     grid-template-columns: 0.7fr 1.2fr;
     height: 30px;
     width: 500px;
     color: #737373;
     font-family: Bold;
-    padding: 20px 10px 100px 10px;
+    padding:20px 10px 100px 10px ;
     row-gap: 15px;
 }
 
-#label_sub_category,
-#label_category_sub {
+#label_sub_category, #label_category_sub{
     grid-column: 1;
     background-color: #D0DBF7;
-    padding: 10px 15px 10px 15px;
+    padding:10px 15px 10px 15px;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
     font-size: 20px;
 }
 
-#input_sub_category,
-#input_category_sub {
+#input_sub_category, #input_category_sub{
     grid-column: 2;
-    padding: 10px 10px 10px 15px;
+    padding:10px 10px 10px 15px;
     border: none;
     color: #737373;
     border-bottom-right-radius: 20px;
@@ -1859,15 +1880,25 @@ img{
     font-size: 16px;
 }
 
-.button_add_sub_category {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    justify-content: center;
+#input_sub_category{
+    color: white;
 }
 
-/* -------------------------------------------- ADD_BAG --------------------------------------------*/
+.button_add_sub_category{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 15px;
+}
 
+
+.sub_category_add_warning {
+    color: red;
+    font-size: 13px;
+    text-align:center;
+
+}
+/* -------------------------------------------- ADD_BAG --------------------------------------------*/
 .add-bag-page {
     display: flex;
     flex-direction: column;
@@ -1876,7 +1907,7 @@ img{
 }
 
 .page-title {
-    padding-bottom: 25px;
+    padding-bottom: 10px;
     color: #737373;
     font-family: Bold;
     font-size: 40px;
@@ -1886,7 +1917,7 @@ img{
     width: 600px;
     background-color: #B9C8EA;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
 }
 
 .addbag-form-container {
@@ -2007,8 +2038,7 @@ img#preview {
 .button_add_bag {
     display: flex;
     justify-content: center;
-    padding-top: 20px;
-    gap: 80px;
+    padding-top: 15px;
 }
 
 .addbag-form-row:not(#img-row) {
@@ -2034,6 +2064,13 @@ option {
 #preview {
     background-color: #E5EBFF;
     border-radius: 20px;
+}
+
+.cancel_button_bag{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
 }
 
 /* -------------------------------------------- SEE_REPORT --------------------------------------------*/
@@ -2327,7 +2364,7 @@ option {
 /* -------------------------------------------- SET_REVIEW --------------------------------------------*/
 
 .navigator_set_review{
-    margin-top: 55px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2397,3 +2434,253 @@ option {
 #label_1-5{
     margin-right:50px;
 }
+
+.set_button_review{
+    align-items: center;
+    text-align: center;
+    grid-column: 1;
+}
+
+.cont_min_review{
+    display: grid;
+    grid-template-columns: 1fr 0.6fr;
+    width: 600px;
+    margin-bottom: 15px;
+    font-family: Bold;
+}
+
+.cont_range_review{
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    margin-bottom: 5px;
+}
+
+/* -------------------------------------------- SEE_REPORT_NEW--------------------------------------------*/
+
+.container_report_new {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+.report-title{
+    font-family: Bold;
+    color: #737373;
+    font-size: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.judul_bag_report{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Black;
+    color: #376CFB;
+    font-size: 30px;
+}
+
+.report_new_bag{
+    font-family: Black;
+    color: #376CFB;
+    background-color: #B9C8EA;
+}
+
+.isi_report_new_bag{
+    color: #737373;
+    font-family: Semibold;
+}
+
+
+.judul_category_report{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Black;
+    color: #376CFB;
+    font-size: 30px;
+}
+
+.isi_report_new_bag_2{
+    color: #737373;
+    font-family: Semibold;
+}
+
+.isi_report_new_bag td {
+    text-align: center;
+  }
+
+  
+  #categoryTable {
+    border-collapse: collapse;
+  }
+  
+  #categoryTable th, #categoryTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+.report_new_bag_2{
+    font-family: Black;
+    color: #376CFB;
+    background-color: #B9C8EA;
+}
+
+.judul_sub_category_report{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Black;
+    color: #376CFB;
+    font-size: 30px;
+}
+
+.report_new_bag_3{
+    font-family: Black;
+    color: #376CFB;
+    background-color: #B9C8EA;
+}
+
+.isi_report_new_bag_3{
+    color: #737373;
+    font-family: Semibold;
+}
+
+.judul_brand_report{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Black;
+    color: #376CFB;
+    font-size: 30px;
+}
+
+
+.isi_report_new_bag_4{
+    color: #737373;
+    font-family: Semibold;
+}
+
+.report_new_bag_4{
+    font-family: Black;
+    color: #376CFB;
+    background-color: #B9C8EA;
+}
+
+.judul_designer_report{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Black;
+    color: #376CFB;
+    font-size: 30px;
+}
+
+.report_new_bag_5{
+    font-family: Black;
+    color: #376CFB;
+    background-color: #B9C8EA;
+}
+
+.isi_report_new_bag_5{
+    color: #737373;
+    font-family: Semibold;
+}
+
+#bagTable {
+    border-collapse: collapse;
+  }
+  
+#bagTable th, #bagTable td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.button-group-see-report{
+    padding-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 15px;
+}
+
+.button-group-category-report{
+    padding-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 10px;
+}
+
+#subCategoryTable {
+    border-collapse: collapse;
+  }
+  
+  #subCategoryTable th,
+  #subCategoryTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .button-group-sub-report{
+    padding-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 15px;
+  }
+
+  #brandTable {
+    border-collapse: collapse;
+  }
+  
+  #brandTable th,
+  #brandTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+.button-group-brand-report{
+    padding-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 15px;
+}  
+
+#designerTable {
+    border-collapse: collapse;
+  }
+  
+  #designerTable th,
+  #designerTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+.button-group-designer-report{
+    padding-bottom: 20px;
+    justify-content: center;
+    display: flex;
+    gap: 15px;
+}
+
+.report-wrapper {
+    padding-bottom: 30px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .report-content_2, .report-content_3, .report-content_4, .report-content_5{
+    padding-top: 15px;
+ }
+
+ .report-content_1{
+    padding-top:5px;
+ }

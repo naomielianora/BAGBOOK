@@ -2,133 +2,152 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/styles.css">
-    <title>REPORT</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script>
-  function sortTableByColumn(columnIndex, tableId) {
-    const table = document.getElementById(tableId);
-    const rows = Array.from(table.querySelectorAll('tbody tr'));
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <title>REPORT</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script>
+    function sortTableByColumn(columnIndex, tableId) {
+      const table = document.getElementById(tableId);
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
 
-    // Sort the rows based on the column index
-    rows.sort((rowA, rowB) => {
-      const cellA = rowA.cells[columnIndex].innerText;
-      const cellB = rowB.cells[columnIndex].innerText;
+      // Sort the rows based on the column index
+      rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].innerText;
+        const cellB = rowB.cells[columnIndex].innerText;
 
-      if (columnIndex === 0) {
-        // Sort by string in ascending order
-        return cellA.localeCompare(cellB);
-      } else {
-        // Sort by numeric value in descending order
-        return parseFloat(cellB) - parseFloat(cellA);
-      }
+        if (columnIndex === 0) {
+          // Sort by string in ascending order
+          return cellA.localeCompare(cellB);
+        } else {
+          // Sort by numeric value in descending order
+          return parseFloat(cellB) - parseFloat(cellA);
+        }
+      });
+
+      // Remove existing rows from the table
+      rows.forEach(row => row.remove());
+
+      // Append the sorted rows back to the table
+      rows.forEach(row => table.querySelector('tbody').appendChild(row));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savePdfButton = document.getElementById('savePdfButton');
+      savePdfButton.addEventListener('click', () => {
+        fetch('/generate_report_pdf', { method: 'POST' })
+          .then(response => response.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(error => console.error('Error:', error));
+      });
     });
-
-    // Remove existing rows from the table
-    rows.forEach(row => row.remove());
-
-    // Append the sorted rows back to the table
-    rows.forEach(row => table.querySelector('tbody').appendChild(row));
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const savePdfButton = document.getElementById('savePdfButton');
-    savePdfButton.addEventListener('click', () => {
-      fetch('/generate_report_pdf', { method: 'POST' })
-        .then(response => response.blob())
-        .then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'report.pdf';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-        })
-        .catch(error => console.error('Error:', error));
-    });
-  });
-</script>
-      
+  </script>
 </head>
 
 <body>
   <%- include('./layout/header_admin.ejs') %>
 
-    <div class="container">
-    <div class="report-wrapper">
-      <div class="report-title">REPORT</div>
-      <div class="report-content">
-        <h2>Bag Report</h2>
-        <div class="button-group">
-        <button id="defaultButton" onclick="sortTableByColumn(0, 'bagTable')">Default</button>
-        <button id="countButton" onclick="sortTableByColumn(5, 'bagTable')">Count</button>
-        <button id="avgButton" onclick="sortTableByColumn(6, 'bagTable')">Avg</button>
+    <div class="container_report_new">
+      <div class="report-wrapper">
+        <div class="report-title">REPORT</div>
+        <div class="report-content_1">
+          <h2 class = "judul_bag_report">Bag Report</h2>
+          <div class="button-group-see-report">
+            <button id="defaultButton" class = "gray_button" onclick="sortTableByColumn(0, 'bagTable')">Default</button>
+            <button id="countButton" class = "gray_button" onclick="sortTableByColumn(5, 'bagTable')">Count</button>
+            <button id="avgButton" class = "gray_button" onclick="sortTableByColumn(6, 'bagTable')">Avg</button>
+          </div>
+          <table id="bagTable">
+            <thead>
+              <tr class = "report_new_bag">
+                <th>Bag Name</th>
+                <th>Category</th>
+                <th>Sub-category</th>
+                <th>Brand</th>
+                <th>Designer</th>
+                <th>Bag Count</th>
+                <th>Review Value Avg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (let i=0; i < bags.length; i++) { %>
+                <tr class = "isi_report_new_bag">
+                  <td>
+                    <%= bags[i].bag_name %>
+                  </td>
+                  <td>
+                    <%= bags[i].cat_name %>
+                  </td>
+                  <td>
+                    <%= bags[i].subCat_name %>
+                  </td>
+                  <td>
+                    <%= bags[i].brand_name %>
+                  </td>
+                  <td>
+                    <%= bags[i].des_name %>
+                  </td>
+                  <td>
+                    <%= bags[i].bagCount %>
+                  </td>
+                  <td>
+                    <%= bags[i].reviewValueAvg %>
+                  </td>
+                </tr>
+                <% } %>
+            </tbody>
+          </table>
         </div>
-        <table id="bagTable">
-          <thead>
-            <tr>
-              <th>Bag Name</th>
-              <th>Category</th>
-              <th>Sub-category</th>
-              <th>Brand</th>
-              <th>Designer</th>
-              <th>Bag Count</th>
-              <th>Review Value Avg</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% for (let i = 0; i < bags.length; i++) { %>
-              <tr>
-                <td><%= bags[i].bag_name %></td>
-                <td><%= bags[i].cat_name %></td>
-                <td><%= bags[i].subCat_name %></td>
-                <td><%= bags[i].brand_name %></td>
-                <td><%= bags[i].des_name %></td>
-                <td><%= bags[i].bagCount %></td>
-                <td><%= bags[i].reviewValueAvg %></td>
+        <div class="report-content_2">
+          <h2 class = "judul_category_report">Category Report</h2>
+          <div class="button-group-category-report">
+            <button id="defaultButton" class = "gray_button" onclick="sortTableByColumn(0, 'categoryTable')">Default</button>
+            <button id="countButton" class = "gray_button" onclick="sortTableByColumn(1, 'categoryTable')">Count</button>
+            <button id="avgButton" class = "gray_button" onclick="sortTableByColumn(2, 'categoryTable')">Avg</button>
+          </div>
+          <table id="categoryTable">
+            <thead>
+              <tr class = "report_new_bag_2">
+                <th>Category</th>
+                <th>Review Count</th>
+                <th>Review Value Avg</th>
               </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-      <div class="report-content">
-        <h2>Category Report</h2>
-        <div class="button-group">
-        <button id="defaultButton" onclick="sortTableByColumn(0, 'categoryTable')">Default</button>
-        <button id="countButton" onclick="sortTableByColumn(1, 'categoryTable')">Count</button>
-        <button id="avgButton" onclick="sortTableByColumn(2, 'categoryTable')">Avg</button>
-      </div>
-        <table id="categoryTable">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Review Count</th>
-              <th>Review Value Avg</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% categoryReport.forEach(report => { %>
-              <tr>
-                <td><%= report.cat_name %></td>
-                <td><%= report.ReviewCount %></td>
-                <td><%= report.reviewValueAvg.toFixed(1) %></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-      <div class="report-content">
-          <h2>Sub-category Report</h2>
-          <div class="button-group">
-        <button id="defaultButton" onclick="sortTableByColumn(0, 'subCategoryTable')">Default</button>
-        <button id="countButton" onclick="sortTableByColumn(2, 'subCategoryTable')">Count</button>
-        <button id="avgButton" onclick="sortTableByColumn(3, 'subCategoryTable')">Avg</button>
-      </div>
+            </thead>
+            <tbody>
+              <% categoryReport.forEach(report=> { %>
+                <tr class = "isi_report_new_bag_2">
+                  <td>
+                    <%= report.cat_name %>
+                  </td>
+                  <td>
+                    <%= report.ReviewCount %>
+                  </td>
+                  <td>
+                    <%= report.reviewValueAvg.toFixed(1) %>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <div class="report-content_3">
+          <h2 class = "judul_sub_category_report">Sub-category Report</h2>
+          <div class="button-group-sub-report">
+            <button id="defaultButton" class = "gray_button" onclick="sortTableByColumn(0, 'subCategoryTable')">Default</button>
+            <button id="countButton" class = "gray_button" onclick="sortTableByColumn(2, 'subCategoryTable')">Count</button>
+            <button id="avgButton" class = "gray_button" onclick="sortTableByColumn(3, 'subCategoryTable')">Avg</button>
+          </div>
           <table id="subCategoryTable">
             <thead>
-              <tr>
+              <tr class = "report_new_bag_3">
                 <th>Category</th>
                 <th>Sub-category</th>
                 <th>Review Count</th>
@@ -136,72 +155,92 @@
               </tr>
             </thead>
             <tbody>
-              <% for (let i = 0; i < subCategoryReport.length; i++) { %>
-                <tr>
-                  <td><%= subCategoryReport[i].cat_name %></td>
-                  <td><%= subCategoryReport[i].subCat_name %></td>
-                  <td><%= subCategoryReport[i].ReviewCount %></td>
-                  <td><%= subCategoryReport[i].reviewValueAvg %></td>
+              <% for (let i=0; i < subCategoryReport.length; i++) { %>
+                <tr class = "isi_report_new_bag_3">
+                  <td>
+                    <%= subCategoryReport[i].cat_name %>
+                  </td>
+                  <td>
+                    <%= subCategoryReport[i].subCat_name %>
+                  </td>
+                  <td>
+                    <%= subCategoryReport[i].ReviewCount %>
+                  </td>
+                  <td>
+                    <%= subCategoryReport[i].reviewValueAvg %>
+                  </td>
                 </tr>
-              <% } %>
+                <% } %>
             </tbody>
           </table>
         </div>
-        <div class="report-content">
-          <h2>Brand Report</h2>
-          <div class="button-group">
-        <button id="defaultButton" onclick="sortTableByColumn(0, 'brandTable')">Default</button>
-        <button id="countButton" onclick="sortTableByColumn(1, 'brandTable')">Count</button>
-        <button id="avgButton" onclick="sortTableByColumn(2, 'brandTable')">Avg</button>
-      </div>
+        <div class="report-content_4">
+          <h2 class = "judul_brand_report">Brand Report</h2>
+          <div class="button-group-brand-report">
+            <button id="defaultButton" class = "gray_button" onclick="sortTableByColumn(0, 'brandTable')">Default</button>
+            <button id="countButton" class = "gray_button" onclick="sortTableByColumn(1, 'brandTable')">Count</button>
+            <button id="avgButton" class = "gray_button" onclick="sortTableByColumn(2, 'brandTable')">Avg</button>
+          </div>
           <table id="brandTable">
             <thead>
-              <tr>
+              <tr class = "report_new_bag_4">
                 <th>Brand</th>
                 <th>Review Count</th>
                 <th>Review Value Avg</th>
               </tr>
             </thead>
             <tbody>
-              <% for (let i = 0; i < brandReport.length; i++) { %>
-                <tr>
-                  <td><%= brandReport[i].brand_name %></td>
-                  <td><%= brandReport[i].ReviewCount %></td>
-                  <td><%= brandReport[i].reviewValueAvg %></td>
+              <% for (let i=0; i < brandReport.length; i++) { %>
+                <tr class = "isi_report_new_bag_4">
+                  <td>
+                    <%= brandReport[i].brand_name %>
+                  </td>
+                  <td>
+                    <%= brandReport[i].ReviewCount %>
+                  </td>
+                  <td>
+                    <%= brandReport[i].reviewValueAvg %>
+                  </td>
                 </tr>
-              <% } %>
+                <% } %>
             </tbody>
           </table>
         </div>
-        <div class="report-content">
-          <h2>Designer Report</h2>
-          <div class="button-group">
-        <button id="defaultButton" onclick="sortTableByColumn(0, 'designerTable')">Default</button>
-        <button id="countButton" onclick="sortTableByColumn(1, 'designerTable')">Count</button>
-        <button id="avgButton" onclick="sortTableByColumn(2, 'designerTable')">Avg</button>
-      </div>
+        <div class="report-content_5">
+          <h2 class = "judul_designer_report">Designer Report</h2>
+          <div class="button-group-designer-report">
+            <button id="defaultButton" class = "gray_button" onclick="sortTableByColumn(0, 'designerTable')">Default</button>
+            <button id="countButton" class = "gray_button" onclick="sortTableByColumn(1, 'designerTable')">Count</button>
+            <button id="avgButton" class = "gray_button" onclick="sortTableByColumn(2, 'designerTable')">Avg</button>
+          </div>
           <table id="designerTable">
             <thead>
-              <tr>
+              <tr class = "report_new_bag_5" >
                 <th>Designer</th>
                 <th>Review Count</th>
                 <th>Review Value Avg</th>
               </tr>
             </thead>
             <tbody>
-              <% for (let i = 0; i < designerReport.length; i++) { %>
-                <tr>
-                  <td><%= designerReport[i].des_name %></td>
-                  <td><%= designerReport[i].ReviewCount %></td>
-                  <td><%= designerReport[i].reviewValueAvg %></td>
+              <% for (let i=0; i < designerReport.length; i++) { %>
+                <tr class = "isi_report_new_bag_5">
+                  <td>
+                    <%= designerReport[i].des_name %>
+                  </td>
+                  <td>
+                    <%= designerReport[i].ReviewCount %>
+                  </td>
+                  <td>
+                    <%= designerReport[i].reviewValueAvg %>
+                  </td>
                 </tr>
-              <% } %>
+                <% } %>
             </tbody>
           </table>
         </div>
+      </div>
+      <button id="savePdfButton" class = "blue_button">Save as PDF</button>
     </div>
-    <button id="savePdfButton">Save as PDF</button>
-  </div>
 </body>
 
 </html>

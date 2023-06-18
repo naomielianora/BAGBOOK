@@ -11,7 +11,7 @@
 
     <div class = "dashboard_admin_content">
         <div>Welcome <b><%= username %></b>,</div>
-        <div>what do you want to do today?</div>
+        <div>here is an overview of bagbook's data</div>
         <br>
         <div class="grid-container_see_report">
             <div class="grid-row_see_report_1">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="grid-item_report_3">
                     <div class="grid-item_report_3_4">Average Review Value</div>
-                    <div class="grid_item_report_3_5"><%= averageReviewValue %></div>
+                    <div class="grid_item_report_3_5"><%= averageReviewValue.toFixed(2) %></div>
                 </div>
                 <div class="grid-item_report_3">
                     <div class="grid-item_report_3_6">Maximum Review Value</div>
