@@ -255,7 +255,6 @@ let minimalReview = 0;
 //PUBLIC DASHBOARD----------------------------------------------------------------------------------------------
 app.get('/dashboard_public',auth, (req, res)=>{
   getDashboardData(minimalReview).then((dashboardData) => {
-    console.log(minimalReview);
       res.render('dashboard_public',{
           username: req.session.username,
           photo: Buffer.from(req.session.photo).toString('base64'),
@@ -1515,7 +1514,6 @@ app.post('/set_range_review', (req, res) => {
 
 app.post('/set_min_review', (req, res) => {
   minimalReview = req.body.minimalReview;
-  console.log('Form submitted!');
   res.redirect('/changed_conf_admin');
 });
 
