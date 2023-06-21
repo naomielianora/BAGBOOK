@@ -1,20 +1,15 @@
 function followUser(userId) {
     const followButton = document.getElementById(`followButton-${userId}`);
   
-    // Create an XMLHttpRequest object
     const xhr = new XMLHttpRequest();
   
-    // Configure the request
     xhr.open('POST', '/follow/' + userId, true);
   
-    // Set the callback function to handle the response
     xhr.onload = function () {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
   
-        // Check the response data
         if (response.success) {
-          // Toggle the button appearance and text
           const isFollowed = followButton.classList.contains('followed_button');
           followButton.classList.toggle('not_followed_button', isFollowed);
           followButton.classList.toggle('followed_button', !isFollowed);
@@ -27,7 +22,6 @@ function followUser(userId) {
       }
     };
   
-    // Send the request
     xhr.send();
   }
   

@@ -9,7 +9,7 @@ function checkRadioButton() {
       }
     }
   
-    return isChecked; // Add this line to return the result
+    return isChecked;
   }
   
   function checkReviewDesc() {
@@ -18,8 +18,6 @@ function checkRadioButton() {
     if (reviewText.value.trim() === '') {
       return false;
     }
-  
-    // Form is valid, proceed with submission
     return true;
   }
   
